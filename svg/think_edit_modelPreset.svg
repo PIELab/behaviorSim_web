@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="730"
+   height="215.5"
+   id="svg5046"
+   version="1.1"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="think_edit_modelPreset.svg"
+   inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\think_edit_modelPreset.png"
+   inkscape:export-xdpi="82.540001"
+   inkscape:export-ydpi="82.540001">
+  <defs
+     id="defs5048">
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend"
+       style="overflow:visible">
+      <path
+         id="path4375"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker5070"
+       style="overflow:visible">
+      <path
+         id="path5072"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="382.26267"
+     inkscape:cy="108.09541"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="997"
+     inkscape:window-x="1591"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="10"
+     fit-margin-bottom="10">
+    <inkscape:grid
+       type="xygrid"
+       id="grid5210"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5051">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-10,-12.362183)">
+    <rect
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
+       id="rect3315-1"
+       width="210"
+       height="140"
+       x="520"
+       y="22.362183" />
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+       x="524"
+       y="40.362183"
+       id="text3309"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3311"
+         x="524"
+         y="40.362183">behavioral measures</tspan></text>
+    <rect
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
+       id="rect3315"
+       width="210"
+       height="140"
+       x="20"
+       y="22.362183" />
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+       x="26.000002"
+       y="42.362183"
+       id="text3309-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3311-4"
+         x="26.000002"
+         y="42.362183">contextual measures</tspan></text>
+    <rect
+       style="fill:#cccccc;fill-opacity:1;stroke:none"
+       id="rect3315-0"
+       width="210"
+       height="140"
+       x="270"
+       y="22.362183" />
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+       x="294"
+       y="40.362183"
+       id="text3309-7-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3311-4-4"
+         x="294"
+         y="40.362183">behavioral model</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2Mend)"
+       d="m 230,92.362184 40,0"
+       id="path3395"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2Mend)"
+       d="m 480,92.362184 40,0"
+       id="path3395-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#f9f9f9;fill-opacity:1;stroke:none"
+       id="rect4813"
+       width="190"
+       height="110"
+       x="30.000002"
+       y="47.362183" />
+    <flowRoot
+       transform="translate(8.1721191e-7,-2.3058349e-6)"
+       xml:space="preserve"
+       id="flowRoot4831"
+       style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion4833"><rect
+           id="rect4835"
+           width="186.23116"
+           height="104.07035"
+           x="31.038525"
+           y="50.913288" /></flowRegion><flowPara
+         id="flowPara4839"
+         style="font-size:12px">- gps_location</flowPara><flowPara
+         id="flowPara4841"
+         style="font-size:12px">- EMA_stress_metric</flowPara><flowPara
+         style="font-size:12px"
+         id="flowPara4843">- HRV</flowPara><flowPara
+         style="font-size:12px"
+         id="flowPara4847">- ambient_sound_level</flowPara><flowPara
+         style="font-size:12px"
+         id="flowPara4851" /><flowPara
+         style="font-size:12px"
+         id="flowPara4853" /></flowRoot>    <rect
+       y="102.36217"
+       x="280"
+       height="115.00002"
+       width="190"
+       id="rect5829"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
+    <rect
+       style="opacity:0.32213488;fill:#0000ff;fill-opacity:1;stroke:none"
+       id="rect5874"
+       width="190"
+       height="15"
+       x="280"
+       y="152.86218" />
+    <rect
+       style="fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-opacity:1"
+       id="rect4813-4"
+       width="190"
+       height="25"
+       x="280"
+       y="102.36217" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="293.21439"
+       y="100.38396"
+       id="text4930"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4932"
+         x="293.21439"
+         y="100.38396">based primarily on:</tspan></text>
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:none"
+       id="rect4936"
+       width="25"
+       height="25"
+       x="445"
+       y="102.36217" />
+    <path
+       sodipodi:type="star"
+       style="fill:#1a1a1a;fill-opacity:1;stroke:none"
+       id="path4934"
+       sodipodi:sides="3"
+       sodipodi:cx="450"
+       sodipodi:cy="97.362183"
+       sodipodi:r1="5"
+       sodipodi:r2="2.5"
+       sodipodi:arg1="1.5707963"
+       sodipodi:arg2="2.6179939"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 450,102.36218 -4.33013,-7.499997 8.66026,0 z"
+       inkscape:transform-center-y="0.83333409"
+       transform="matrix(1,0,0,0.66666666,8.0000008,49.120726)" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4938"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(8.1721191e-7,3.9999977)"><flowRegion
+         id="flowRegion4940"><rect
+           id="rect4942"
+           width="157.90939"
+           height="104.58611"
+           x="282.09061"
+           y="103.77608"
+           style="font-size:12px" /></flowRegion><flowPara
+         id="flowPara4944">Theory of Planned Behavior</flowPara><flowPara
+         id="flowPara5860"></flowPara><flowPara
+         id="flowPara5864">None</flowPara><flowPara
+         id="flowPara5866">Dual-Process Theory</flowPara><flowPara
+         id="flowPara5868">Prospect Theory</flowPara><flowPara
+         id="flowPara5870">Social Cognitive Theory</flowPara><flowPara
+         id="flowPara5872">health behavior model</flowPara></flowRoot>    <rect
+       style="fill:#f9f9f9;fill-opacity:1;stroke:none"
+       id="rect4813-1"
+       width="190"
+       height="110"
+       x="530"
+       y="47.362183" />
+    <flowRoot
+       transform="translate(500,-5.305835e-6)"
+       xml:space="preserve"
+       id="flowRoot4831-4"
+       style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion4833-2"><rect
+           id="rect4835-3"
+           width="186.23116"
+           height="104.07035"
+           x="31.038525"
+           y="50.913288" /></flowRegion><flowPara
+         style="font-size:12px"
+         id="flowPara4853-7">- pedometer_step_count</flowPara><flowPara
+         style="font-size:12px"
+         id="flowPara5015">- self_reported_stress</flowPara><flowPara
+         style="font-size:12px"
+         id="flowPara5019">- self_report_EB</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="158"
+       y="154.36218"
+       id="text5021"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5023"
+         x="158"
+         y="154.36218">+add new</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="656"
+       y="154.36218"
+       id="text5021-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5023-2"
+         x="656"
+         y="154.36218">+add new</tspan></text>
+    <rect
+       style="fill:#f9f9f9;fill-opacity:1;stroke:none"
+       id="rect4813-5"
+       width="220"
+       height="20"
+       x="500"
+       y="172.36218" />
+  </g>
+</svg>
