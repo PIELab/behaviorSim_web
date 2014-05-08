@@ -14,8 +14,8 @@
    height="1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="behaviorSim_gui_mockup.svg">
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="behaviorSim_simulation_gui_mockup.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,15 +24,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="453.52821"
-     inkscape:cy="484.83155"
+     inkscape:cx="435.34546"
+     inkscape:cy="181.78579"
      inkscape:document-units="px"
      inkscape:current-layer="layer8"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="744"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-width="1526"
+     inkscape:window-height="873"
+     inkscape:window-x="65"
+     inkscape:window-y="229"
      inkscape:window-maximized="1">
     <inkscape:grid
        id="grid4715"
@@ -304,7 +304,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -340,7 +340,10 @@
        y="1140.8993"
        x="332.41495"
        style="font-size:28px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;display:inline;font-family:Sans;-inkscape-font-specification:Sans Bold"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          y="1140.8993"
          x="332.41495"
          id="tspan4723-3"
@@ -351,7 +354,10 @@
        y="170.89944"
        x="150.71278"
        style="font-size:28px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;display:inline;font-family:Sans;-inkscape-font-specification:Sans Bold"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          y="170.89944"
          x="150.71278"
          id="tspan4723-3-9"
@@ -362,7 +368,10 @@
        height="695.71423"
        width="650"
        id="rect5374"
-       style="fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#909090;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#909090;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        y="148.07646"
        x="801.42859"
@@ -383,21 +392,30 @@
        height="227.14285"
        width="738.57141"
        id="rect5382"
-       style="fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#909090;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:#909090;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3858-8-5-3-9"
        width="193.9493"
        height="35.355339"
        x="285.88251"
-       y="570.3988" />
+       y="570.3988"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <text
        xml:space="preserve"
        style="font-size:18px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans;-inkscape-font-specification:Sans Bold"
        x="311.05737"
        y="593.88196"
        id="text2985-4-8-8-90"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987-1-5-1-8"
          x="311.05737"
@@ -449,31 +467,46 @@
        width="218.19295"
        height="142.43152"
        x="49.055862"
-       y="210.90512" />
+       y="210.90512"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="rect3087"
        width="570.73621"
        height="160.61426"
        x="49.578693"
-       y="401.03714" />
+       y="401.03714"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="rect3087-9"
        width="391.93921"
        height="185.86807"
        x="46.74873"
-       y="660.68951" />
+       y="660.68951"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <path
        inkscape:connector-curvature="0"
        id="path4717"
        d="m 40,372.36218 660,0"
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <path
        inkscape:connector-curvature="0"
        id="path4719"
        d="m 40,632.36218 660,0"
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="rect3085-9"
@@ -508,7 +541,10 @@
        width="391.93921"
        height="185.86807"
        x="145.45895"
-       y="1167.9996" />
+       y="1167.9996"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="rect3085-5"
@@ -548,28 +584,40 @@
        width="193.9493"
        height="35.355339"
        x="492.78546"
-       y="568.89575" />
+       y="568.89575"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3860"
        width="238.39601"
        height="39.39595"
        x="323.81738"
-       y="291.71732" />
+       y="291.71732"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3858-8"
        width="193.9493"
        height="35.355339"
        x="452.32495"
-       y="786.95856" />
+       y="786.95856"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.08111691;stroke-opacity:1"
        id="rect3858-8-7"
        width="226.69063"
        height="35.355339"
        x="450.30469"
-       y="732.41034" />
+       y="732.41034"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3860-0"
@@ -604,21 +652,30 @@
        width="193.9493"
        height="35.355339"
        x="558.73962"
-       y="1167.5416" />
+       y="1167.5416"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3858-8-5-3"
        width="193.9493"
        height="35.355339"
        x="558.73962"
-       y="1224.6846" />
+       y="1224.6846"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3858-8-5-4"
        width="193.9493"
        height="35.355339"
        x="560.16821"
-       y="1277.5417" />
+       y="1277.5417"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001" />
     <rect
        style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1"
        id="rect3858-8-5-3-2"
@@ -694,7 +751,10 @@
        x="508.52948"
        y="590.70074"
        id="text2985"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987"
          x="508.52948"
@@ -705,7 +765,10 @@
        x="324.82755"
        y="316.97113"
        id="text2989"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="324.82755"
@@ -716,7 +779,10 @@
        x="464.55786"
        y="808.52161"
        id="text2985-4"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987-1"
          x="464.55786"
@@ -727,7 +793,10 @@
        x="275.33002"
        y="271.51428"
        id="text4058"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan4060"
          x="275.33002"
@@ -738,7 +807,10 @@
        x="462.27802"
        y="754.77814"
        id="text2985-4-9"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987-1-2"
          x="462.27802"
@@ -837,7 +909,10 @@
        x="567.53894"
        y="1191.9298"
        id="text2985-4-8"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987-1-5"
          x="567.53894"
@@ -848,7 +923,10 @@
        x="566.77161"
        y="1248.1677"
        id="text2985-4-8-8"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987-1-5-1"
          x="566.77161"
@@ -859,7 +937,10 @@
        x="568.73438"
        y="1300.1149"
        id="text2985-4-8-8-9"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2987-1-5-1-3"
          x="568.73438"
@@ -990,7 +1071,10 @@
        x="55.639595"
        y="420.23004"
        id="text2993"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan2995"
          x="55.639595"
@@ -1009,7 +1093,10 @@
        x="55.116768"
        y="204.62885"
        id="text3021"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          x="55.116768"
          y="204.62885"
@@ -1020,7 +1107,10 @@
        x="64.208153"
        y="247.27061"
        id="text3048"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan3050"
          x="64.208153"
@@ -1047,7 +1137,10 @@
        x="65.741135"
        y="467.70724"
        id="text3072"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan3074"
          x="65.741135"
@@ -1074,7 +1167,10 @@
        x="64.951508"
        y="655.20959"
        id="text2993-4"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          x="64.951508"
          y="655.20959"
@@ -1089,7 +1185,10 @@
        x="56.63921"
        y="705.86499"
        id="text3072-3"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          x="56.63921"
          y="705.86499"
@@ -1174,7 +1273,10 @@
        x="158.29897"
        y="1195.4501"
        id="text3072-3-64"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          x="158.29897"
          y="1195.4501"
@@ -1213,7 +1315,10 @@
        x="190.39076"
        y="1160.1852"
        id="text2993-4-8"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simultation_results_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          x="190.39076"
          y="1160.1852"
@@ -1228,7 +1333,10 @@
        x="60.423824"
        y="394.7869"
        id="text3021-2"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          x="60.423824"
          y="394.7869"
@@ -1392,7 +1500,10 @@
        x="272.41632"
        y="396.1597"
        id="text3013"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan3015"
          x="272.41632"
@@ -1403,7 +1514,10 @@
        x="46.654846"
        y="596.41504"
        id="text3017"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\behaviorSim_web\mockup\simulation_config_main.png"
+       inkscape:export-xdpi="82.540001"
+       inkscape:export-ydpi="82.540001"><tspan
          sodipodi:role="line"
          id="tspan3019"
          x="46.654846"
@@ -1569,7 +1683,7 @@
        inkscape:connector-curvature="0"
        id="path3338"
        d="m -855,832.36218 c 0,0 5,-15 35,-5 30,10 45,30 20,45 -25,15 -25,-25 -40,-15 -15,10 -25,40 -10,55 15,15 5,25 5,40 0,15 35,20 45,10 10,-10 15,-40 30,-50 15,-10 -35,-30 -30,0 5,30 30,45 45,35 15,-10 15,-35 0,-30 -15,5 -20,20 -35,20 -15,0 -25,-30 -10,-30 15,0 10,10 20,25 10,15 35,10 40,5 5,-5 5,-45 5,-45"
-       style="stroke-linejoin:miter;marker-end:url(#Arrow1SendZ);stroke-opacity:1;marker-start:url(#DotMC);stroke:#00f45e;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:4.40000019000000010;marker-mid:url(#Arrow1SendS);fill:none" />
+       style="fill:none;stroke:#00f45e;stroke-width:4.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#DotMC);marker-mid:url(#Arrow1SendS);marker-end:url(#Arrow1SendZ)" />
     <text
        xml:space="preserve"
        style="font-size:36px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -1649,7 +1763,7 @@
          id="tspan7167"> are shown side-by-side.</tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="NOTES"
      id="layer8"
      inkscape:groupmode="layer">
