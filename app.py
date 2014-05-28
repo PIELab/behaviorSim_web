@@ -2,7 +2,7 @@ __author__ = '7yl4r'
 
 import os
 
-from py.lib.bottle.bottle import template, Bottle, request, abort
+from py.lib.bottle.bottle import template, Bottle, request, abort, static_file
 
 from py.SimManager import SimManager
 
@@ -16,11 +16,27 @@ app = Bottle()
 DOMAIN = 'localhost'  # domain name
 
 #=====================================#
+#            Static Routing           #
+#=====================================#
+@app.route('/css/<filename:path>')
+def css_static(filename):
+    return static_file(filename, root='./css/')
+
+@app.route('/js/<filename:path>')
+def js_static(filename):
+    return static_file(filename, root='./js/')
+    
+@app.route('/img/<filename:path>')
+def js_static(filename):
+    return static_file(filename, root='./img/')
+    
+
+#=====================================#
 #           Splash Page               #
 #=====================================#
 @app.route("/")
 def makeSplash():
-    return 'this is a test'
+    return template('tpl/pages/getting_started')
 #=====================================#
 #           websockets                #
 #=====================================#
@@ -49,7 +65,7 @@ if __name__ == "__main__":
     from geventwebsocket.handler import WebSocketHandler
     from geventwebsocket import WebSocketError
 
-    port = int(os.environ.get("PORT", 80))
+    port = int(os.environ.get("PORT", 8080))
     server = WSGIServer(("0.0.0.0", port), app,
                         handler_class=WebSocketHandler)
     print 'starting server on '+str(port)
