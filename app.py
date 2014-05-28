@@ -14,6 +14,10 @@ sim_manager = SimManager()
 #=====================================#
 app = Bottle()
 DOMAIN = 'localhost'  # domain name
+# temporary (to be replaced by db later)
+CONTEXTS = ['GPS position', 'ambient noise level', 'avatar influence']
+CONSTRUCTS = ['physical activity self efficacy']
+BEHAVIORS = ['step count', 'caloric intake']
 
 #=====================================#
 #            Static Routing           #
@@ -32,11 +36,20 @@ def js_static(filename):
     
 
 #=====================================#
-#           Splash Page               #
+#               Pages                 #
 #=====================================#
 @app.route("/")
 def makeSplash():
     return template('tpl/pages/getting_started')
+
+@app.route("/think")
+def makeThink():
+    return template('tpl/pages/think')
+
+@app.route("/think/CSMB")
+def makeCSMB():
+    return template('tpl/pages/think/csmb', contexts=CONTEXTS, constructs=CONSTRUCTS, behaviors=BEHAVIORS)
+
 #=====================================#
 #           websockets                #
 #=====================================#

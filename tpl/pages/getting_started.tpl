@@ -1,9 +1,14 @@
-<link href="/css/buttons.css" rel="stylesheet" type="text/css" />
+% include('tpl/pageBits/header')
 
-<h1> Welcome to the BehaviorSim web interface </h1>
+<body>
+	<h1> Welcome to the BehaviorSim web interface </h1>
 
-This interface is designed to make the use of modeling and simulation in behavioral science easy.
+	<p class="textBox">
+	This interface is designed to make the use of modeling and simulation in behavioral science easy.
+	</p>
 
-<br>
-<a href="/think" class="myButton" >Get Started</a>
-<a href="/about" class="myButton" >About Us</a>
+	<br>
+
+	<a href="/think" class="myButton" >Get Started</a>
+	<a href="#" class="disabledButton" >About Us</a>
+</body>
