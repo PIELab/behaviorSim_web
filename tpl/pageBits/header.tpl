@@ -15,3 +15,5 @@
  </script>
 
 <button class="feedback-btn feedback-btn-gray">Send feedback</button>
+
+<h1> BehaviorSim web interface </h1>

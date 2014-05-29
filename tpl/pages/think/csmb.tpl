@@ -19,7 +19,7 @@
 	<div>
 		<div class="inline">
 			<b>Context</b> <br>
-			<select data-placeholder="Choose Context Vars..." class="chosen-select" multiple style="width:250px;" tabindex="4">
+			<select id="contexts" data-placeholder="Choose Context Vars..." class="chosen-select" multiple style="width:250px;" tabindex="4">
             <option value=""></option>
 				% for context in contexts:
             <option value="{{context}}">{{context}}</option>
@@ -33,7 +33,7 @@
 
 		<div class="inline">
 			<b>Constructs</b> <br>
-			<select data-placeholder="Choose Construct Vars..." class="chosen-select" multiple style="width:250px;" tabindex="4">
+			<select id='constructs' data-placeholder="Choose Construct Vars..." class="chosen-select" multiple style="width:250px;" tabindex="4">
             <option value=""></option>
 				% for construct in constructs:
             <option value="{{construct}}">{{construct}}</option>
@@ -47,7 +47,7 @@
 
 		<div class="inline">
 			<b>Behaviors</b> <br>
-			<select data-placeholder="Choose Context Vars..." class="chosen-select" multiple style="width:250px;" tabindex="4">
+			<select id="behaviors" data-placeholder="Choose Behavior Vars..." class="chosen-select" multiple style="width:250px;" tabindex="4">
             <option value=""></option>
 				% for behavior in behaviors:
             <option value="{{behavior}}">{{behavior}}</option>
@@ -61,6 +61,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js" type="text/javascript"></script>
+  <script src="/js/addMultipleSelectField.js" type="text/javascript"></script>
   <script type="text/javascript">
     var config = {
       '.chosen-select'           : {},
