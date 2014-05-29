@@ -54,6 +54,10 @@ def makeCSMB():
 def makeDraw():
 	return template('tpl/pages/draw')
 
+@app.route("/specify")
+def makeSpec():
+	return template('tpl/pages/specify')
+
 #=====================================#
 #           websockets                #
 #=====================================#
