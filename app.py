@@ -50,6 +50,10 @@ def makeThink():
 def makeCSMB():
     return template('tpl/pages/think/csmb', contexts=CONTEXTS, constructs=CONSTRUCTS, behaviors=BEHAVIORS)
 
+@app.route("/draw")
+def makeDraw():
+	return template('tpl/pages/draw')
+
 #=====================================#
 #           websockets                #
 #=====================================#

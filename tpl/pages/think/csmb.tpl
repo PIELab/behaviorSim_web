@@ -61,7 +61,6 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js" type="text/javascript"></script>
-  <script src="/js/addMultipleSelectField.js" type="text/javascript"></script>
   <script type="text/javascript">
     var config = {
       '.chosen-select'           : {},
