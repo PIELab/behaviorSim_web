@@ -13,5 +13,5 @@
     
     <br>
     
-    <a href="/specify" class="myButton">Done</a>
+    <a href="#" class="myButton">Done</a>
 </body>
