@@ -88,8 +88,20 @@
 		}
 
 		sendVars = function(){
-			var data = {contexts: 'text1', constructs: 'test2', behaviors: 'test3'};
-			// TODO: get real data from multiselect elements
+			var ctx = [];
+			$("#contexts :selected").each(function(){
+				ctx.push($(this).val()); 
+			});
+			var cstr = [];
+			$("#constructs :selected").each(function(){
+				cstr.push($(this).val()); 
+			});
+			var bvr = [];
+			$("#behaviors :selected").each(function(){
+				bvr.push($(this).val()); 
+			});
+
+			var data = {contexts: ctx, constructs: cstr, behaviors: bvr};
 
 			console.log('sending data to server');
 

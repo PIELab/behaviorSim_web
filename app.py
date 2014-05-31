@@ -65,7 +65,7 @@ def recieveVarList():
     ctr = request.forms.get('constructs')
     bvr = request.forms.get('behaviors')
     sim_manager.addMeasures(ctx, ctr, bvr)
-    print 'measurement vars added to model.'
+    print 'measurement vars added to model:',ctx,'; ',ctr,'; ',bvr,'\n'
     redirect( '/draw' )
 
 
