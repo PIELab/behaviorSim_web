@@ -14,4 +14,6 @@
     <br>
     
     <a href="/specify" class="myButton">Done</a>
+
+	%include('tpl/pageBits/nav')
 </body>

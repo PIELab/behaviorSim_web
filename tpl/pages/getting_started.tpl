@@ -10,4 +10,6 @@
 
 	<a href="/think" class="myButton" >Get Started</a>
 	<a href="#" class="disabledButton" >About Us</a>
+
+	%include('tpl/pageBits/nav')
 </body>

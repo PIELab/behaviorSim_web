@@ -2,19 +2,17 @@ __author__ = '7yl4r'
 
 import os
 
-from py.lib.bottle.bottle import template, Bottle, request, abort, static_file
+from py.lib.bottle.bottle import template, Bottle, request, abort, static_file, redirect
 
 from py.SimManager import SimManager
-
-# Globals:
-sim_manager = SimManager()
 
 #=====================================#
 #            globals                  #
 #=====================================#
 app = Bottle()
+sim_manager = SimManager()
 DOMAIN = 'localhost'  # domain name
-# temporary (to be replaced by db later)
+# temporary (to be replaced by db later) TODO: replace with db
 CONTEXTS = ['GPS position', 'ambient noise level', 'avatar influence']
 CONSTRUCTS = ['physical activity self efficacy']
 BEHAVIORS = ['step count', 'caloric intake']
@@ -44,22 +42,35 @@ def makeSplash():
 
 @app.route("/think")
 def makeThink():
-    return template('tpl/pages/think')
+    return template('tpl/pages/think', simManager=sim_manager)
 
 @app.route("/think/CSMB")
 def makeCSMB():
-    return template('tpl/pages/think/csmb', contexts=CONTEXTS, constructs=CONSTRUCTS, behaviors=BEHAVIORS)
+    return template('tpl/pages/think/csmb', simManager=sim_manager, contexts=CONTEXTS, constructs=CONSTRUCTS, behaviors=BEHAVIORS)
 
 @app.route("/draw")
 def makeDraw():
-	return template('tpl/pages/draw')
+	return template('tpl/pages/draw', simManager=sim_manager)
 
 @app.route("/specify")
 def makeSpec():
-	return template('tpl/pages/specify')
+	return template('tpl/pages/specify', simManager=sim_manager)
 
 #=====================================#
-#           websockets                #
+#           data recievers            #
+#=====================================#
+@app.post('/think/submit')
+def recieveVarList():
+    ctx= request.forms.get('contexts')
+    ctr = request.forms.get('constructs')
+    bvr = request.forms.get('behaviors')
+    sim_manager.addMeasures(ctx, ctr, bvr)
+    print 'measurement vars added to model.'
+    redirect( '/draw' )
+
+
+#=====================================#
+#      websockets (currently unused)  #
 #=====================================#
 @app.route('/websocket')
 def handle_websocket():
