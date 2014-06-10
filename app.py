@@ -38,7 +38,7 @@ def js_static(filename):
 #=====================================#
 @app.route("/")
 def makeSplash():
-    return template('tpl/pages/getting_started')
+    return template('tpl/pages/getting_started', simManager=sim_manager)
 
 @app.route("/think")
 def makeThink():
