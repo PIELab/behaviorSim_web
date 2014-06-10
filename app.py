@@ -61,9 +61,9 @@ def makeSpec():
 #=====================================#
 @app.post('/think/submit')
 def recieveVarList():
-    ctx= request.forms.get('contexts')
-    ctr = request.forms.get('constructs')
-    bvr = request.forms.get('behaviors')
+    ctx= request.forms.get('contexts').split(',')
+    ctr = request.forms.get('constructs').split(',')
+    bvr = request.forms.get('behaviors').split(',')
     sim_manager.addMeasures(ctx, ctr, bvr)
     print 'measurement vars added to model:',ctx,'; ',ctr,'; ',bvr,'\n'
     redirect( '/draw' )
