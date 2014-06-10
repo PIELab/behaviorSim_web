@@ -40,6 +40,14 @@ def js_static(filename):
 def makeSplash():
     return template('tpl/pages/getting_started', simManager=sim_manager)
 
+@app.route("/studyIntro")
+def studyIntro():
+    return template('tpl/pages/studyIntro', simManager=sim_manager)
+
+@app.route("/studyConclude")
+def studyConclude():
+    return template('tpl/pages/debrief', simManager=sim_manager)
+
 @app.route("/think")
 def makeThink():
     return template('tpl/pages/think', simManager=sim_manager)
@@ -97,7 +105,7 @@ if __name__ == "__main__":
     from geventwebsocket.handler import WebSocketHandler
     from geventwebsocket import WebSocketError
 
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 80))
     server = WSGIServer(("0.0.0.0", port), app,
                         handler_class=WebSocketHandler)
     print 'starting server on '+str(port)
