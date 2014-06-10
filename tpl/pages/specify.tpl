@@ -51,4 +51,5 @@
     <a href="#" class="myButton">Next Node</a>
     <a href="#" class="disabledButton">Done</a>
    </div>
+	%include('tpl/pageBits/nav')
 </body>

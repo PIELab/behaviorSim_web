@@ -11,4 +11,6 @@
 	<a href="/think/CSMB" class="myButton">List Your Variables</a>
 	<a href="#" class="disabledButton" >Load an Experiment from File</a>
 	<a href="#" class="disabledButton">Use a Behavior Change Ontology</a>
+
+	%include('tpl/pageBits/nav')
 </body>

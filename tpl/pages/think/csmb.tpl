@@ -57,7 +57,57 @@
 
 	</div>
 
-	<a href="/draw" class="myButton">Done</a>
+	<button type='submit' class="myButton" onclick='sendVars()'>Done</button>
+
+	%include('tpl/pageBits/nav')
+
+	<script type='text/javascript'>
+
+		function post(path, params, method) {
+			 method = method || "post"; // Set method to post by default if not specified.
+
+			 // The rest of this code assumes you are not using a library.
+			 // It can be made less wordy if you use one.
+			 var form = document.createElement("form");
+			 form.setAttribute("method", method);
+			 form.setAttribute("action", path);
+
+			 for(var key in params) {
+				  if(params.hasOwnProperty(key)) {
+				      var hiddenField = document.createElement("input");
+				      hiddenField.setAttribute("type", "hidden");
+				      hiddenField.setAttribute("name", key);
+				      hiddenField.setAttribute("value", params[key]);
+
+				      form.appendChild(hiddenField);
+				   }
+			 }
+
+			 document.body.appendChild(form);
+			 form.submit();
+		}
+
+		sendVars = function(){
+			var ctx = [];
+			$("#contexts :selected").each(function(){
+				ctx.push($(this).val()); 
+			});
+			var cstr = [];
+			$("#constructs :selected").each(function(){
+				cstr.push($(this).val()); 
+			});
+			var bvr = [];
+			$("#behaviors :selected").each(function(){
+				bvr.push($(this).val()); 
+			});
+
+			var data = {contexts: ctx, constructs: cstr, behaviors: bvr};
+
+			console.log('sending data to server');
+
+			post('/think/submit', data);
+		}
+	</script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js" type="text/javascript"></script>
