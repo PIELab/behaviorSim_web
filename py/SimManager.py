@@ -12,7 +12,10 @@ class SimManager(object):
         self.MODEL_CONTEXTS = None
         self.MODEL_CONSTRUCTS = None
         self.MODEL_BEHAVIORS = None
-        self.measurementsSet = False
+
+        self.measurementsSet = False  # true if context/behavior vars have been given
+        self.connectionsMade = False  # true if vars/construct node connections have been drawn
+        self.formulated      = False  # true if node connection formulas have been specified
  
 
         # === NOTE: sockets are not used currently ====================

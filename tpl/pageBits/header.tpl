@@ -1,6 +1,8 @@
 <!-- general site style -->
 <link href="/css/buttons.css" rel="stylesheet" type="text/css" />
 <link href="/css/text.css" rel="stylesheet" type="text/css" />
+<link href="/css/navLinks.css" rel="stylesheet" type="text/css" />
+
 
 <!-- feedback -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

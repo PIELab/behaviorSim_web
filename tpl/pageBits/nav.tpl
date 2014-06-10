@@ -10,7 +10,7 @@
 	Think</a>
 	↦
 	<a 
-		% if simManager.measurementsSet: 
+		% if simManager.connectionsMade: 
 			href='/draw' class='navLink'>
 		% else:
 			href='#' class='navLink_disabled'>
@@ -18,7 +18,7 @@
 	Draw</a>
 	↦
 	<a 
-		% if simManager.measurementsSet: 
+		% if simManager.formulated: 
 			href='/specify' class='navLink'>
 		% else:
 			href='#' class='navLink_disabled'>
