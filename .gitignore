@@ -1,3 +1,6 @@
+# aws connect script (so I can maintain different versions on different machines)
+*aws/connect.sh
+
 # private keys
 *.pem
 
