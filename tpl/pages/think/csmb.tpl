@@ -1,6 +1,14 @@
 % include('tpl/pageBits/header')
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+   <style>
+     /*
+       .chosen-container-multi {
+            height: 25px;
+            padding: 5px;
+       }
+     */
+   </style>
 
 <body>
 	<p>
