@@ -67,7 +67,7 @@
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
 
-    <select id="time-scales" data-placeholder="Choose Your Time Scale" class="chosen-select" multiple style="width:250px;" tabindex="4">
+    <select id="time-scales" data-placeholder="Choose Your Time Scale" class="chosen-select" style="width:250px;" tabindex="4">
         <option value=""></option>
             % for ts in time_scales:
         <option value="{{ts}}">{{ts}}</option>
@@ -92,8 +92,10 @@
     </script>
 
 	<br>
+    <br>
+    <br>
 
-	you can: <br>
+	For the next step of model planning you can: <br>
 	<a href="/think/CSMB" class="myButton">List Your Variables</a>
 	<a href="#" class="disabledButton" >Load an Experiment from File</a>
 	<a href="#" class="disabledButton">Use a Behavior Change Ontology</a>
