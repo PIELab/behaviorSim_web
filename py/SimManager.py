@@ -6,7 +6,7 @@ from py import webSocketParser
 from itertools import cycle
 from py.config import DEBUG
 
-TIME_SCALES = ['test']  # a list of available time scale values
+TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 
 class SimManager(object):
     def __init__(self):
