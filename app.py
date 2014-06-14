@@ -4,7 +4,7 @@ import os
 
 from py.lib.bottle.bottle import template, Bottle, request, abort, static_file, redirect
 
-from py.SimManager import SimManager
+from py.SimManager import SimManager, TIME_SCALES
 
 #=====================================#
 #            globals                  #
@@ -42,7 +42,7 @@ def makeSplash():
 
 @app.route("/think")
 def makeThink():
-    return template('tpl/pages/think', simManager=sim_manager)
+    return template('tpl/pages/think', simManager=sim_manager, time_scales=TIME_SCALES)
 
 @app.route("/think/CSMB")
 def makeCSMB():

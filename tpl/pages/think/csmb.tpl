@@ -1,6 +1,6 @@
 % include('tpl/pageBits/header')
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
 
 <body>
 	<p>
