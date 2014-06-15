@@ -5,6 +5,7 @@ import os
 from py.lib.bottle.bottle import template, Bottle, request, abort, static_file, redirect
 
 from py.SimManager import SimManager, TIME_SCALES
+from py.config import Config
 
 #=====================================#
 #            globals                  #
@@ -12,6 +13,7 @@ from py.SimManager import SimManager, TIME_SCALES
 app = Bottle()
 sim_manager = SimManager()
 DOMAIN = 'localhost'  # domain name
+CONFIG = Config()
 # temporary (to be replaced by db later) TODO: replace with db
 CONTEXTS = ['GPS position', 'ambient noise level', 'avatar influence']
 CONSTRUCTS = ['physical activity self efficacy']
@@ -38,23 +40,23 @@ def js_static(filename):
 #=====================================#
 @app.route("/")
 def makeSplash():
-    return template('tpl/pages/getting_started', simManager=sim_manager)
+    return template('tpl/pages/getting_started', simManager=sim_manager, CONFIG=CONFIG)
 
 @app.route("/think")
 def makeThink():
-    return template('tpl/pages/think', simManager=sim_manager, time_scales=TIME_SCALES)
+    return template('tpl/pages/think', CONFIG=CONFIG, simManager=sim_manager, time_scales=TIME_SCALES)
 
 @app.route("/think/CSMB")
 def makeCSMB():
-    return template('tpl/pages/think/csmb', simManager=sim_manager, contexts=CONTEXTS, constructs=CONSTRUCTS, behaviors=BEHAVIORS)
+    return template('tpl/pages/think/csmb', CONFIG=CONFIG, simManager=sim_manager, contexts=CONTEXTS, constructs=CONSTRUCTS, behaviors=BEHAVIORS)
 
 @app.route("/draw")
 def makeDraw():
-	return template('tpl/pages/draw', simManager=sim_manager)
+	return template('tpl/pages/draw', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/specify")
 def makeSpec():
-	return template('tpl/pages/specify', simManager=sim_manager)
+	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
 
 #=====================================#
 #           data recievers            #
