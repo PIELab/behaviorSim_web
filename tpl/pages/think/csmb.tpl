@@ -121,12 +121,11 @@
   <script src="{{CONFIG.CHOSEN_JS_URL}}" type="text/javascript"></script>
   <script type="text/javascript">
     var config = {
-      '.chosen-select'           : {},
+      '.chosen-select'           : {create_option: true, persistent_create_option: true},
       '.chosen-select-deselect'  : {allow_single_deselect:true},
       '.chosen-select-no-single' : {disable_search_threshold:10},
       '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
       '.chosen-select-width'     : {width:"95%"},
-      '.chzn-select'             : {create_option: true, persistent_create_option: true}
     }
     for (var selector in config) {
       $(selector).chosen(config[selector]);
