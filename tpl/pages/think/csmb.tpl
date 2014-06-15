@@ -1,6 +1,6 @@
 % include('tpl/pageBits/header')
 
-   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+   <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}"
    <style>
      /*
        .chosen-container-multi {
@@ -118,14 +118,14 @@
 	</script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js" type="text/javascript"></script>
+  <script src="{{CONFIG.CHOSEN_JS_URL}}" type="text/javascript"></script>
   <script type="text/javascript">
     var config = {
-      '.chosen-select'           : {},
+      '.chosen-select'           : {create_option: true, persistent_create_option: true},
       '.chosen-select-deselect'  : {allow_single_deselect:true},
       '.chosen-select-no-single' : {disable_search_threshold:10},
       '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-      '.chosen-select-width'     : {width:"95%"}
+      '.chosen-select-width'     : {width:"95%"},
     }
     for (var selector in config) {
       $(selector).chosen(config[selector]);
