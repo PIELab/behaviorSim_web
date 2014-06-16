@@ -5,7 +5,8 @@ This class manages a simulation and all data/interaction surrounding it.
 from py import webSocketParser
 from itertools import cycle
 from py.config import DEBUG
-DELTA_T = 0.1 # seconds between updates
+
+TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 
 class SimManager(object):
     def __init__(self):

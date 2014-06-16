@@ -17,10 +17,12 @@
         <meta name="description" content="diagrams for all">
         <meta name="author" content="Monica Dinculescu">
 
-        <!-- prettify things -->
+        <!-- prettify things (diagramophone) -->
         <link href="js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet/less" type="text/css" href="js/lib/diagramophone/style.less">
         <script src="js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
+        <!-- chosen -->
+        <link rel="stylesheet" href={{CONFIG.CHOSEN_CSS_URL}}">
 
         <!-- things you need to run -->
         <script src="js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
@@ -48,12 +50,19 @@
                 <textarea style="width:390px" id="textarea" rows="17"></textarea>
 
                 <br/>
+                <div class="title">Sub-models</div>
+                <select id="submodel_selector" data-placeholder="select submodel..." class="chosen-select" style="width:250px;" tabindex="4">
+                    <option value="TPB">Theory of Planned Behavior</option>
+                </select>
+                <button class="btn btn-primary btn-mini" id="submodel_inserter">Insert Selected Sub-model</button>
+
                 <div class="title">How do I use this?</div>
                 <div class="well">
                     <p class="code comment">// lines starting with // are comments</p>
                     <p class="code">// say whatever you want in them</p>
                     <p class="code comment">// connect nodes together using arrows </p>
                     <p class="code">a -&gt; b</p>
+                    <p>Use the "add submodel" button to insert existing model linkages in your diagram code. </p>
                 </div>
 
                 <br/>
@@ -67,13 +76,16 @@
             </div>
 
             <div class="right-column">
-                <div class="title" style="overflow:hidden">Image comes out here &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="title" style="overflow:hidden">Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
                     <button class="btn btn-primary btn-mini" id="saveIt">SAVE IT</button>
                 </div>
                 <div id="canvas"> </div>
             </div>
         </div>
         <script type="text/coffeescript">
+
+### all this is diagramophone controls that I don't yet fully understand ###
+
 @controller = new Controller
 
 paper = Raphael "canvas", 400, 400
@@ -109,7 +121,16 @@ $listen fontBtn, 'change', =>
 textarea.value = sampleText
 @controller.makeItGo(textarea.value, paper, fontBtn.checked)
 
+### this is the model inserter button ###
+insertbutton = document.getElementById("submodel_inserter")
+modelselector= document.getElementById("submodel_selector")
 
+$listen submodel_inserter, 'click', =>
+    if submodel_selector.value == 'TPB'
+        textarea.value+='\n behavioral attitude -> intention \n subjective norms -> intention \n perceived behavioral control -> intention \n perceived behavioral control -> behavior \n intention -> behavior \n'
+        @controller.makeItGo(textarea.value, paper, fontBtn.checked)
+    else
+        console.log('unrecognized submodel value "'+submodel_selector.value+'"')
 </script>
 
     </div>
