@@ -1,14 +1,6 @@
 % include('tpl/pageBits/header')
 
    <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}"
-   <style>
-     /*
-       .chosen-container-multi {
-            height: 25px;
-            padding: 5px;
-       }
-     */
-   </style>
 
 <body>
 	<p>
