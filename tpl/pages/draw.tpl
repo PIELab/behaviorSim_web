@@ -22,7 +22,7 @@
         <link rel="stylesheet/less" type="text/css" href="js/lib/diagramophone/style.less">
         <script src="js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
         <!-- chosen -->
-        <link rel="stylesheet" href={{CONFIG.CHOSEN_CSS_URL}}">
+        <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
 
         <!-- things you need to run -->
         <script src="js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>

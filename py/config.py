@@ -1,11 +1,17 @@
 __author__ = '7yl4r'
+#######################
+### DEFAULT VALUES ###
+#######################
+# (also accessible via config.WHATEVERRR)
 
-### default values for config (also accessible via config.WHATEVERRR ###
 DEBUG = True  # if this is true, pages might make up things in order to run themselves where they would otherwise fail.
+
 CHOSEN_CSS_URL = '/css/chosen/chosen.css'  # url to retrieve chosen's css
     # '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css'
+
 CHOSEN_JS_URL  = '/js/lib/chosen.jquery.min.js' # url to retrieve chosen's js. (useful for switching between forks)
     # //cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js'
+#######################
 
 class Config(object):
     '''
