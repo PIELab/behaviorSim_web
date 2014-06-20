@@ -62,6 +62,10 @@ def makeCSMB():
 def makeDraw():
 	return template('tpl/pages/draw', CONFIG=CONFIG, simManager=sim_manager)
 
+@app.route("/draw/infoFlow")
+def makeInfoFLow():
+	return template('tpl/pages/draw/infoFlow', CONFIG=CONFIG, simManager=sim_manager)
+
 @app.route("/specify")
 def makeSpec():
 	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
