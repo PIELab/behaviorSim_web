@@ -11,7 +11,7 @@
             <td>Edges contain coefficient weights that add at each node. This can be used to represent layers of linear combinations, and is the simplest graphical model used here. Non-linear functions and delay/decay time considerations are not included.</td>
         </tr>
         <tr>
-            <td><a href="#" class="disabledButton" >Mediator/Moderator graph</a></td>
+            <td><a href="/draw/mediatorModerator" class="myButton" >Mediator/Moderator graph</a></td>
             <td>This graphical model builds on the probabilistic graphical model to allow for specification of mediator/moderator relationships specifically. This model is particularly useful for users already familar with describing variable relationships in terms of mediators & moderators. </td>
         </tr>
         <tr>
