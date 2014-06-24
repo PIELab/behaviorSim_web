@@ -2,36 +2,31 @@
 
 <head>
     <!-- tooltipster (for on-hover help texts & images) -->
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/tooltipster/3.0.5/css/themes/tooltipster-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/tooltipster/3.0.5/css/tooltipster.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/tooltips.css" />
+
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.0.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tooltipster/3.0.5/js/jquery.tooltipster.min.js"></script>
 
     <script>
-        $('#direct-connect').tooltipster({
-            content: $('blargyblarrgblarg'),
-            // setting a same value to minWidth and maxWidth will result in a fixed width
-            minWidth: 300,
-            maxWidth: 300,
-            position: 'right'
-        });
-        $('#moderate-connect').tooltipster({
-            content: $('<img src="http://i.imgur.com/SDPz74E.gif" width="50" height="50" /><p style="text-align:left;"><strong>Soufflé chocolate cake powder.</strong> Applicake lollipop oat cake gingerbread.</p>'),
-            // setting a same value to minWidth and maxWidth will result in a fixed width
-            minWidth: 300,
-            maxWidth: 300,
-            position: 'right'
-        });
-        $('#mediate-connect').tooltipster({
-            content: $('<img src="http://i.imgur.com/SDPz74E.gif" width="50" height="50" /><p style="text-align:left;"><strong>Soufflé chocolate cake powder.</strong> Applicake lollipop oat cake gingerbread.</p>'),
-            // setting a same value to minWidth and maxWidth will result in a fixed width
-            minWidth: 300,
-            maxWidth: 300,
-            position: 'right'
-        });
-
         $(document).ready(function() {
-            $('.tooltip').tooltipster();
+
+            $('#direct-connect').tooltipster({
+                content: $('<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Directed.svg/125px-Directed.svg.png" /> <p>three directly connected variables forming a loop</p>'),
+                // setting a same value to minWidth and maxWidth will result in a fixed width
+                position: 'bottom'
+            });
+            $('#moderate-connect').tooltipster({
+                content: $('<img src="http://pavlov.psyc.vuw.ac.nz/paul-jose/helpcentre/images/helpcentre5a.gif" /><p style="text-align:left;">(Cohen and Wills 1985)</p>'),
+                position: 'bottom'
+            });
+            $('#mediate-connect').tooltipster({
+                content: $('<img src="http://upload.wikimedia.org/wikipedia/commons/4/4d/Mediation.jpg" /><p style="text-align:left;">partial mediation graph</p>'),
+                // setting a same value to minWidth and maxWidth will result in a fixed width
+                position: 'bottom'
+            });
+
         });
     </script>
 </head>
@@ -43,9 +38,9 @@
             We've added all your variables as nodes, but we need to draw arrows (edges) to show how they are connected.
             Variables can depend on each other in several different ways, and we must show those here. Your options are:
             <ol>
-                <li><span id="direct-connect" class="tooltipstered">direct : variable is linearly dependent on another. </span></li>
-                <li id="moderate-connect" class="tooltipstered" onclick="console.log('test')">moderator : variable affects direction or strength of relation between independent & dependent vars.</li>
-                <li><div id="mediate" class="tooltip" title="message">mediator : variable which acts in between two vars to explain apparent relationship.</div></li>
+                <li><span id="direct-connect" class="tooltipstered">direct</span> : variable is linearly dependent on another. </li>
+                <li><span id="moderate-connect" class="tooltipstered" onclick="console.log('test')">moderator</span> : variable affects direction or strength of relation between independent & dependent vars.</li>
+                <li><span id="mediate-connect" class="tooltipstered" title="message">mediator</span>: variable which acts in between two vars to explain apparent relationship.</li>
             </ol>
             Hover over to see an example.
         </p>
