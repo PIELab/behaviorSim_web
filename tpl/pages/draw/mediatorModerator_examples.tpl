@@ -1,21 +1,22 @@
 % include ('tpl/pageBits/header')
 
 <body>
+
     <div class="wrap">
         <p>
-        We've added all your variables as nodes, but we need to draw arrows (edges) to show how they are connected.
-        Try to imagine how the information "flows" from context nodes towards the behavior nodes.
-        Don't worry too much about <i>how</i> the information from a node affects its connections just yet; we'll do that next.
-        Imagine that each arrow says, "depends on", and don't worry about how yet. When we do "A -> B" we are basically saying that B is a function of A, but we're not worrying about what that function looks like yet. So "A -> B; C -> B" tells us that "B = f(A, C)", and we'll define f later.
+            We've added all your variables as nodes, but we need to draw arrows (edges) to show how they are connected.
+            Variables can depend on each other in several different ways, and we must show those here. Your options are:
+            <ol>
+                <li><span id="direct-connect" class="tooltipstered">direct</span> : variable is linearly dependent on another. </li>
+                <li><span id="moderate-connect" class="tooltipstered" onclick="console.log('test')">moderator</span> : variable affects direction or strength of relation between independent & dependent vars.</li>
+                <li><span id="mediate-connect" class="tooltipstered" title="message">mediator</span>: variable which acts in between two vars to explain apparent relationship.</li>
+            </ol>
+            Hover over to see an example.
         </p>
     </div>
     <br>
     
     <div id='infoFlow'>
-        <meta charset="utf-8">
-        <title>diagramophone</title>
-        <meta name="description" content="diagrams for all">
-        <meta name="author" content="Monica Dinculescu">
 
         <!-- prettify things (diagramophone) -->
         <link href="/js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +53,7 @@
                 <br/>
                 <div class="title">Sub-models</div>
                 <select id="submodel_selector" data-placeholder="select submodel..." class="chosen-select" style="width:250px;" tabindex="4">
-                    <option value="TPB">Theory of Planned Behavior</option>
+                    <option value="None">(more coming soon)</option>
                 </select>
                 <button class="btn btn-primary btn-mini" id="submodel_inserter">Insert Selected Sub-model</button>
 
@@ -62,6 +63,9 @@
                     <p class="code">// say whatever you want in them</p>
                     <p class="code comment">// connect nodes together using arrows </p>
                     <p class="code">a -&gt; b</p>
+                    <p class="code comment">// connect moderators using named links</p>
+                    <p class="code">a -&gt; b : connectionName</p>
+                    <p class="code">c -&gt; connectionName</p>
                     <p>Use the "add submodel" button to insert existing model linkages in your diagram code. </p>
                 </div>
 
@@ -137,7 +141,7 @@ $listen submodel_inserter, 'click', =>
     
     <br>
     
-    <a href="/studyConclude" class="myButton">Done</a>
+    <a href="/specify" class="myButton">Done</a>
 
 	%include('tpl/pageBits/nav')
 </body>
