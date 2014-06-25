@@ -172,7 +172,7 @@ $listen submodel_inserter, 'click', =>
     
     <br>
     
-    <a href="/specify" class="myButton">Done</a>
+    <a href="/studyConclude" class="myButton">Done</a>
 
 	%include('tpl/pageBits/nav')
 </body>
