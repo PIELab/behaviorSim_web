@@ -15,11 +15,11 @@
     <table border="1" >
         <tr>
             <td><b>level</b></td>
-            <td><b>example</b></td>
+            <td><b>examples</b></td>
         </tr>
         <tr>
             <td>instantaneous aka momentary aka in-the-moment</td>
-            <td><a href="http://www.behaviormodel.org/">BJ Fogg's motivation-ability-trigger model</a></td>
+            <td>models of reinforcement loops, operant constructs, cues to action/stimuli; models of rapid biological changes like glucose shifts or blood pressure</td>
         </tr>
         <tr>
             <td>day</td>
@@ -27,11 +27,19 @@
         </tr>
         <tr>
             <td>week</td>
-            <td>Work-week model describing amount of hours worked per day on weekends and weekdays.</td>
+            <td>Models of cognitions and beliefs like outcome expectancies or self-efficacy. aggregation of learning schedules and determination of schedules for reinforcement. Work-week model describing amount of hours worked per day on weekends and weekdays.</td>
         </tr>
         <tr>
-            <td>seasonal</td>
-            <td>a description of how Seasonal Affect Disorder impacts reported levels of happiness over various seasons of the year.</td>
+            <td>month</td>
+            <td>Models of skills development such as self-regulatory skills; moderate timescale biological markers like HBA1C</td>
+        </tr>
+        <tr>
+            <td>year</td>
+            <td>Models of shifts in self-identity or constructs from self-determination theory. A description of how Seasonal Affect Disorder impacts reported levels of happiness over various seasons of the year. Models of typology of behavior (e.g., changing physical activities depending on weather or changing the type of foods being eaten depending on the season)</td>
+        </tr>
+        <tr>
+            <td>lifetime</td>
+            <td>Models of built environment issues, cultural shifts, disease progressions such as atherosclerosis.</td>
         </tr>
     </table>
 
