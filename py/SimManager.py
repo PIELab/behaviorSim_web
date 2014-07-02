@@ -16,6 +16,7 @@ class SimManager(object):
         self.MODEL_CONSTRUCTS = None
         self.MODEL_BEHAVIORS = None
         self.DSL = None
+        self.DLS_type = None
 
         self.measurementsSet = False  # true if context/behavior vars have been given
         self.connectionsMade = False  # true if vars/construct node connections have been drawn
@@ -89,6 +90,12 @@ class SimManager(object):
         # TODO: use selectedNode here...
         return ur'ctx2 -> constr2\n constr2 -> constr3\n constr2 {red}'
 
+    def updateDSL(self, newDSL, type="info-flow"):
+        '''
+        sets the Diagram Specification Language spec for the model
+        '''
+        self.DSL = newDSL
+        self.DSL_type = type
 
     # === NOTE: sockets are not used currently ===================================================
     def sendAll(self, m, originator=None, supress=False):

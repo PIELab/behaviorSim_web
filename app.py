@@ -81,9 +81,9 @@ def recieveVarList():
 @app.post('/draw/submit')
 def recieveDSL():
     DSL= request.forms.get('DSL')
-    # TODO: sim_manager.updateDSL(DSL)
+    sim_manager.updateDSL(DSL)
     print 'new DSL recieved.'
-    return 'new DSL recieved.'
+    return 'DSL recieved.'
     
 #=====================================#
 #      websockets (currently unused)  #
