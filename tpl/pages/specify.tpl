@@ -35,22 +35,25 @@
     <script type="text/javascript" src="js/lib/diagramophone/lib/rgbcolor.js"></script>
     <script type="text/javascript" src="js/lib/diagramophone/lib/canvg.js"></script>
 
-    <p>
-        Now let's dive a little deeper and think about what each connection between variables means. Let's focus on the variable highlighted in your graph below.
-    </p>
-    
-    <br>
-    
-    <div id='infoFlow'>
-            <div id="mainCanvas"> </div>
+    <div class='row'>
+        <p>
+            Now let's dive a little deeper and think about what each connection between variables means. Let's focus on the variable highlighted in your graph below.
+        </p>
     </div>
-    
-    <br>
+    <div class='row'>
+        
+        <div id='infoFlow'>
+                <div id="mainCanvas"> </div>
+        </div>
+        
+    </div>
+    <div class='row'>
 
-    <p>
-        Let's start out with the "source verticies" (variables without any inflows). Since they have no variables going into them, we have to make an assumption about how they change over time. 
-    </p>
-
+        <p>
+            Let's start out with the "source verticies" (variables without any inflows). Since they have no variables going into them, we have to make an assumption about how they change over time. 
+        </p>
+    </div>
+        
     <div>
         <div class='row'>
             <div class='title'>
@@ -93,8 +96,7 @@
         ### script for controlling responsive modeling param form ###
         modelingOptions = document.getElementById('modeling-options')
         modelSelection  = document.getElementById('model-selector')
-        
-        
+         
         $listen = (target, name, callback) ->
             # shortcut addListener function
             if target.addEventListener
@@ -127,10 +129,13 @@
                         </form>
                     '''
             else
-                return "nononono"
+                return "unrecognized selection '"+selected+"'"
                 
         $listen modelSelection, 'change', =>
             modelingOptions.innerHTML = getOptionsForSelection( modelSelection.value )
+            
+        # initial setting of the content section
+        modelingOptions.innerHTML = getOptionsForSelection( modelSelection.value )
         
     </script>
 
