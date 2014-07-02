@@ -78,7 +78,13 @@ def recieveVarList():
     print 'measurement vars added to model:',ctx,'; ',ctr,'; ',bvr,'\n'
     redirect( '/draw' )
 
-
+@app.post('/draw/submit')
+def recieveDSL():
+    DSL= request.forms.get('DSL')
+    # TODO: sim_manager.updateDSL(DSL)
+    print 'new DSL recieved.'
+    return 'new DSL recieved.'
+    
 #=====================================#
 #      websockets (currently unused)  #
 #=====================================#
