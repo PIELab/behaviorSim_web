@@ -104,9 +104,14 @@
     <br>
 
 	For the next step of model planning you can: <br>
-	<a href="/think/CSMB" class="myButton">List Your Variables</a>
-	<a href="#" class="disabledButton" >Load an Experiment from File</a>
-	<a href="#" class="disabledButton">Use a Behavior Change Ontology</a>
+    <div>
+        <a href="/draw" class="myButton">Start Drawing Your Model</a>
+        <a href="/think/CSMB" class="myButton">List Context/State/Behavior Variables</a>
+    </div>
+    <div>
+        <a href="#" class="disabledButton" >Load an Experiment from File</a>
+        <a href="#" class="disabledButton">Use a Behavior Change Ontology</a>
+    </div>
 
 	%include('tpl/pageBits/nav')
 </body>
