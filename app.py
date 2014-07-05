@@ -44,7 +44,7 @@ def makeSplash():
 
 @app.route("/think")
 def makeThink():
-    return template('tpl/pages/think', CONFIG=CONFIG, simManager=sim_manager, time_scales=TIME_SCALES)
+    return template('tpl/pages/think/think', CONFIG=CONFIG, simManager=sim_manager, time_scales=TIME_SCALES)
 
 @app.route("/think/CSMB")
 def makeCSMB():
@@ -52,7 +52,7 @@ def makeCSMB():
 
 @app.route("/draw")
 def makeDraw():
-	return template('tpl/pages/draw', CONFIG=CONFIG, simManager=sim_manager)
+	return template('tpl/pages/draw/draw', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/draw/infoFlow")
 def makeInfoFLow():
