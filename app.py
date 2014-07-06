@@ -66,6 +66,10 @@ def makeMedMod():
 def makeSpec():
 	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
 
+@app.route("/tutorial" )
+def makeTutorial():
+    return template('tpl/pages/tutorial', CONFIG=CONFIG, simManager=sim_manager)
+
 #=====================================#
 #           data recievers            #
 #=====================================#
