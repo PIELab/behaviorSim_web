@@ -64,6 +64,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script> 
     
     <script> 
+        var timeStart = 0;
+        var timeStop  = 15;
+  
   
         function sign(x) {
             // returns the sign of a number as +-1
@@ -75,31 +78,93 @@
             return percent/10;
         }
         function mapScale(percent){
-            return percent/5-10;
+            return percent/10;
+        }
+        
+        // sample data to use for SE
+        function sampleData(start,stop){
+            // returns array of x,y points between time start & stop with a step function in it
+            var stp_strt_percent = .20;
+            var stp_stop_percent = .50;
+            var low = 1;
+            var high = 5;
+            var t_step = 1;
+            
+            var range = stop-start;
+            var stp_strt = stp_strt_percent*range+start;
+            var stp_stop = stp_stop_percent*range+start;
+            
+            var arr = [];
+            for (var i = start; i<stop; i = i+t_step){
+                if (i < stp_strt){
+                    //before step
+                    arr.push({x: i, y: low})
+                } else if( i < stp_stop){
+                    // in step
+                    arr.push({x: i, y: high})
+                } else {
+                    // after step
+                    arr.push({x: i, y: low})
+                }
+            }
+            return arr;
+        }
+                    
+        function PA(SE, ind){
+            var val = SE * scale;
+            if ( ind > 0 ){
+                var lastVal = pa_data[ind-1].y;
+                var delta = val - lastVal;
+                if ( Math.abs(delta) > thresh ){
+                    val = lastVal + thresh*sign(delta);
+                }
+            }
+            return val;
         }
         
         // UI SLIDERS
         var recompute_pa = function(){
             for (var i = 0; i < se_graph.series[0].data.length; i++) {
-                var SE = se_graph.series[0].data[i].y;
-                var val = SE * scale;
-                if ( pa_data.length > 1 ){
-                    var lastVal = pa_data[pa_data.length-1].y;
-                    var delta = val - lastVal;
-                    if ( Math.abs(delta) > thresh ){
-                        val = lastVal + thresh*sign(delta);
-                    }
-                }
-                pa_graph.series[0].data[i].y = val;
+                pa_graph.series[0].data[i].y = PA(se_graph.series[0].data[i].y, i);
             }
         };
         
         $(function() {
-            $( "#scale_slider" ).slider({value:70});
+            $( "#scale_slider" ).slider({value:70, 
+                change: function(event, ui) {
+                    scale = mapScale(ui.value);
+                    recompute_pa();
+                    pa_graph.render();
+                } 
+            });
             
-            $( "#response_slider" ).slider({value:10});
+            $( "#response_slider" ).slider({value:10,
+                change: function(event, ui) {
+                    thresh = mapThresh(ui.value);
+                    recompute_pa();
+                    pa_graph.render();
+                }
+            });
             
-            $( "#time_slider").slider({step:1, value:[100]});
+            $( "#time_slider").slider({step:1, value:[100],
+                change: function(event, ui){
+                    var maxTime = ui.value;
+                    var samp = sampleData(timeStart, timeStop);
+                    for (var i = 0; i < se_graph.series[0].data.length; i++ ){ 
+                        // zero out later points
+                        if(i > ui.value/100*se_graph.series[0].data.length){
+                            pa_graph.series[0].data[i].y = 0;
+                            se_graph.series[0].data[i].y = 0;
+                        // reset earlier points (for when increasing)
+                        } else {
+                            se_graph.series[0].data[i].y = samp[i].y;
+                            pa_graph.series[0].data[i].y = PA(samp[i].y, i);
+                        }
+                    }
+                    pa_graph.render();
+                    se_graph.render();
+                }
+            });
         });
         
         var thresh = mapThresh(10);
@@ -121,33 +186,13 @@
             series: [{
                 name: 'SE',
                 color: 'darkred',
-                data: [ 
-                    { x: 0, y: 1 }, 
-                    { x: 1, y: 1 }, 
-                    { x: 2, y: 5 }, 
-                    { x: 3, y: 5 }, 
-                    { x: 4, y: 5 },
-                    { x: 5, y: 1 },
-                    { x: 6, y: 1 },
-                    { x: 7, y: 1 },
-                    { x: 8, y: 1 },
-                    { x: 9, y: 1 } ]
+                data: sampleData(timeStart,timeStop)
             }]
         });
         
         var pa_data = [];
         for (var i = 0; i < se_graph.series[0].data.length; i++) {
-            var SE = se_graph.series[0].data[i].y;
-            var val = SE * scale;
-            if ( pa_data.length > 1 ){
-                var lastVal = pa_data[pa_data.length-1].y;
-                var delta = val - lastVal;
-                if ( Math.abs(delta) > thresh ){
-                    val = lastVal + thresh*sign(delta);
-                }
-            }
-            
-            pa_data.push({x: i, y: val});
+            pa_data.push({x: i, y: PA(se_graph.series[0].data[i].y, i)});
         }
          
         var pa_graph = new Rickshaw.Graph( {
