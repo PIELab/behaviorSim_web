@@ -30,6 +30,9 @@
         }
         
     </style>
+
+    <!-- (Optional) tourist tour css -->
+    <link rel="stylesheet" href="/css/tourist.css" type="text/css" media="screen">
     
     <!-- rickshaw for charts -->
     <link type="text/css" rel="stylesheet" href="/css/rickshaw/detail.css">
@@ -237,6 +240,52 @@
         se_graph.render();
         pa_graph.render();
     
-    </script> 
+    </script>
+
+    <!-- tourist.js guided tour -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="/js/lib/tourist.js"></script>
+    <script type="text/javascript">
+        var steps = [{
+          content: "<p>So let's imagine that we want to measure physical activity.</p>",
+          highlightTarget: true,
+          nextButton: true,
+          target: $('#pa_graph'),
+          my: 'top center',
+          at: 'bottom center'
+        }, {
+          content: '<p>And we think physical activity (PA) is influenced by self-efficacy.</p>',
+          highlightTarget: true,
+          nextButton: true,
+          target: $('#se_graph'),
+          my: 'top center',
+          at: 'bottom center'
+        }, {
+            content: '<p> These sliders tweak the model which describes how SE influences PA. See how moving them changes the response of PA level.</p>',
+            highlightTarget: true,
+            nextButton: true,
+            target: $('#response_slider'),
+            my: 'top center',
+            at: 'bottom center'
+        }, {
+            content: '<p> This slider represents the current time shown on the charts. This way you can imagine the data part-way through an experiment.</p>',
+            highlightTarget: true,
+            nextButton: true,
+            target: $('#time_slider'),
+            my: 'bottom center',
+            at: 'bottom center'
+        }
+        ]
+
+        var tour = new Tourist.Tour({
+          steps: steps,
+          tipClass: 'Bootstrap',
+          tipOptions:{ showEffect: 'slidein' }
+        });
+        tour.start();
+    </script>
+
 
 </body>
