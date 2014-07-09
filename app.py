@@ -52,7 +52,7 @@ def studyConclude():
 
 @app.route("/think")
 def makeThink():
-    return template('tpl/pages/think', CONFIG=CONFIG, simManager=sim_manager, time_scales=TIME_SCALES)
+    return template('tpl/pages/think/think', CONFIG=CONFIG, simManager=sim_manager, time_scales=TIME_SCALES)
 
 @app.route("/think/CSMB")
 def makeCSMB():
@@ -60,7 +60,7 @@ def makeCSMB():
 
 @app.route("/draw")
 def makeDraw():
-	return template('tpl/pages/draw', CONFIG=CONFIG, simManager=sim_manager)
+	return template('tpl/pages/draw/draw', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/draw/infoFlow")
 def makeInfoFLow():
@@ -74,6 +74,10 @@ def makeMedMod():
 def makeSpec():
 	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
 
+@app.route("/tutorial" )
+def makeTutorial():
+    return template('tpl/pages/tutorial', CONFIG=CONFIG, simManager=sim_manager)
+
 #=====================================#
 #           data recievers            #
 #=====================================#
@@ -86,7 +90,13 @@ def recieveVarList():
     print 'measurement vars added to model:',ctx,'; ',ctr,'; ',bvr,'\n'
     redirect( '/draw' )
 
-
+@app.post('/draw/submit')
+def recieveDSL():
+    DSL= request.forms.get('DSL')
+    sim_manager.updateDSL(DSL)
+    print 'new DSL recieved.'
+    return 'DSL recieved.'
+    
 #=====================================#
 #      websockets (currently unused)  #
 #=====================================#

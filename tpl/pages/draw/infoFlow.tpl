@@ -82,6 +82,15 @@
                 <div id="canvas"> </div>
             </div>
         </div>
+    </div>
+    
+    <br>
+    
+    <a class="myButton" id="done-btn">Done</a>
+
+	%include('tpl/pageBits/nav')
+        
+        
         <script type="text/coffeescript">
 
 ### all this is diagramophone controls that I don't yet fully understand ###
@@ -131,13 +140,21 @@ $listen submodel_inserter, 'click', =>
         @controller.makeItGo(textarea.value, paper, fontBtn.checked)
     else
         console.log('unrecognized submodel value "'+submodel_selector.value+'"')
+        
+        
+### submit button ###
+doneBtn = document.getElementById("done-btn")
+
+$listen doneBtn, 'click', =>
+    # post the DSL to the server    
+    $.post '/draw/submit',
+        DSL: textarea.value
+        (data) -> window.location = '/specify'
+    
+
+
+
 </script>
 
-    </div>
-    
-    <br>
-    
-    <a href="/studyConclude" class="myButton">Done</a>
 
-	%include('tpl/pageBits/nav')
 </body>
