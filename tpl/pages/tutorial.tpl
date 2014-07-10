@@ -56,11 +56,18 @@
     <div id='scale_slider'></div>
     <div id='response_slider'></div>
     <br>
-    Time-Warp:
+    <strong>Time-Warp:</strong>
+    <table style="width:100%">
+        <tr>
+            <td align="left">
+                Experiment Start
+            </td>
+            <td align="right">
+                Experiment End
+            </td>
+        </tr>
+    </table>
     <div id='time_slider'></div>
-    
-
-
     
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
     <script src="/js/lib/d3.layout.min.js"></script> 
@@ -253,22 +260,22 @@
           highlightTarget: true,
           nextButton: true,
           target: $('#pa_graph'),
-          my: 'top center',
-          at: 'bottom center'
+          my: 'left center',
+          at: 'right center'
         }, {
           content: '<p>And we think physical activity (PA) is influenced by self-efficacy.</p>',
           highlightTarget: true,
           nextButton: true,
           target: $('#se_graph'),
-          my: 'top center',
-          at: 'bottom center'
+          my: 'left center',
+          at: 'right center'
         }, {
             content: '<p> These sliders tweak the model which describes how SE influences PA. See how moving them changes the response of PA level.</p>',
             highlightTarget: true,
             nextButton: true,
-            target: $('#response_slider'),
-            my: 'top center',
-            at: 'bottom center'
+            target: $('#scale_slider'),
+            my: 'bottom center',
+            at: 'top center'
         }, {
             content: '<p> This slider represents the current time shown on the charts. This way you can imagine the data part-way through an experiment.</p>',
             highlightTarget: true,
@@ -286,6 +293,4 @@
         });
         tour.start();
     </script>
-
-
 </body>
