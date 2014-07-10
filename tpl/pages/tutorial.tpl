@@ -56,7 +56,17 @@
     <div id='scale_slider'></div>
     <div id='response_slider'></div>
     <br>
-    Time-Warp:
+    <strong>Time-Warp:</strong>
+    <table style="width:100%">
+        <tr>
+            <td align="left">
+                Experiment Start
+            </td>
+            <td align="right">
+                Experiment End
+            </td>
+        </tr>
+    </table>
     <div id='time_slider'></div>
     
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
