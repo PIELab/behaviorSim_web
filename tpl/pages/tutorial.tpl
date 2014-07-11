@@ -69,6 +69,14 @@
     </table>
     <div id='time_slider'></div>
 
+    <br>
+
+    <div>
+        <a href="/tutorial/2" class="myButton">Let's add more variables!</a>
+        <a href="#" class="disabledButton">Explain this more (TODO: with tooltips)</a>
+    </div>
+
+
     <!-- rickshaw graphs -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
     <script src="/js/lib/d3.layout.min.js"></script> 
