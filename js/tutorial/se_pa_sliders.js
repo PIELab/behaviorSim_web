@@ -20,7 +20,6 @@ $(function() {
     $( "#time_slider").slider({step:1, value:[100],
         change: function(event, ui){
             var maxTime = ui.value;
-            var samp = sampleData(timeStart, timeStop);
             for (var i = 0; i < se_graph.series[0].data.length; i++ ){
                 // zero out later points
                 if(i > ui.value/100*se_graph.series[0].data.length){
@@ -28,8 +27,8 @@ $(function() {
                     se_graph.series[0].data[i].y = 0;
                 // reset earlier points (for when increasing)
                 } else {
-                    se_graph.series[0].data[i].y = samp[i].y;
-                    pa_graph.series[0].data[i].y = PA(samp[i].y, i);
+                    se_graph.series[0].data[i].y = se_data[i].y;
+                    pa_graph.series[0].data[i].y = PA(se_data[i].y, i);
                 }
             }
             pa_graph.render();
