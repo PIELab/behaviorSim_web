@@ -66,9 +66,16 @@ def makeMedMod():
 def makeSpec():
 	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
 
-@app.route("/tutorial" )
-def makeTutorial():
-    return template('tpl/pages/tutorial', CONFIG=CONFIG, simManager=sim_manager)
+@app.route('/tutorial')
+@app.route('/tutorial/')
+@app.route("/tutorial/<page>" )
+def makeTutorial(page=None):
+    if page == '1' or page is None:
+        return template('tpl/pages/tutorial', CONFIG=CONFIG, simManager=sim_manager)
+    elif page == '2':
+        return template('tpl/pages/tutorial_2', CONFIG=CONFIG, simManager=sim_manager)
+    else:
+        raise NotImplementedError('unknown tutorial page request for pg #'+str(page))
 
 #=====================================#
 #           data recievers            #

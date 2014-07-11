@@ -5,27 +5,27 @@
     <style>
     	#pa_graph {
 		position:absolute;
-		top: 85px; /* 10px; */
-		left: 525px;
+		top: 245px; /* 10px; */
+		left: 965px;
         }
 
         #se_graph {
             position:absolute;
-            top: 85px; /* 10px; */
-            left: 15px;
+            top: 245px; /* 10px; */
+            left: 455px;
         }
         
         #scale_slider{
             position:absolute;
-            top: 320;
-            left: 200;
+            top: 480;
+            left: 640;
             width: 370;
         }
         
         #response_slider{
             position:absolute;
-            top: 420;
-            left: 200;
+            top: 580;
+            left: 640;
             width: 370;
         }
         
@@ -45,7 +45,7 @@
     <meta name="description" content="behavioral modeling for all">
     <meta name="author" content="USF PIE Lab">
     
-    <object type="image/svg+xml" data="/img/tutorial.svg">Your browser does not support SVG. :(</object>
+    <object type="image/svg+xml" data="/img/tutorial_p2.svg">Your browser does not support SVG. :(</object>
     
     <div id='pa_graph'></div>
     <div id='se_graph'></div>
@@ -68,11 +68,11 @@
         </tr>
     </table>
     <div id='time_slider'></div>
-
-    <!-- rickshaw graphs -->
+    
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
     <script src="/js/lib/d3.layout.min.js"></script> 
     <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
+
     <script type="text/javascript" src="/js/tutorial/base_config.js"></script>
     <script>
         // sample data to use for SE
@@ -83,11 +83,11 @@
             var low = 1;
             var high = 5;
             var t_step = 1;
-            
+
             var range = stop-start;
             var stp_strt = stp_strt_percent*range+start;
             var stp_stop = stp_stop_percent*range+start;
-            
+
             var arr = [];
             for (var i = start; i<stop; i = i+t_step){
                 if (i < stp_strt){
