@@ -24,15 +24,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="564.67829"
-     inkscape:cy="272.74749"
+     inkscape:cx="560.197"
+     inkscape:cy="315.26534"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1280"
-     inkscape:window-height="949"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-height="741"
+     inkscape:window-x="1271"
+     inkscape:window-y="247"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -401,15 +401,65 @@
          y="-424.73425">Number of comlpiments given</tspan></text>
     <path
        style="fill:none;stroke:#5d5d5d;stroke-width:8.9457283;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2MendnI)"
-       d="m -207.56725,-520.02706 155.987789,153.60525"
+       d="m -207.56725,-520.02706 155.987789,163.60525"
        id="path3836-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#5d5d5d;stroke-width:8.9457283;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2MendnI)"
-       d="M -207.56725,-172.81657 -51.579461,-326.42181"
+       d="M -207.56725,-172.81657 -51.579461,-340.42181"
        id="path3836-5-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
+    <path
+       style="fill:#e0e0e0;fill-opacity:1;stroke:#6e6e6e;stroke-width:2.19799995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -51.579461,-348.42181 -110.832029,-11.66629 0,-3.18035 c 0,-6.08966 -4.00555,-10.98425 -8.98036,-10.98425 l -127.87018,0 c -4.97481,0 -8.98036,4.89459 -8.98036,10.98425 l 0,29.69331 c 0,6.08966 4.00555,10.98425 8.98036,10.98425 l 127.87018,0 c 4.97481,0 8.98036,-17.07391 8.98036,-10.98425 l 0,-3.18036 z"
+       id="path5026-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccsssssssscc" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#333333;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+       x="-284.24677"
+       y="-342.69135"
+       id="text3007-1-4-8-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3009-7-0-8-6"
+         x="-284.24677"
+         y="-342.69135">      =       +   </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#800000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+       x="-287.93527"
+       y="-343.22678"
+       id="text3007-1-4-8-1-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3009-7-0-8-6-5"
+         x="-287.93527"
+         y="-343.22678">SE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#d45500;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+       x="-246.29727"
+       y="-343.26117"
+       id="text3007-1-4-8-1-8-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3009-7-0-8-6-5-6"
+         x="-246.29727"
+         y="-343.26117">VP</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#008000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+       x="-206.10452"
+       y="-342.65424"
+       id="text3007-1-4-8-1-8-7-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3009-7-0-8-6-5-6-8"
+         x="-206.10452"
+         y="-342.65424">VE</tspan></text>
   </g>
 </svg>

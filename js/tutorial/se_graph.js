@@ -1,4 +1,11 @@
-var se_data = sampleData(timeStart,timeStop);
+function SE(vp, ve){
+    return vp+ve;
+}
+
+var se_data = [];
+for (var i = 0; i < ve_data.length; i++) {
+    se_data.push({x: i, y: SE(ve_data[i].y, vp_data[i].y)});
+}
 
 var se_graph = new Rickshaw.Graph( {
     element: document.querySelector("#se_graph"),

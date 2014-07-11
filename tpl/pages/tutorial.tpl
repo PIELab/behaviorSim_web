@@ -83,34 +83,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
     <script type="text/javascript" src="/js/tutorial/base_config.js"></script>
     <script>
-        // sample data to use for SE
-        function sampleData(start,stop){
-            // returns array of x,y points between time start & stop with a step function in it
-            var stp_strt_percent = .20;
-            var stp_stop_percent = .50;
-            var low = 1;
-            var high = 5;
-            var t_step = 1;
-            
-            var range = stop-start;
-            var stp_strt = stp_strt_percent*range+start;
-            var stp_stop = stp_stop_percent*range+start;
-            
-            var arr = [];
-            for (var i = start; i<stop; i = i+t_step){
-                if (i < stp_strt){
-                    //before step
-                    arr.push({x: i, y: low})
-                } else if( i < stp_stop){
-                    // in step
-                    arr.push({x: i, y: high})
-                } else {
-                    // after step
-                    arr.push({x: i, y: low})
-                }
-            }
-            return arr;
-        }
+
+        var vp_data = sampleData(timeStart, timeStop, .2, .5, 1, 6);
+        var ve_data = sampleData(timeStart, timeStop, .1, .9, 0, 0);
+
     </script>
     <script type="text/javascript" src="/js/tutorial/se_graph.js"></script>
     <script type="text/javascript" src="/js/tutorial/pa_graph.js"></script>

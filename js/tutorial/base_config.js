@@ -17,3 +17,28 @@ function mapScale(percent){
 
 var thresh = mapThresh(10);
 var scale  = mapScale(70);
+
+// sample data to use for SE
+function sampleData(start, stop, stp_strt_percent, stp_stop_percent, low, high){
+    // returns array of x,y points between time start & stop with a step function in it
+    var t_step = 1;
+
+    var range = stop-start;
+    var stp_strt = stp_strt_percent*range+start;
+    var stp_stop = stp_stop_percent*range+start;
+
+    var arr = [];
+    for (var i = start; i<stop; i = i+t_step){
+        if (i < stp_strt){
+            //before step
+            arr.push({x: i, y: low})
+        } else if( i < stp_stop){
+            // in step
+            arr.push({x: i, y: high})
+        } else {
+            // after step
+            arr.push({x: i, y: low})
+        }
+    }
+    return arr;
+}
