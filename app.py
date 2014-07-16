@@ -97,7 +97,28 @@ def recieveDSL():
     sim_manager.updateDSL(DSL)
     print 'new DSL recieved.'
     return 'DSL recieved.'
-    
+
+#=====================================#
+#            test pages               #
+#=====================================#
+@app.route('/admin/tests')
+def testDisplay():
+    #shows a list of tests and links
+    testPages = {
+        'diagramophone demo page': '/js/lib/diagramophone/index.html',
+        'sim_manager debugger': '/admin/tests/sim_manager_touch'
+    }
+
+    html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n'
+    for key in testPages:
+        html += '* <a href="'+testPages[key]+'">'+key+'</a>\n<br>\n'
+    html += '</h3>\n</body>'
+    return html
+
+@app.route('/admin/tests/sim_manager_touch')
+def sim_manager_test():
+    return '<textarea style="width:800px" rows=20>'+repr(sim_manager)+'</textarea>';
+
 #=====================================#
 #      websockets (currently unused)  #
 #=====================================#
