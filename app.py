@@ -74,6 +74,8 @@ def makeTutorial(page=None):
         return template('tpl/pages/tutorial', CONFIG=CONFIG, simManager=sim_manager)
     elif page == '2':
         return template('tpl/pages/tutorial_2', CONFIG=CONFIG, simManager=sim_manager)
+    elif page == '3':
+        return template('tpl/pages/tutorial_3', CONFIG=CONFIG, simManager=sim_manager)
     else:
         raise NotImplementedError('unknown tutorial page request for pg #'+str(page))
 

@@ -70,6 +70,13 @@
     <div id='scale_slider'></div>
     <div id='response_slider'></div>
 
+    <br>
+
+    <div>
+        <a href="/tutorial/3" class="myButton">I'm ready to add my own variables.</a>
+        <a href="#" class="disabledButton">Explain this more. (TODO: with tooltips)</a>
+    </div>
+
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
@@ -94,12 +101,52 @@
     <script src="/js/lib/tourist.js"></script>
     <script type="text/javascript">
         var steps = [{
-            content: '<p> This slider represents the current time shown on the charts. This way you can imagine the data part-way through an experiment.</p>',
+            content: "<p> Now We've added Verbal Persuasion and Vicarious Experience.</p>",
             highlightTarget: true,
             nextButton: true,
-            target: $('#time_slider'),
+            target: $('#vp_graph'),
+            my: 'left center',
+            at: 'right center'
+        },
+        {
+            content: '<p> VP and VE are simply added together to get SE.</p>',
+            highlightTarget: false,
+            nextButton: true,
+            target: $('#se_graph'),
             my: 'bottom center',
-            at: 'bottom center'
+            at: 'top center'
+        },
+        {
+            content: '<p> The functional definition of PA(SE) remains the same. </p>',
+            highlightTarget: false,
+            nextButton: true,
+            target: $('#pa_graph'),
+            my: 'bottom right',
+            at: 'top left'
+        },
+        {
+            content: '<p> In a real experiment we can measure VP and VE as "context variables". </p>',
+            highlightTarget: false,
+            nextButton: true,
+            target: $('#ve_graph'),
+            my: 'bottom center',
+            at: 'top center'
+        },
+        {
+            content: '<p> SE is an "internal state variable" of this human system model. </p>',
+            highlightTarget: false,
+            nextButton: true,
+            target: $('#se_graph'),
+            my: 'bottom center',
+            at: 'top center'
+        },
+        {
+            content: '<p> and PA is a measured behavior. </p>',
+            highlightTarget: false,
+            nextButton: true,
+            target: $('#pa_graph'),
+            my: 'bottom center',
+            at: 'top center'
         }
         ];
 
@@ -108,6 +155,6 @@
           tipClass: 'Bootstrap',
           tipOptions:{ showEffect: 'slidein' }
         });
-        // tour.start();
+        tour.start();
     </script>
 </body>
