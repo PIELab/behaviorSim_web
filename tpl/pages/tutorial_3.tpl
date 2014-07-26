@@ -9,16 +9,16 @@
         <meta name="author" content="Monica Dinculescu">
 
         <!-- prettify things (diagramophone) -->
-        <!--<link href="/js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">-->
+        <!--<link href="/js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet"> (it's already loaded)-->
         <link rel="stylesheet/less" type="text/css" href="/js/lib/diagramophone/style.less">
         <script src="/js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
+
         <!-- chosen -->
         <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
 
         <!-- things you need to run -->
         <script src="/js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
         <script src="/js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
-
 
         <!-- my stuff -->
         <script src="/js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="left-column col-md-6">
+            <div class="left-column col-md-4">
                 <div class="title" style="overflow:hidden">Code your diagram here
                     <button class="btn btn-primary btn-mini" id="diagramophone" style="float: right">GO</button>
                 </div>
@@ -76,7 +76,7 @@
                 </label>
             </div>
 
-            <div class="diagram-column col-md-6">
+            <div class="diagram-column col-md-8">
                 <div class="title" style="overflow:hidden">Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
                     <button class="btn btn-primary btn-mini" id="saveIt">SAVE IT</button>
                 </div>
