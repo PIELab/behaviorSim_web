@@ -1,7 +1,8 @@
+from py.Model.InfoFlow.InfoFlowNode import InfoFlowNode
+from py.Model.directed_graph.DirectedGraph import DirectedGraph
+
 __author__ = 'tylarmurray'
 
-from py.directed_graph.DirectedGraph import DirectedGraph
-from py.directed_graph.InfoFlowNode import InfoFlowNode
 
 class InfoFlowGraph(DirectedGraph):
     '''

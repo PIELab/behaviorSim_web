@@ -3,9 +3,11 @@ This class manages a simulation and all data/interaction surrounding it.
 '''
 
 from itertools import cycle
+
+from py.Model.InfoFlow.InfoFlowGraph import InfoFlowGraph
+
 from py.config import DEBUG
 
-from py.directed_graph.InfoFlowGraph import InfoFlowGraph
 
 TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs

@@ -1,8 +1,9 @@
+from py.Model.InfoFlow.InfoFlowGraph import InfoFlowGraph
+
 __author__ = 'tylarmurray'
 
 import unittest
 
-from py.directed_graph.InfoFlowGraph import InfoFlowGraph
 
 class infoFlowGraph_tester(unittest.TestCase):
 

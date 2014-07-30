@@ -3,7 +3,7 @@ __author__ = 'tylar'
 ''' unit test for DirectedGraph '''
 import unittest
 
-from py.directed_graph.DirectedGraph import DirectedGraph
+from py.Model.directed_graph.DirectedGraph import DirectedGraph
 
 class DG_tester(unittest.TestCase):
 

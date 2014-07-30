@@ -1,6 +1,7 @@
+from py.Model.directed_graph.Node import Node
+
 __author__ = 'tylar'
 
-from py.directed_graph.Node import Node
 
 class DirectedGraph(object):
     '''

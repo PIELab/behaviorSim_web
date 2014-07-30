@@ -1,6 +1,6 @@
-__author__ = 'tylarmurray'
+from py.Model.directed_graph.Node import Node
 
-from py.directed_graph.Node import Node
+__author__ = 'tylarmurray'
 
 NODE_TYPES = ['context', 'construct', 'behavior']
 
