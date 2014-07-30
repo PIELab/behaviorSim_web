@@ -5,37 +5,32 @@ This class manages a simulation and all data/interaction surrounding it.
 from itertools import cycle
 
 from py.Model.InfoFlow.InfoFlowGraph import InfoFlowGraph
+from py.Model.Model import Model
 
 from py.config import DEBUG
-
 
 TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 
 class SimManager(object):
     def __init__(self):
-        # TODO: replace these with model object instance or something better:
-        self.MODEL_CONTEXTS = None
-        self.MODEL_CONSTRUCTS = None
-        self.MODEL_BEHAVIORS = None
-        self.DSL = None
-        self.DLS_type = None
+        self.model = Model()
 
-        self.infoFlow = InfoFlowGraph()
-        self.selectedNode = None  # used like a cursor which contains the name of the node we are focused on
 
+        # model state TODO: should be it's own class? Basically just a boolean array though...
         self.measurementsSet = False  # true if context/behavior vars have been given
         self.connectionsMade = False  # true if vars/construct node connections have been drawn
         self.formulated      = False  # true if node connection formulas have been specified
+
+
+        self.selectedNode = None  # used like a cursor which contains the name of the node we are focused on
 
     def addMeasures(self, contexts, constructs, behaviors):
         '''
         Adds given measurements to the model.
         TODO: Should iterate over cntx, constr, and behav then create var in the model instance for each var...
         '''
-        self.MODEL_CONTEXTS = contexts
-        self.MODEL_CONSTRUCTS = constructs
-        self.MODEL_BEHAVIORS = behaviors
+        self.model.setMeasures(contexts,constructs,behaviors)
         self.measurementsSet = True
 
     def _initInfoFlowDSL(self):
@@ -46,17 +41,17 @@ class SimManager(object):
 
         try:
             # create cycle to loop through constructs so we get even distribution of connections
-            if self.MODEL_CONSTRUCTS is not None and self.MODEL_CONSTRUCTS > 0:
-                cstr = cycle(self.MODEL_CONSTRUCTS)
+            if self.model.MODEL_CONSTRUCTS is not None and self.model.MODEL_CONSTRUCTS > 0:
+                cstr = cycle(self.model.MODEL_CONSTRUCTS)
             else:
                 cstr = cycle(['???'])
 
             # connect contexts to constructs
-            for ctx in self.MODEL_CONTEXTS:
+            for ctx in self.model.MODEL_CONTEXTS:
                 DSLstr += ctx + r' -> ' + cstr.next() +'\n'
 
             # connect constructs to behaviors
-            for bvr in self.MODEL_BEHAVIORS:
+            for bvr in self.model.MODEL_BEHAVIORS:
                 DSLstr += cstr.next() + ' -> ' + bvr + '\n'
         except TypeError as e:
             print '\n\n context, construct, and/or behaviors have not been set yet. Cannot make graph!\n\n'
@@ -71,8 +66,8 @@ class SimManager(object):
         '''
         returns Diagram Specification Language for current information flow diagram
         '''
-        if self.DSL is not None:
-            return self.DSL
+        if self.model.DSL is not None:
+            return self.model.DSL
         else:
             DSLstr = self._initInfoFlowDSL()
 
@@ -86,7 +81,7 @@ class SimManager(object):
         returns the next node which needs specification. assumes DSL is in place.
         '''
         if self.DSL is not None:
-            self.selectedNode = self.infoFlow.getNextNodeToSpec()
+            self.selectedNode = self.model.infoFlow.getNextNodeToSpec()
             return self.selectedNode
         else:
             raise AssertionError('DSL must be set before specifying nodes.')
@@ -103,6 +98,4 @@ class SimManager(object):
         '''
         sets the Diagram Specification Language spec for the model
         '''
-        self.DSL = newDSL
-        self.DSL_type = type
-        self.infoFlow = InfoFlowGraph(DSL=newDSL)
+        self.model.updateDSL(newDSL,type)

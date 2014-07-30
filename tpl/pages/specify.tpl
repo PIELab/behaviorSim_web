@@ -140,7 +140,7 @@
     </script>
 
     <script type="text/coffeescript">
-        selectedNode = "constr2"  # TODO: use something like  simManager.getNextNodeToSpec() 
+        selectedNode = "constr2"  # TODO: use something like  simManager.getNextNode()
         ### main diagram display (with highlighted node) ###
         @controller = new Controller
 
