@@ -5,6 +5,8 @@ This class manages a simulation and all data/interaction surrounding it.
 from itertools import cycle
 from py.config import DEBUG
 
+from py.directed_graph.InfoFlowGraph import InfoFlowGraph
+
 TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 
@@ -17,7 +19,8 @@ class SimManager(object):
         self.DSL = None
         self.DLS_type = None
 
-        self._sources = None # list of source vertices
+        self.infoFlow = InfoFlowGraph()
+        self.selectedNode = None  # used like a cursor which contains the name of the node we are focused on
 
         self.measurementsSet = False  # true if context/behavior vars have been given
         self.connectionsMade = False  # true if vars/construct node connections have been drawn
@@ -80,6 +83,11 @@ class SimManager(object):
         '''
         returns the next node which needs specification. assumes DSL is in place.
         '''
+        if self.DSL is not None:
+            self.selectedNode = self.infoFlow.getNextNodeToSpec()
+            return self.selectedNode
+        else:
+            raise AssertionError('DSL must be set before specifying nodes.')
 
 
     def getInfoFlowDSL_closeup(self, selectedNode):
@@ -95,3 +103,4 @@ class SimManager(object):
         '''
         self.DSL = newDSL
         self.DSL_type = type
+        self.infoFlow = InfoFlowGraph(DSL=newDSL)

@@ -5,7 +5,7 @@ import unittest
 
 from py.directed_graph.DirectedGraph import DirectedGraph
 
-class basic_leveling_check(unittest.TestCase):
+class DG_tester(unittest.TestCase):
 
     def test_DSL_init(self):
         dsl = ur'ctx2 -> constr2\n constr2 -> constr3'
@@ -18,14 +18,3 @@ class basic_leveling_check(unittest.TestCase):
         dsl = ur'ctx2 -> constr2\n constr2 -> constr3\n notWholeLineHere'
         self.assertRaises(Warning, DirectedGraph, DSL=dsl)
 
-    def test_specify_nodes(self):
-        dsl = ur'ctx2 -> constr2\n constr2 -> constr3'
-        dg = DirectedGraph(DSL=dsl)
-        nodes = ['ctx2', 'constr2', 'constr3']
-
-        for i in range(len(nodes)):
-            nextNode = dg.getNextNodeToSpec()
-            self.assertIn(nextNode, nodes)
-            dg.getNode(nextNode).defined = True
-
-        self.assertIsNone(dg.getNextNodeToSpec())

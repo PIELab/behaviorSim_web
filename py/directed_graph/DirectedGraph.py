@@ -13,41 +13,6 @@ class DirectedGraph(object):
         else:
             self.createFromDSL(DSL)
 
-    def isDefined(self):
-        '''
-        :return: True if all nodes are defined
-        '''
-        for node in self._nodes:
-            if node.defined == False:
-                return False
-        else:
-            return True
-
-    def getNextNodeToSpec(self):
-        '''
-
-        :return: the name of the next node which needs specification.
-        '''
-        # define nodes with defined (or no) inputs first
-        for node in self._nodes:
-            if node.defined:
-                continue
-            elif node.readyToSpec():
-                return node.name
-            else:
-                continue
-        else:
-            if self.isDefined():
-                return None  # all nodes defined
-            else:  # there must be a cycle, select nodes even if not "ready"
-                for node in self._nodes:
-                    if node.defined:
-                        continue
-                    else:
-                        return node.name
-                else:
-                    raise ArithmeticError('something went wrong with node getter. graph not complete, but all nodes are defined.')
-
     def getNode(self, nodeName):
         '''
         returns node object for given node name
@@ -107,7 +72,6 @@ class DirectedGraph(object):
         '''
         for line in DSL.split('\\n'):
             tokens = line.split()
-            print tokens
             try:
                 fromNode = tokens[0]
                 op = tokens[1]
