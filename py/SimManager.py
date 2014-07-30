@@ -18,6 +18,8 @@ class SimManager(object):
         self.DSL = None
         self.DLS_type = None
 
+        self._sources = None # list of source vertices
+
         self.measurementsSet = False  # true if context/behavior vars have been given
         self.connectionsMade = False  # true if vars/construct node connections have been drawn
         self.formulated      = False  # true if node connection formulas have been specified
@@ -82,6 +84,12 @@ class SimManager(object):
                 DSLstr+=ur'\n'+str(highlightedNode)+ur' {'+HIGHLIGHT_COLOR+ur'}\n'
 
             return DSLstr
+
+    def getNextNode(self):
+        '''
+        returns the next node which needs specification. assumes DSL is in place.
+        '''
+
 
     def getInfoFlowDSL_closeup(self, selectedNode):
         '''
