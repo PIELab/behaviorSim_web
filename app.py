@@ -119,37 +119,13 @@ def testDisplay():
 def sim_manager_test():
     return '<textarea style="width:800px" rows=20>'+repr(sim_manager)+'</textarea>';
 
-#=====================================#
-#      websockets (currently unused)  #
-#=====================================#
-@app.route('/websocket')
-def handle_websocket():
-    wsock = request.environ.get('wsgi.websocket')
-    if not wsock:
-        abort(400, 'Expected WebSocket request.')
-
-    while True:
-        try:
-            message = wsock.receive()
-            print "received : "+str(message)
-            sim_manager.parseMessage(message, wsock)
-
-        except WebSocketError:
-            break
-
 
 #=====================================#
 #          WEB SERVER START           #
 #=====================================#
 if __name__ == "__main__":
 
-    from gevent.pywsgi import WSGIServer
-    from geventwebsocket.handler import WebSocketHandler
-    from geventwebsocket import WebSocketError
+    port = int(os.environ.get("PORT", 8000))
 
-    port = int(os.environ.get("PORT", 8080))
-    server = WSGIServer(("0.0.0.0", port), app,
-                        handler_class=WebSocketHandler)
     print 'starting server on '+str(port)
-    server.serve_forever()
-    # ^that^ == app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)

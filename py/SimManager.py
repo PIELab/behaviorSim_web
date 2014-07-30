@@ -2,7 +2,6 @@
 This class manages a simulation and all data/interaction surrounding it.
 '''
 
-from py import webSocketParser
 from itertools import cycle
 from py.config import DEBUG
 
@@ -23,14 +22,6 @@ class SimManager(object):
         self.measurementsSet = False  # true if context/behavior vars have been given
         self.connectionsMade = False  # true if vars/construct node connections have been drawn
         self.formulated      = False  # true if node connection formulas have been specified
- 
-
-        # === NOTE: sockets are not used currently ====================
-        self.sockets = list() # list of all websocket connections open 
-        # self.environment = Environment()
-        # =============================================================
-
-        self.parseMessage = webSocketParser.parse
 
     def addMeasures(self, contexts, constructs, behaviors):
         '''
@@ -104,13 +95,3 @@ class SimManager(object):
         '''
         self.DSL = newDSL
         self.DSL_type = type
-
-    # === NOTE: sockets are not used currently ===================================================
-    def sendAll(self, m, originator=None, supress=False):
-        # sends message to all open websocket connections except for the originator websocket
-        for sock in self.sockets:
-            if sock != originator:
-                sock.send(m)
-        if supress == False:
-            print 'broadcast message: ', m, ' from ...' #TODO: get originator client ID
-    # ============================================================================================
