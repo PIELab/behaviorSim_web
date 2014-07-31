@@ -18,3 +18,11 @@ class DG_tester(unittest.TestCase):
         dsl = ur'ctx2 -> constr2\n constr2 -> constr3\n notWholeLineHere'
         self.assertRaises(Warning, DirectedGraph, DSL=dsl)
 
+    def test_get_node(self):
+        dsl = ur'ctx2 -> constr2\n constr2 -> constr3'
+        dg = DirectedGraph(DSL=dsl)
+
+        self.assertIsNotNone(dg.getNode('ctx2'))
+        self.assertIsNotNone(dg.getNode('constr2'))
+        self.assertIsNotNone(dg.getNode('constr3'))
+        self.assertIsNone(dg.getNode('this_is_not_a_real_node_name'))

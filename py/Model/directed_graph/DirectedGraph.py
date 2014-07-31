@@ -65,12 +65,19 @@ class DirectedGraph(object):
         else:
             raise NotImplementedError('node connection type"'+connectType+'" not implemented')
 
+    def reset(self):
+        """
+        clears all nodes
+        """
+        self._nodes = list()
+
     def createFromDSL(self, DSL):
         """
         creates directed graph from given dsl.
         :param DSL: diagram specification language string
         :return:
         """
+        self.reset()
         for line in DSL.split('\\n'):
             tokens = line.split()
             try:

@@ -12,12 +12,9 @@ from py.config import DEBUG
 TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 
-class SimManager(object):
+class SimManager(ModelBuilder):
     def __init__(self):
-        self.model = Model()
-
-        self.model_builder = ModelBuilder()
-
+        self.setModel(Model())
 
     def addMeasures(self, contexts, constructs, behaviors):
         """
@@ -83,8 +80,3 @@ class SimManager(object):
         """
         return self.model_builder.getInfoFlowDSL_closeup(selectedNode)
 
-    def updateDSL(self, newDSL, type="info-flow"):
-        """
-        sets the Diagram Specification Language spec for the model
-        """
-        self.model.updateDSL(newDSL, type)
