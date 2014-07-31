@@ -14,9 +14,9 @@ CHOSEN_JS_URL  = '/js/lib/chosen.jquery.min.js' # url to retrieve chosen's js. (
 #######################
 
 class Config(object):
-    '''
+    """
     class for creating configs and using the global var values
-    '''
+    """
     def __init__(self, debug=DEBUG, chosen_css_url=CHOSEN_CSS_URL, chosen_js_url=CHOSEN_JS_URL):
         self.DEBUG = debug
         self.CHOSEN_CSS_URL = chosen_css_url

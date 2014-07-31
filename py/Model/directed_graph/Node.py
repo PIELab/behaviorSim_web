@@ -1,9 +1,9 @@
 __author__ = 'tylar'
 
 class Node(object):
-    '''
+    """
     Node in the Directed Graph
-    '''
+    """
     def __init__(self, name):
         self.name = name
         self.children = list()

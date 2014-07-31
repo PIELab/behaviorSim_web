@@ -1,10 +1,10 @@
-'''
+"""
 This class manages a simulation and all data/interaction surrounding it.
-'''
+"""
 
 from itertools import cycle
 
-from py.Model.InfoFlow.InfoFlowGraph import InfoFlowGraph
+from py.ModelBuilder import ModelBuilder
 from py.Model.Model import Model
 
 from py.config import DEBUG
@@ -16,27 +16,21 @@ class SimManager(object):
     def __init__(self):
         self.model = Model()
 
+        self.model_builder = ModelBuilder()
 
-        # model state TODO: should be it's own class? Basically just a boolean array though...
-        self.measurementsSet = False  # true if context/behavior vars have been given
-        self.connectionsMade = False  # true if vars/construct node connections have been drawn
-        self.formulated      = False  # true if node connection formulas have been specified
-
-
-        self.selectedNode = None  # used like a cursor which contains the name of the node we are focused on
 
     def addMeasures(self, contexts, constructs, behaviors):
-        '''
+        """
         Adds given measurements to the model.
         TODO: Should iterate over cntx, constr, and behav then create var in the model instance for each var...
-        '''
+        """
         self.model.setMeasures(contexts,constructs,behaviors)
         self.measurementsSet = True
 
     def _initInfoFlowDSL(self):
-        '''
+        """
         Generates random-ish diagram using constructs, constructs, and behaviors to get us started.
-        '''
+        """
         DSLstr = ''
 
         try:
@@ -63,9 +57,9 @@ class SimManager(object):
         return DSLstr
 
     def getInfoFlowDSL(self, highlightedNode=None):
-        '''
+        """
         returns Diagram Specification Language for current information flow diagram
-        '''
+        """
         if self.model.DSL is not None:
             return self.model.DSL
         else:
@@ -77,25 +71,20 @@ class SimManager(object):
             return DSLstr
 
     def getNextNode(self):
-        '''
+        """
         returns the next node which needs specification. assumes DSL is in place.
-        '''
-        if self.DSL is not None:
-            self.selectedNode = self.model.infoFlow.getNextNodeToSpec()
-            return self.selectedNode
-        else:
-            raise AssertionError('DSL must be set before specifying nodes.')
+        """
+        return self.model_builder.getNextNode()
 
 
     def getInfoFlowDSL_closeup(self, selectedNode):
-        '''
+        """
         returns Diagram Spec Language showing only immediate neighbors of selectedNode, with selectedNode
-        '''
-        # TODO: use selectedNode here...
-        return ur'ctx2 -> constr2\n constr2 -> constr3\n constr2 {red}'
+        """
+        return self.model_builder.getInfoFlowDSL_closeup(selectedNode)
 
     def updateDSL(self, newDSL, type="info-flow"):
-        '''
+        """
         sets the Diagram Specification Language spec for the model
-        '''
-        self.model.updateDSL(newDSL,type)
+        """
+        self.model.updateDSL(newDSL, type)

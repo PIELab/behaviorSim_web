@@ -5,19 +5,19 @@ __author__ = 'tylarmurray'
 
 
 class InfoFlowGraph(DirectedGraph):
-    '''
+    """
     directed graph that uses InfoFlow Nodes instead of regular nodes
-    '''
+    """
     def __init__(self, **kwargs):
         super(InfoFlowGraph, self).__init__(**kwargs)
 
     # overrides DirectedGraph method
     def addNode(self, nodeName):
-        '''
+        """
         adds node if exists
         :param nodeName: node to add
         :return: 'added' if added, 'exists' if already exists
-        '''
+        """
         print 'adding node "'+nodeName+'"'
         if self.hasNode(nodeName):
             return 'exists'
@@ -26,9 +26,9 @@ class InfoFlowGraph(DirectedGraph):
             return 'added'
 
     def isDefined(self):
-        '''
+        """
         :return: True if all nodes are defined (and there is > 0 node)
-        '''
+        """
         if len(self._nodes) < 1:
             return False
         for node in self._nodes:
@@ -38,10 +38,10 @@ class InfoFlowGraph(DirectedGraph):
             return True
 
     def getNextNodeToSpec(self):
-        '''
+        """
 
         :return: the name of the next node which needs specification.
-        '''
+        """
         # TODO: "context" nodes don't need to be defined... (they come from the env)
 
         if len(self._nodes) < 1:

@@ -1,6 +1,6 @@
 __author__ = 'tylar'
 
-''' unit test for DirectedGraph '''
+""" unit test for DirectedGraph """
 import unittest
 
 from py.Model.directed_graph.DirectedGraph import DirectedGraph
