@@ -15,13 +15,14 @@ HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 class SimManager(ModelBuilder):
     def __init__(self):
         self.setModel(Model())
+        super(SimManager, self).__init__()
 
     def addMeasures(self, contexts, constructs, behaviors):
         """
         Adds given measurements to the model.
         TODO: Should iterate over cntx, constr, and behav then create var in the model instance for each var...
         """
-        self.model.setMeasures(contexts,constructs,behaviors)
+        self.model.setMeasures(contexts, constructs, behaviors)
         self.measurementsSet = True
 
     def _initInfoFlowDSL(self):
@@ -67,16 +68,4 @@ class SimManager(ModelBuilder):
 
             return DSLstr
 
-    def getNextNode(self):
-        """
-        returns the next node which needs specification. assumes DSL is in place.
-        """
-        return self.model_builder.getNextNode()
-
-
-    def getInfoFlowDSL_closeup(self, selectedNode):
-        """
-        returns Diagram Spec Language showing only immediate neighbors of selectedNode, with selectedNode
-        """
-        return self.model_builder.getInfoFlowDSL_closeup(selectedNode)
 

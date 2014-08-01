@@ -64,7 +64,10 @@ def makeMedMod():
 
 @app.route("/specify")
 def makeSpec():
-	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
+    try:
+    	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
+    except ValueError as err:
+        return template('tpl/pages/notReady', CONFIG=CONFIG, simManager=sim_manager, details_message=err.message)
 
 @app.route('/tutorial')
 @app.route('/tutorial/')
