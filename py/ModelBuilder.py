@@ -39,6 +39,7 @@ class ModelBuilder(object):
         """
         #model = self._checkModel(model)  # assumes that model has already been checked
         model.updateDSL(infoFlow)
+        self.connectionsMade = True
 
     def updateDSL(self, newDSL, DSL_type="info-flow", model=None):
         """

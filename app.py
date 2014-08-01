@@ -63,7 +63,7 @@ def makeMedMod():
     return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/specify")
-def makeSpec():
+def make_spec():
     try:
     	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
     except ValueError as err:
@@ -105,11 +105,13 @@ def recieveDSL():
 #            test pages               #
 #=====================================#
 @app.route('/admin/tests')
+@app.route('/admin/tests/')
 def testDisplay():
     #shows a list of tests and links
     testPages = {
         'diagramophone demo page': '/js/lib/diagramophone/index.html',
-        'sim_manager debugger': '/admin/tests/sim_manager_touch'
+        'sim_manager debugger': '/admin/tests/sim_manager_touch',
+        'mock specify page': '/admin/tests/mock_specify_page'
     }
 
     html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n'
@@ -121,6 +123,15 @@ def testDisplay():
 @app.route('/admin/tests/sim_manager_touch')
 def sim_manager_test():
     return '<textarea style="width:800px" rows=20>'+repr(sim_manager)+'</textarea>';
+
+@app.route('/admin/tests/mock_specify_page')
+def specify_page_test():
+    # set up fake model
+    sim_m = SimManager()
+    dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+    sim_m.updateDSL(dsl)
+
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_m)
 
 
 #=====================================#
