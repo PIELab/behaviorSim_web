@@ -1,66 +1,48 @@
-'''
+"""
 This class manages a simulation and all data/interaction surrounding it.
-'''
+"""
 
-from py import webSocketParser
 from itertools import cycle
+
+from py.ModelBuilder import ModelBuilder
+from py.Model.Model import Model
+
 from py.config import DEBUG
 
 TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
 HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 
-class SimManager(object):
+class SimManager(ModelBuilder):
     def __init__(self):
-        # TODO: replace these with model object instance or something better:
-        self.MODEL_CONTEXTS = None
-        self.MODEL_CONSTRUCTS = None
-        self.MODEL_BEHAVIORS = None
-        self.DSL = None
-        self.DLS_type = None
-
-        self._sources = None # list of source vertices
-
-        self.measurementsSet = False  # true if context/behavior vars have been given
-        self.connectionsMade = False  # true if vars/construct node connections have been drawn
-        self.formulated      = False  # true if node connection formulas have been specified
- 
-
-        # === NOTE: sockets are not used currently ====================
-        self.sockets = list() # list of all websocket connections open 
-        # self.environment = Environment()
-        # =============================================================
-
-        self.parseMessage = webSocketParser.parse
+        self.setModel(Model())
 
     def addMeasures(self, contexts, constructs, behaviors):
-        '''
+        """
         Adds given measurements to the model.
         TODO: Should iterate over cntx, constr, and behav then create var in the model instance for each var...
-        '''
-        self.MODEL_CONTEXTS = contexts
-        self.MODEL_CONSTRUCTS = constructs
-        self.MODEL_BEHAVIORS = behaviors
+        """
+        self.model.setMeasures(contexts,constructs,behaviors)
         self.measurementsSet = True
 
     def _initInfoFlowDSL(self):
-        '''
+        """
         Generates random-ish diagram using constructs, constructs, and behaviors to get us started.
-        '''
+        """
         DSLstr = ''
 
         try:
             # create cycle to loop through constructs so we get even distribution of connections
-            if self.MODEL_CONSTRUCTS is not None and self.MODEL_CONSTRUCTS > 0:
-                cstr = cycle(self.MODEL_CONSTRUCTS)
+            if self.model.MODEL_CONSTRUCTS is not None and self.model.MODEL_CONSTRUCTS > 0:
+                cstr = cycle(self.model.MODEL_CONSTRUCTS)
             else:
                 cstr = cycle(['???'])
 
             # connect contexts to constructs
-            for ctx in self.MODEL_CONTEXTS:
+            for ctx in self.model.MODEL_CONTEXTS:
                 DSLstr += ctx + r' -> ' + cstr.next() +'\n'
 
             # connect constructs to behaviors
-            for bvr in self.MODEL_BEHAVIORS:
+            for bvr in self.model.MODEL_BEHAVIORS:
                 DSLstr += cstr.next() + ' -> ' + bvr + '\n'
         except TypeError as e:
             print '\n\n context, construct, and/or behaviors have not been set yet. Cannot make graph!\n\n'
@@ -72,11 +54,11 @@ class SimManager(object):
         return DSLstr
 
     def getInfoFlowDSL(self, highlightedNode=None):
-        '''
+        """
         returns Diagram Specification Language for current information flow diagram
-        '''
-        if self.DSL is not None:
-            return self.DSL
+        """
+        if self.model.DSL is not None:
+            return self.model.DSL
         else:
             DSLstr = self._initInfoFlowDSL()
 
@@ -86,31 +68,15 @@ class SimManager(object):
             return DSLstr
 
     def getNextNode(self):
-        '''
+        """
         returns the next node which needs specification. assumes DSL is in place.
-        '''
+        """
+        return self.model_builder.getNextNode()
 
 
     def getInfoFlowDSL_closeup(self, selectedNode):
-        '''
+        """
         returns Diagram Spec Language showing only immediate neighbors of selectedNode, with selectedNode
-        '''
-        # TODO: use selectedNode here...
-        return ur'ctx2 -> constr2\n constr2 -> constr3\n constr2 {red}'
+        """
+        return self.model_builder.getInfoFlowDSL_closeup(selectedNode)
 
-    def updateDSL(self, newDSL, type="info-flow"):
-        '''
-        sets the Diagram Specification Language spec for the model
-        '''
-        self.DSL = newDSL
-        self.DSL_type = type
-
-    # === NOTE: sockets are not used currently ===================================================
-    def sendAll(self, m, originator=None, supress=False):
-        # sends message to all open websocket connections except for the originator websocket
-        for sock in self.sockets:
-            if sock != originator:
-                sock.send(m)
-        if supress == False:
-            print 'broadcast message: ', m, ' from ...' #TODO: get originator client ID
-    # ============================================================================================

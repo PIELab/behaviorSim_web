@@ -1,11 +1,11 @@
 __author__ = 'tylar'
 
-''' unit test for DirectedGraph '''
+""" unit test for DirectedGraph """
 import unittest
 
-from py.directed_graph.DirectedGraph import DirectedGraph
+from py.Model.directed_graph.DirectedGraph import DirectedGraph
 
-class basic_leveling_check(unittest.TestCase):
+class DG_tester(unittest.TestCase):
 
     def test_DSL_init(self):
         dsl = ur'ctx2 -> constr2\n constr2 -> constr3'
@@ -18,14 +18,11 @@ class basic_leveling_check(unittest.TestCase):
         dsl = ur'ctx2 -> constr2\n constr2 -> constr3\n notWholeLineHere'
         self.assertRaises(Warning, DirectedGraph, DSL=dsl)
 
-    def test_specify_nodes(self):
+    def test_get_node(self):
         dsl = ur'ctx2 -> constr2\n constr2 -> constr3'
         dg = DirectedGraph(DSL=dsl)
-        nodes = ['ctx2', 'constr2', 'constr3']
 
-        for i in range(len(nodes)):
-            nextNode = dg.getNextNodeToSpec()
-            self.assertIn(nextNode, nodes)
-            dg.getNode(nextNode).defined = True
-
-        self.assertIsNone(dg.getNextNodeToSpec())
+        self.assertIsNotNone(dg.getNode('ctx2'))
+        self.assertIsNotNone(dg.getNode('constr2'))
+        self.assertIsNotNone(dg.getNode('constr3'))
+        self.assertIsNone(dg.getNode('this_is_not_a_real_node_name'))
