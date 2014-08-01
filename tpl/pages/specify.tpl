@@ -140,15 +140,15 @@
     </script>
 
     <script type="text/coffeescript">
-        selectedNode = "constr2"  # TODO: use something like  simManager.getNextNodeToSpec() 
+		  % selected_node = simManager.getNextNode()
+        selectedNode = "{{selected_node}}"
         ### main diagram display (with highlighted node) ###
         @controller = new Controller
 
         main_paper = Raphael "mainCanvas", 400, 400
 
-        # TODO: use something like simManger.getNextNodeToSpec() here too
         sampleText = """
-        {{ !simManager.getInfoFlowDSL('constr2') }}
+        {{ !simManager.getInfoFlowDSL(selected_node) }}
         """
 
         raphaelCanvas = document.getElementById("mainCanvas")
@@ -159,9 +159,8 @@
         ### close up display ###
         closeup_paper = Raphael "closeupCanvas", 200, 200  #NOTE: these numbers dont matter?
 
-        # TODO: use something like simManger.getNextNodeToSpec() here too
         text = """
-        {{ !simManager.getInfoFlowDSL_closeup('constr2') }}
+        {{ !simManager.getInfoFlowDSL_closeup(selected_node) }}
         """
         # initialize the view
         @controller.makeItGo(text, closeup_paper, false)
