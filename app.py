@@ -106,19 +106,29 @@ def recieveDSL():
 #=====================================#
 @app.route('/admin/tests')
 @app.route('/admin/tests/')
-def testDisplay():
+def test_display():
     #shows a list of tests and links
-    testPages = {
+    test_pages = {
         'diagramophone demo page': '/js/lib/diagramophone/index.html',
         'sim_manager debugger': '/admin/tests/sim_manager_touch',
-        'mock specify page': '/admin/tests/mock_specify_page'
+        'mock specify page': '/admin/tests/mock_specify_page',
+        'mock med/mod draw page': '/admin/tests/mock_mediator_moderator'
     }
 
-    html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n'
-    for key in testPages:
-        html += '* <a href="'+testPages[key]+'">'+key+'</a>\n<br>\n'
-    html += '</h3>\n</body>'
+    html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n<ul>'
+    for key in test_pages:
+        html += '<li><a href="'+test_pages[key]+'">'+key+'</a></li>'
+    html += '</ul></h3>\n</body>'
     return html
+
+@app.route('/admin/tests/selenium')
+def show_selenium_all_tests_test_suite():
+    return static_file('_all_tests_test_suite', root='./selenium/seleniumIDE_tests/')
+
+@app.route('/admin/tests/mock_mediator_moderator')
+def draw_page_test():
+    return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
+
 
 @app.route('/admin/tests/sim_manager_touch')
 def sim_manager_test():
