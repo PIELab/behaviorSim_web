@@ -11,29 +11,29 @@
     <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
 
     <!-- prettify things (diagramophone) -->
-    <link href="js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet/less" type="text/css" href="js/lib/diagramophone/style.less">
-    <script src="js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
+    <link href="/js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet/less" type="text/css" href="/js/lib/diagramophone/style.less">
+    <script src="/js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
     <!-- chosen -->
     <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
 
     <!-- things you need to run -->
-    <script src="js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
-    <script src="js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
+    <script src="/js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
+    <script src="/js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
 
 
     <!-- my stuff -->
-    <script src="js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
-    <script src="js/lib/diagramophone/drawer.coffee" type="text/coffeescript"></script>
-    <script src="js/lib/diagramophone/parser.coffee" type="text/coffeescript"></script>
+    <script src="/js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
+    <script src="/js/lib/diagramophone/drawer.coffee" type="text/coffeescript"></script>
+    <script src="/js/lib/diagramophone/parser.coffee" type="text/coffeescript"></script>
 
     <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
 
     <!-- svg to canvas (so then i can image it) -->
-    <script type="text/javascript" src="js/lib/diagramophone/lib/rgbcolor.js"></script>
-    <script type="text/javascript" src="js/lib/diagramophone/lib/canvg.js"></script>
+    <script type="text/javascript" src="/js/lib/diagramophone/lib/rgbcolor.js"></script>
+    <script type="text/javascript" src="/js/lib/diagramophone/lib/canvg.js"></script>
 
     <div class='row'>
         <p>

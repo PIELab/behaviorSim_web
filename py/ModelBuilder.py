@@ -92,8 +92,8 @@ class ModelBuilder(object):
         """
         model = self._checkModel(model)
 
-        if self.DSL is not None:
-            self.selectedNode = model.infoFlow.getNextNodeToSpec()
+        if self.connectionsMade:
+            self.selectedNode = model.getNextNodeToSpec()
             return self.selectedNode
         else:
             raise AssertionError('DSL must be set before specifying nodes.')

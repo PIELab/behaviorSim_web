@@ -14,8 +14,8 @@ HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 
 class SimManager(ModelBuilder):
     def __init__(self):
-        self.setModel(Model())
         super(SimManager, self).__init__()
+        self.setModel(Model())
 
     def addMeasures(self, contexts, constructs, behaviors):
         """
