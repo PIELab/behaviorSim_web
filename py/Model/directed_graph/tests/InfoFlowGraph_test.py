@@ -20,8 +20,8 @@ class infoFlowGraph_tester(unittest.TestCase):
 
         for i in range(len(nodes)):
             nextNode = dg.getNextNodeToSpec()
-            self.assertIn(nextNode, nodes)
-            dg.getNode(nextNode).defined = True
+            self.assertIn(nextNode.name, nodes)
+            dg.getNode(nextNode.name).defined = True
 
         self.assertIsNone(dg.getNextNodeToSpec())
 

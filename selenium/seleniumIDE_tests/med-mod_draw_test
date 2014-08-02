@@ -13,15 +13,19 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>http://localhost:8000/admin/tests/mock_draw_page</td>
+	<td>http://localhost:8000/admin/tests/mock_mediator_moderator</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td></td>
+	<td>id=textarea</td>
 	<td></td>
 </tr>
-
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=svg</td>
+	<td></td>
+</tr>
 </tbody></table>
 </body>
 </html>

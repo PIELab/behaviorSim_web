@@ -1,5 +1,7 @@
 % include ('tpl/pageBits/header')
 
+% selected_node = simManager.getNextNode()
+
 <body>
 
     <meta charset="utf-8">
@@ -37,7 +39,7 @@
 
     <div class='row'>
         <p>
-            Now let's dive a little deeper and think about what each connection between variables means. Let's focus on the variable highlighted in your graph below.
+            Now think about what each connection between variables means. Focus on the variable highlighted in your graph below.
         </p>
     </div>
     <div class='row'>
@@ -48,99 +50,76 @@
         
     </div>
     <div class='row'>
-
         <p>
-            Let's start out with the "source verticies" (variables without any inflows). Since they have no variables going into them, we have to make an assumption about how they change over time. 
+            Looking at this variable's neighbors, we can see that this variable has
+            {{len(selected_node.parents)}} inflows.
+
+            % node_type = None
+
+            % if len(selected_node.parents) > 0:
+                % node_type = 'construct'
+                This means we must define a formula to describe how information flows into {{selected_node.name}}.
+            % else:
+                % node_type = 'source'
+                So {{selected_node.name}} must be either a context variable, or a personality variable.
+            % end
         </p>
     </div>
         
     <div>
         <div class='row'>
-            <div class='title'>
-                Selected Node
+            <div id="closeupCanvas"> </div>
+        </div>
+        % if node_type == 'source':
+            <div class="row">
+                <div class="left-column">
+                    {{selected_node.name}} is a
+                    <select id="source-type-selector" class="chosen-select">
+                        <option value="personality">personality variable</option>
+                        <option value="context">context variable</option>
+                    </select>
+                </div>
+                <div class="right-column" id="source-options">
+                    loading source vertex options...
+                </div>
             </div>
-            <div class='left-column'>
-                <div id="closeupCanvas"> </div>
-            </div>
-            <div class='right-column'>
-                <div class='row'>
-                         For VAR NAME, 
-                         use        
+            <script type='text/coffeescript' src="/js/source_spec_page_controller.coffee"></script>
+        % elif node_type == 'construct':
+            <div class='row'>
+                <div class="left-column">
+                    <div class="row">
+                         For {{selected_node.name}} use
                         <select id="model-selector" data-placeholder="default-choice..." class="chosen-select" style="width:250px;" tabindex="4">
                             <option value="linear-combination">Linear Combination</option>
                             <option value="fluid-flow">Fluid-Flow Analogy</option>
                             <option value="other">Other</option>
                         </select>
-                </div>
-                <div class='row'>
-                    <div class="left-column" id='modeling-options'>
-                        PLACEHOLDER
                     </div>
+                    <div class='row' id='modeling-options'>
+                            loading modeling options...
+                    </div>
+                </div>
                     <div class="right-column">
                         <img src="http://zone.ni.com/images/reference/en-XX/help/371361J-01/guid-8fc111e7-da03-4524-b642-5499c58894f9-help-web.png" >
                     </div>
                 </div>
             </div>
-        </div>
-
+            <script type='text/coffeescript' src="/js/model_spec_page_controller.coffee"></script>
+        % else:
+            % raise ValueError('unknown node_type "'+node_type+'"')
+        % end
         <div class='row'>
-        <a href="#" class="disabledButton">Previous Node</a>
-        <a href="#" class="myButton">Next Node</a>
-        <a href="#" class="disabledButton">Done</a>
+            <a href="#" class="disabledButton">Previous Node</a>
+            <a href="#" class="myButton" id="submit_node_button">Next Node</a>
+            <a href="#" class="disabledButton">Done</a>
        </div>
-        %include('tpl/pageBits/nav')
-
+        <div class="row">
+            %include('tpl/pageBits/nav')
+        </div>
     </div>
     
-    <script type='text/coffeescript'>
-        ### script for controlling responsive modeling param form ###
-        modelingOptions = document.getElementById('modeling-options')
-        modelSelection  = document.getElementById('model-selector')
-         
-        $listen = (target, name, callback) ->
-            # shortcut addListener function
-            if target.addEventListener
-                target.addEventListener name, callback, false
-            else
-                target.attachEvent "on#{name}", callback
-                
-        $ getOptionsForSelection = (selected) ->
-            # returns html with options section for given selection
-            if selected == 'linear-combination'
-                return '''
-                        <strong>constr2 = c1 * ctx2</strong>
-                        <br><br> 
-                        <form> 
-                            c1 = <input type="text" name="c1"> 
-                        </form> 
-                    '''
-            else if selected == 'fluid-flow'
-                return '''
-                        <strong>constr2 = ...</strong>
-                        <form>
-                            ...
-                        </form>
-                    '''
-            else if selected == 'other'
-                return '''
-                        <strong> constr2 = f( ctx2 ) </strong
-                        <form>
-                            <input type="paragraph" name="code">
-                        </form>
-                    '''
-            else
-                return "unrecognized selection '"+selected+"'"
-                
-        $listen modelSelection, 'change', =>
-            modelingOptions.innerHTML = getOptionsForSelection( modelSelection.value )
-            
-        # initial setting of the content section
-        modelingOptions.innerHTML = getOptionsForSelection( modelSelection.value )
-        
-    </script>
 
     <script type="text/coffeescript">
-		  % selected_node = simManager.getNextNode()
         selectedNode = "{{selected_node}}"
         ### main diagram display (with highlighted node) ###
         @controller = new Controller

@@ -21,7 +21,7 @@ class ModelBuilder(object):
         self.connectionsMade = False  # true if vars/construct node connections have been drawn
         self.formulated      = False  # true if node connection formulas have been specified
 
-        self.selectedNode = None  # used like a cursor which contains the name of the node we are focused on
+        self.selected_node = None  # used like a cursor which contains the name of the node we are focused on
 
         self.model = None
         if model is not None:
@@ -72,9 +72,9 @@ class ModelBuilder(object):
         checks given node name to ensure good node is selected
         """
         if node_name is None:
-            # try to use self.selectedNode
-            if self.selectedNode is not None:
-                return self.selectedNode
+            # try to use self.selected_node
+            if self.selected_node is not None:
+                return self.selected_node
             else:
                 raise ValueError('Node cursor location has not been set, and no node_name given to use! (both are None)')
         else:
@@ -93,20 +93,46 @@ class ModelBuilder(object):
         model = self._checkModel(model)
 
         if self.connectionsMade:
-            self.selectedNode = model.getNextNodeToSpec()
-            return self.selectedNode
+            self.selected_node = model.getNextNodeToSpec()
+            return self.selected_node
         else:
             raise AssertionError('DSL must be set before specifying nodes.')
 
-
     def getInfoFlowDSL_closeup(self, selected_node, model=None):
         """
-        returns Diagram Spec Language showing only immediate neighbors of selectedNode, with selectedNode
+        returns Diagram Spec Language showing only immediate neighbors of selected_node, with selected_node
         """
         model = self._checkModel(model)
 
-        # TODO: use selectedNode here...
+        # TODO: use selected_node here...
         return ur'ctx2 -> constr2\n constr2 -> constr3\n constr2 {red}'
+
+    def specify_node(self, node_type, model_type, model_options):
+        """
+        sets the specification for a node.
+        :param node_type: defines type of node in question (used to determin how to parse options)
+            one of ['context', 'personality', 'construct']
+        :param model_type: defines the model used
+        :param model_options: model details array to be parsed out
+        """
+
+        # TODO: fix all dis:
+        if node_type == 'context':
+            if model_type == 'fluid-flow':
+                pass
+            elif model_type == 'linear-combo':
+                pass
+            else:
+                raise ValueError('unknown model_type"'+model_type+'"')
+        elif node_type == 'personality':
+            pass
+        elif node_type == 'construct':
+            pass
+        else:
+            raise ValueError('unknown node_type given "'+node_type+'"')
+
+        print model_options
+
 
     def specifyContextNode(self, formulation, node_name=None, model=None):
         """

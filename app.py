@@ -83,7 +83,7 @@ def makeTutorial(page=None):
         raise NotImplementedError('unknown tutorial page request for pg #'+str(page))
 
 #=====================================#
-#           data recievers            #
+#           data receivers            #
 #=====================================#
 @app.post('/think/submit')
 def recieveVarList():
@@ -95,11 +95,19 @@ def recieveVarList():
     redirect( '/draw' )
 
 @app.post('/draw/submit')
-def recieveDSL():
-    DSL= request.forms.get('DSL')
-    sim_manager.updateDSL(DSL)
-    print 'new DSL recieved.'
-    return 'DSL recieved.'
+def receive_dsl():
+    dsl = request.forms.get('DSL')
+    sim_manager.updateDSL(dsl)
+    print 'new DSL received.'
+    return 'DSL received.'
+
+@app.post('/node_spec/submit')
+def receive_node_spec():
+    node_type = request.forms.get('type')
+    model_type = request.forms.get('model')
+    options = request.forms.get('options')
+    sim_manager.specify_node(node_type, model_type, options)
+
 
 #=====================================#
 #            test pages               #

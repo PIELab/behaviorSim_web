@@ -52,7 +52,7 @@ class InfoFlowGraph(DirectedGraph):
             if node.defined:
                 continue
             elif node.readyToSpec():
-                return node.name
+                return node
             else:
                 continue
         else:
@@ -63,6 +63,6 @@ class InfoFlowGraph(DirectedGraph):
                     if node.defined:
                         continue
                     else:
-                        return node.name
+                        return node
                 else:
                     raise ArithmeticError('something went wrong with node getter. graph not complete, but all nodes are defined.')
