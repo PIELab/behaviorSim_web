@@ -52,11 +52,11 @@ def makeCSMB():
 
 @app.route("/draw")
 def makeDraw():
-	return template('tpl/pages/draw/draw', CONFIG=CONFIG, simManager=sim_manager)
+    return template('tpl/pages/draw/draw', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/draw/infoFlow")
 def makeInfoFLow():
-	return template('tpl/pages/draw/infoFlow', CONFIG=CONFIG, simManager=sim_manager)
+    return template('tpl/pages/draw/infoFlow', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/draw/mediatorModerator")
 def makeMedMod():
@@ -65,7 +65,7 @@ def makeMedMod():
 @app.route("/specify")
 def make_spec():
     try:
-    	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
+        return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
     except ValueError as err:
         return template('tpl/pages/notReady', CONFIG=CONFIG, simManager=sim_manager, details_message=err.message)
 
