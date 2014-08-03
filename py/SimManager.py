@@ -32,25 +32,19 @@ class SimManager(ModelBuilder):
         DSLstr = ''
 
         try:
-            # create cycle to loop through constructs so we get even distribution of connections
-            if self.model.MODEL_CONSTRUCTS is not None and self.model.MODEL_CONSTRUCTS > 0:
-                cstr = cycle(self.model.MODEL_CONSTRUCTS)
-            else:
-                cstr = cycle(['???'])
+            # add constructs
+            for ctr in self.model.MODEL_CONSTRUCTS:
+                DSLstr += ctr + '\n'
 
-            # connect contexts to constructs
+            # add contexts
             for ctx in self.model.MODEL_CONTEXTS:
-                DSLstr += ctx + r' -> ' + cstr.next() +'\n'
+                DSLstr += ctx + '\n'
 
-            # connect constructs to behaviors
+            # add constructs
             for bvr in self.model.MODEL_BEHAVIORS:
-                DSLstr += cstr.next() + ' -> ' + bvr + '\n'
+                DSLstr += bvr + '\n'
         except TypeError as e:
-            print '\n\n context, construct, and/or behaviors have not been set yet. Cannot make graph!\n\n'
-            if DEBUG:
-                return ur'ctx1 -> constr1\n ctx2 -> constr1\n ctx2 -> constr2\n constr2 -> constr3\n constr3 -> behavior\n constr1 -> behavior\n'
-            else:
-                raise
+            DSLstr = ''
 
         return DSLstr
 
@@ -59,13 +53,13 @@ class SimManager(ModelBuilder):
         returns Diagram Specification Language for current information flow diagram
         """
         if self.model.DSL is not None:
-            return self.model.DSL
+            dsl_str = self.model.DSL
         else:
-            DSLstr = self._initInfoFlowDSL()
+            dsl_str = self._initInfoFlowDSL()
 
-            if highlightedNode is not None:
-                DSLstr+=ur'\n'+str(highlightedNode)+ur' {'+HIGHLIGHT_COLOR+ur'}\n'
+        if highlightedNode is not None:
+            dsl_str += ur'\n'+str(highlightedNode.name)+ur' {'+HIGHLIGHT_COLOR+ur'}\n'
 
-            return DSLstr
+        return dsl_str
 
 

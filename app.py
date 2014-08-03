@@ -135,7 +135,10 @@ def show_selenium_all_tests_test_suite():
 
 @app.route('/admin/tests/mock_mediator_moderator')
 def draw_page_test():
-    return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
+    sim_m = SimManager()
+    dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+    sim_m.updateDSL(dsl)
+    return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_m)
 
 
 @app.route('/admin/tests/sim_manager_touch')

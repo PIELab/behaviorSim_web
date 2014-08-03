@@ -94,6 +94,7 @@ class ModelBuilder(object):
 
         if self.connectionsMade:
             self.selected_node = model.getNextNodeToSpec()
+            print 'node cursor now at ' + self.selected_node.name
             return self.selected_node
         else:
             raise AssertionError('DSL must be set before specifying nodes.')
@@ -117,17 +118,21 @@ class ModelBuilder(object):
         """
 
         # TODO: fix all dis:
+        formula = ''
         if node_type == 'context':
             if model_type == 'fluid-flow':
                 pass
             elif model_type == 'linear-combo':
                 pass
             else:
-                raise ValueError('unknown model_type"'+model_type+'"')
+                raise ValueError('unknown model_type "'+model_type+'"')
+            self.specifyContextNode(formula)
         elif node_type == 'personality':
             pass
+            self.specifyPersonalityNode(formula)
         elif node_type == 'construct':
             pass
+            self.specifyPersonalityNode(formula)
         else:
             raise ValueError('unknown node_type given "'+node_type+'"')
 

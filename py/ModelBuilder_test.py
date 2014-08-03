@@ -65,7 +65,7 @@ class model_builder_tester(unittest.TestCase):
         node = mb._checkNode(mb.model, 'ctx2')
         self.assertEqual(node.name, 'ctx2')
 
-    def test_update_DSL_adds_nodes(self):
+    def test_update_dsl_adds_nodes(self):
         mb = ModelBuilder(Model())
 
         infoFlow = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
@@ -74,3 +74,48 @@ class model_builder_tester(unittest.TestCase):
         nodes = ['ctx2', 'constr2', 'constr3', 'pers1', 'pers2']
         for node in nodes:
             self.assertEqual(node, mb.model.getNode(node).name)
+
+    def test_step_through_nodes(self):
+        """
+        tests that the use of getNextNode and specifyNode effectively steps through all the nodes.
+        """
+        # setup
+        mb = ModelBuilder(Model())
+
+        # === "draw" ===
+        info_flow = ur'n1a -> n2\n n1b -> n2\n n2 -> n3a\n n2 -> n3b\n n3a -> n4\n n3b -> n4'
+        mb.updateDSL(info_flow, DSL_type='info-flow')
+
+        # first node must be those with no inflows
+        nodes = ['n1a', 'n1b']
+        current_node = mb.getNextNode()
+        self.assertIn(current_node.name, nodes)
+        mb.specifyContextNode('this is just filler for now')
+
+        # 2nd node is the other one with no inflow
+        nodes.remove(current_node.name)
+        current_node = mb.getNextNode()
+        self.assertEqual(current_node.name, nodes[0])
+        mb.specifyPersonalityNode('more filler')
+
+        # 3rd node
+        current_node = mb.getNextNode()
+        self.assertEqual(current_node.name, 'n2')
+        mb.specifyConstructNode('whatevah whatevah')
+
+        # 4th node
+        nodes = ['n3a', 'n3b']
+        current_node = mb.getNextNode()
+        self.assertIn(current_node.name, nodes)
+        mb.specifyConstructNode('whatevah whatevah')
+
+        # 5th node
+        nodes.remove(current_node.name)
+        current_node = mb.getNextNode()
+        self.assertEqual(current_node.name, nodes[0])
+        mb.specifyConstructNode('whatevah whatevah')
+
+        # last node
+        current_node = mb.getNextNode()
+        self.assertEqual(current_node.name, 'n4')
+        mb.specifyConstructNode('whatevah whatevah')
