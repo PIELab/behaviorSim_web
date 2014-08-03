@@ -135,10 +135,9 @@ def show_selenium_all_tests_test_suite():
 
 @app.route('/admin/tests/mock_mediator_moderator')
 def draw_page_test():
-    sim_m = SimManager()
     dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
-    sim_m.updateDSL(dsl)
-    return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_m)
+    sim_manager.updateDSL(dsl)
+    return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
 
 
 @app.route('/admin/tests/sim_manager_touch')
@@ -148,11 +147,11 @@ def sim_manager_test():
 @app.route('/admin/tests/mock_specify_page')
 def specify_page_test():
     # set up fake model
-    sim_m = SimManager()
-    dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
-    sim_m.updateDSL(dsl)
+    if not sim_manager.connectionsMade:
+        dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+        sim_manager.updateDSL(dsl)
 
-    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_m)
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
 
 
 #=====================================#
