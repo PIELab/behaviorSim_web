@@ -121,26 +121,27 @@ class ModelBuilder(object):
         :param model_options: model details array to be parsed out
         """
 
-        # TODO: fix all dis:
+        # TODO: use these if/elses to build the correct "formula" representation
+        print model_options
+
         formula = ''
         if node_type == 'context':
+            self.specifyContextNode(formula)
+
+        elif node_type == 'personality':
+            self.specifyPersonalityNode(formula)
+
+        elif node_type == 'construct':
             if model_type == 'fluid-flow':
-                pass
+                self.specifyConstructNode(formula)
             elif model_type == 'linear-combo':
-                pass
+                self.specifyConstructNode(formula)
             else:
                 raise ValueError('unknown model_type "'+model_type+'"')
-            self.specifyContextNode(formula)
-        elif node_type == 'personality':
-            pass
-            self.specifyPersonalityNode(formula)
-        elif node_type == 'construct':
-            pass
-            self.specifyPersonalityNode(formula)
+
         else:
             raise ValueError('unknown node_type given "'+node_type+'"')
 
-        print model_options
 
 
     def specifyContextNode(self, formulation, node_name=None, model=None):

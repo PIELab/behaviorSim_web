@@ -119,6 +119,7 @@ def receive_node_spec():
     model_type = request.forms.get('model')
     options = request.forms.get('options')
     sim_manager.specify_node(node_type, model_type, options)
+    print 'spec for node "'+sim_manager.selected_node.name+'" recieved.'
 
 
 #=====================================#
@@ -132,7 +133,8 @@ def test_display():
         'diagramophone demo page': '/js/lib/diagramophone/index.html',
         'sim_manager debugger': '/admin/tests/sim_manager_touch',
         'mock specify page': '/admin/tests/mock_specify_page',
-        'mock med/mod draw page': '/admin/tests/mock_mediator_moderator'
+        'mock med/mod draw page': '/admin/tests/mock_mediator_moderator',
+        'mock specify construct': '/admin/tests/mock_specify_construct'
     }
 
     html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n<ul>'
@@ -168,6 +170,22 @@ def specify_page_test():
         redirect('/done_with_specifying')  # TODO: make this go somewhere meaningful
 
     return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+
+@app.route('/admin/tests/mock_specify_construct')
+def specify_construct_page():
+    # set up fake model
+    dsl = ur'ctx1 -> constr\n p1 -> constr'
+    sim_manager.updateDSL(dsl)
+
+    # spec ctx1 and p1
+    sim_manager.getNextNode()
+    sim_manager.specify_node('context', 'i dunno i dunno', 'i dunno here neither')
+    sim_manager.getNextNode()
+    sim_manager.specify_node('personality', 'constant', '5 or something')
+
+    selected_node = sim_manager.getNextNode()
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+
 
 
 #=====================================#
