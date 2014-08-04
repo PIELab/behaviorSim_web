@@ -1,5 +1,44 @@
 __author__ = '7yl4r'
 
+def get_node_color_str(node, highlightedNode):
+    """
+    returns a dsl string which colorifies the node appropriately
+    """
+    ####################################
+    ### GRAPH COLOR SCHEME CONSTANTS ###
+    ####################################
+
+    # blue
+    SELECTED_NODE_COLOR = '2488DF'  # color of highlighted nodes on DSL graphs
+
+    # greenish
+    COMPLETE_NEIGHBOR_COLOR = '00A900'
+    COMPLETE_OTHER_COLOR = '76A976'
+
+    # orangish
+    INCOMPLETE_NEIGHBOR_COLOR = 'D59500'
+    INCOMPLETE_OTHER_COLOR = 'D7BD81'
+
+    ####################################
+
+    def color_node(node_name, color_str):
+        """ little helper function for formatting """
+        return node_name + ur' {' + color_str + ur'}\n'
+
+    if ( node.name in [parent.name for parent in highlightedNode.parents]
+      or node.name in [child.name for child in highlightedNode.children]):
+        if node.defined:
+            return color_node(node.name, COMPLETE_NEIGHBOR_COLOR)
+        else:
+            return color_node(node.name, INCOMPLETE_NEIGHBOR_COLOR)
+    elif node.name == highlightedNode.name:
+        return color_node(node.name, SELECTED_NODE_COLOR)
+    else:
+        if node.defined:
+            return color_node(node.name, COMPLETE_OTHER_COLOR)
+        else:
+            return color_node(node.name, INCOMPLETE_OTHER_COLOR)
+
 class ModelBuilder(object):
     """
     Manages the steps of builiding a Model. The essential steps are (not necessarily in order):
@@ -106,9 +145,11 @@ class ModelBuilder(object):
         dsl = ur''
         for parent in selected_node.parents:
             dsl += parent.name + ur' -> ' + selected_node.name + ur'\n'
+            dsl += get_node_color_str(parent, selected_node)
         for child in selected_node.children:
             dsl += selected_node.name + ur' -> ' + child.name + ur'\n'
-        dsl += selected_node.name + ur' {red}\n'
+            dsl += get_node_color_str(child, selected_node)
+        dsl += get_node_color_str(selected_node, selected_node)
         return dsl
 
 
@@ -134,7 +175,7 @@ class ModelBuilder(object):
         elif node_type == 'construct':
             if model_type == 'fluid-flow':
                 self.specifyConstructNode(formula)
-            elif model_type == 'linear-combo':
+            elif model_type == 'linear-combination':
                 self.specifyConstructNode(formula)
             else:
                 raise ValueError('unknown model_type "'+model_type+'"')
@@ -176,18 +217,6 @@ class ModelBuilder(object):
         """
         returns Diagram Specification Language for current information flow diagram
         """
-        # blue
-        selected_node = '2488DF'  # color of highlighted nodes on DSL graphs
-
-        # greenish
-        complete_neighbor = '00A900'
-        complete_other = '76A976'
-
-        # orangish
-        incomplete_neighbor = 'D59500'
-        incomplete_other = 'D7BD81'
-
-
         if self.model.DSL is not None:
             dsl_str = self.model.DSL
         else:
@@ -195,24 +224,9 @@ class ModelBuilder(object):
 
         if highlightedNode is not None:
 
-            def color_node(node_name, color_str):
-                return node_name + ur' {' + color_str + ur'}\n'
-
-            dsl_str += ur'\n' + color_node(highlightedNode.name, selected_node)
+            dsl_str += ur'\n'  # adds newline to the end of the dsl just in case (else things can get weird)
 
             for node in self.model._nodes:
-                if ( node.name in [parent.name for parent in highlightedNode.parents]
-                  or node.name in [child.name for child in highlightedNode.children]):
-                    if node.defined:
-                        dsl_str += color_node(node.name, complete_neighbor)
-                    else:
-                        dsl_str += color_node(node.name, incomplete_neighbor)
-                elif node.name == highlightedNode.name:
-                    pass
-                else:
-                    if node.defined:
-                        dsl_str += color_node(node.name, complete_other)
-                    else:
-                        dsl_str += color_node(node.name, incomplete_other)
+                dsl_str += get_node_color_str(node, highlightedNode)
 
         return dsl_str
