@@ -1,5 +1,7 @@
 __author__ = '7yl4r'
 
+HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
+
 class ModelBuilder(object):
     """
     Manages the steps of builiding a Model. The essential steps are (not necessarily in order):
@@ -171,3 +173,17 @@ class ModelBuilder(object):
         node = self._checkNode(model, node_name)
 
         model.set_node(node, 'construct', formulation, is_observable)
+
+    def getInfoFlowDSL(self, highlightedNode=None):
+        """
+        returns Diagram Specification Language for current information flow diagram
+        """
+        if self.model.DSL is not None:
+            dsl_str = self.model.DSL
+        else:
+            dsl_str = self._initInfoFlowDSL()
+
+        if highlightedNode is not None:
+            dsl_str += ur'\n'+str(highlightedNode.name)+ur' {'+HIGHLIGHT_COLOR+ur'}\n'
+
+        return dsl_str

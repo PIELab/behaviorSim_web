@@ -10,7 +10,6 @@ from py.Model.Model import Model
 from py.config import DEBUG
 
 TIME_SCALES = ['instantaneous', 'hour', 'day', 'week', 'month', 'year', 'lifetime']  # a list of available time scale values
-HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
 
 class SimManager(ModelBuilder):
     def __init__(self):
@@ -47,19 +46,4 @@ class SimManager(ModelBuilder):
             DSLstr = ''
 
         return DSLstr
-
-    def getInfoFlowDSL(self, highlightedNode=None):
-        """
-        returns Diagram Specification Language for current information flow diagram
-        """
-        if self.model.DSL is not None:
-            dsl_str = self.model.DSL
-        else:
-            dsl_str = self._initInfoFlowDSL()
-
-        if highlightedNode is not None:
-            dsl_str += ur'\n'+str(highlightedNode.name)+ur' {'+HIGHLIGHT_COLOR+ur'}\n'
-
-        return dsl_str
-
 
