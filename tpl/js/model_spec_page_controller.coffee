@@ -1,4 +1,9 @@
+%# TPL PARAMS:
+%# simManager
+%# CONFIG
+
 ### script for controlling responsive modeling param form ###
+
 modelingOptions = document.getElementById('modeling-options')
 model_selector = document.getElementById("model-selector")
 
@@ -13,10 +18,16 @@ $ getOptionsForSelection = (selected) ->
     # returns html with options section for given selection
     if selected == 'linear-combination'
         return '''
-                <strong>constr2 = c1 * ctx2</strong>
+                <strong>{{simManager.selected_node.name}} = 
+					% for parent in simManager.selected_node.parents:
+						+ c_{{parent.name}}*{{parent.name}}
+					% end
+				</strong>
                 <br><br>
                 <form>
-                    c1 = <input type="text" name="c1" class='model-option'>
+					% for parent in simManager.selected_node.parents:
+						c_{{parent.name}} = <input type="text" name="c_{{parent.name}}" class='model-option'> <br>
+					% end
                 </form>
             '''
     else if selected == 'fluid-flow'
@@ -34,7 +45,7 @@ $ getOptionsForSelection = (selected) ->
                 </form>
             '''
     else
-        return "unrecognized selection '"+selected+"'"
+        return "unrecognised selection '"+selected+"'"
 
 $listen model_selector, 'change', =>
     modelingOptions.innerHTML = getOptionsForSelection( model_selector.value )

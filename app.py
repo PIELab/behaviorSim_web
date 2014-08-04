@@ -33,7 +33,15 @@ def js_static(filename):
 @app.route('/img/<filename:path>')
 def js_static(filename):
     return static_file(filename, root='./img/')
-    
+
+#=====================================#
+#           dynamic js files          #
+#=====================================#
+@app.route("/tpl/js/<filename>")
+def getDynamicJS(filename):
+    # check for user login token in cookies
+    return template('tpl/js/'+filename, simManager=sim_manager, CONFIG=CONFIG)
+
 
 #=====================================#
 #               Pages                 #

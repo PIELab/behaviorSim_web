@@ -86,7 +86,7 @@
                     loading source vertex options...
                 </div>
             </div>
-            <script type='text/coffeescript' src="/js/source_spec_page_controller.coffee"></script>
+            <script type='text/coffeescript' src="/tpl/js/source_spec_page_controller.coffee"></script>
         % elif node_type == 'construct':
             <div class='row'>
                 <div class="left-column">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <script type='text/coffeescript' src="/js/model_spec_page_controller.coffee"></script>
+            <script type='text/coffeescript' src="/tpl/js/model_spec_page_controller.coffee"></script>
         % else:
             % raise ValueError('unknown node_type "'+node_type+'"')
         % end
