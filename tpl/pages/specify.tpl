@@ -1,6 +1,9 @@
 % include ('tpl/pageBits/header')
 
-% selected_node = simManager.getNextNode()
+%
+% if selected_node is None:
+%   redirect('/done')
+% end
 
 <body>
 

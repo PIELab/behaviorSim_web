@@ -94,24 +94,28 @@ class ModelBuilder(object):
 
         if self.connectionsMade:
             self.selected_node = model.getNextNodeToSpec()
-            print 'node cursor now at ' + self.selected_node.name
             return self.selected_node
         else:
             raise AssertionError('DSL must be set before specifying nodes.')
 
-    def getInfoFlowDSL_closeup(self, selected_node, model=None):
+    def getInfoFlowDSL_closeup(self, selected_node):
         """
         returns Diagram Spec Language showing only immediate neighbors of selected_node, with selected_node
+        :param selected_node: node object
         """
-        model = self._checkModel(model)
+        dsl = ur''
+        for parent in selected_node.parents:
+            dsl += parent.name + ur' -> ' + selected_node.name + ur'\n'
+        for child in selected_node.children:
+            dsl += selected_node.name + ur' -> ' + child.name + ur'\n'
+        dsl += selected_node.name + ur' {red}\n'
+        return dsl
 
-        # TODO: use selected_node here...
-        return ur'ctx2 -> constr2\n constr2 -> constr3\n constr2 {red}'
 
     def specify_node(self, node_type, model_type, model_options):
         """
         sets the specification for a node.
-        :param node_type: defines type of node in question (used to determin how to parse options)
+        :param node_type: defines type of node in question (used to determine how to parse options)
             one of ['context', 'personality', 'construct']
         :param model_type: defines the model used
         :param model_options: model details array to be parsed out

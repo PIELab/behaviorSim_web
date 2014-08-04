@@ -65,7 +65,11 @@ def makeMedMod():
 @app.route("/specify")
 def make_spec():
     try:
-        return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
+        selected_node = sim_manager.getNextNode()
+        if selected_node is None:
+            redirect('/done_with_specifying')  # TODO: make this go somewhere meaningful
+        else:
+            return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
     except ValueError as err:
         return template('tpl/pages/notReady', CONFIG=CONFIG, simManager=sim_manager, details_message=err.message)
 
@@ -146,12 +150,16 @@ def sim_manager_test():
 
 @app.route('/admin/tests/mock_specify_page')
 def specify_page_test():
-    # set up fake model
+    # set up fake model if needed
     if not sim_manager.connectionsMade:
         dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
         sim_manager.updateDSL(dsl)
 
-    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
+    selected_node = sim_manager.getNextNode()
+    if selected_node is None:
+        redirect('/done_with_specifying')  # TODO: make this go somewhere meaningful
+
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
 
 
 #=====================================#
