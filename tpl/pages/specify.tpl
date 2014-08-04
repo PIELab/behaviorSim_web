@@ -6,6 +6,28 @@
 % end
 
 <body>
+	<style type='text/css'>
+		.selected_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='selected')}};
+		}		
+		.complete_neighbor_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='neighbor', force_defined=True)}};
+		}			
+		.incomplete_neighbor_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='neighbor', force_defined=False)}};
+		}			
+		.complete_other_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='other', force_defined=True)}};
+		}				
+		.incomplete_other_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='other', force_defined=False)}};
+		}		
+	</style>
 
     <meta charset="utf-8">
     <title>behaviorSim model specification</title>
@@ -48,8 +70,16 @@
 
     <div class='row'>
         <p>
-            Now think about what each connection between variables means. Focus on the variable highlighted in your graph below.
+            Now we specify what each connection between variables means. This is done one variable at a time, so focus on the variable highlighted in your graph below.
         </p>
+		<p>
+			color key:   | 
+			<span class='selected_node'>Selected Node</span> |
+			<span class='complete_neighbor_node'>Completed Neighbor</span> | 
+			<span class='complete_other_node'>Completed Non-Neighbor</span> | 
+			<span class='incomplete_neighbor_node'>Unspecified Neighbor</span> | 
+			<span class='incomplete_other_node'>Unspecified Non-Neighbor</span> |
+		</p>
     </div>
     <div class='row'>
         
@@ -70,7 +100,7 @@
                 This means we must define a formula to describe how information flows into {{selected_node.name}}.
             % else:
                 % node_type = 'source'
-                So {{selected_node.name}} must be either a context variable, or a personality variable.
+                So <span class='selected_node'>{{selected_node.name}}</span> must be either a context variable, or a personality variable.
             % end
         </p>
     </div>
@@ -115,7 +145,7 @@
 								height: 134,
 								series: [{
 									name: '{{parent.name}}',
-									color: 'steelblue',
+									color: 'green',
 									data: {{parent.name}}_data
 								}]
 							});
@@ -162,7 +192,7 @@
 								height: 200,
 								series: [{
 									name: '{{selected_node.name}}',
-									color: 'green',
+									color: 'steelblue',
 									data: {{selected_node.name}}_data
 								}]
 							});
