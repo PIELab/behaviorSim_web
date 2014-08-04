@@ -14,6 +14,12 @@
     
     <!-- chosen -->
     <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
+	
+	<!-- rickshaw for charts -->
+    <link type="text/css" rel="stylesheet" href="/css/rickshaw/detail.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
+    <script src="/js/lib/d3.layout.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
 
     <!-- prettify things (diagramophone) -->
     <link href="/js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
@@ -88,6 +94,42 @@
             </div>
             <script type='text/coffeescript' src="/tpl/js/source_spec_page_controller.coffee"></script>
         % elif node_type == 'construct':
+			<div class='row'>
+				Example inflow time series:
+				% for parent in selected_node.parents:
+					<div class='col-md-2'>
+						<strong>{{parent.name}}</strong>
+						<div class='inflow_graph' id='{{parent.name}}_graph'></div>
+						<script type='text/javascript'>
+							TIME_LENGTH = 20;
+							var {{parent.name}}_data = [];
+							// insert initial data
+							for (var i = 0; i < TIME_LENGTH; i++) {
+								{{parent.name}}_data.push({x: i, y: Math.random()});
+							}
+							var {{parent.name}}_graph = new Rickshaw.Graph( {
+								element: document.querySelector("#{{parent.name}}_graph"),
+								renderer: 'area',
+								stroke: true,
+								width: 269,
+								height: 134,
+								series: [{
+									name: '{{parent.name}}',
+									color: 'steelblue',
+									data: {{parent.name}}_data
+								}]
+							});
+
+							var {{parent.name}}_hoverDetail = new Rickshaw.Graph.HoverDetail( {
+								graph: {{parent.name}}_graph,
+							} );
+
+							{{parent.name}}_graph.render();
+
+						</script>
+					</div>
+				% end
+			</div>
             <div class='row'>
                 <div class="left-column">
                     <div class="row">
@@ -103,7 +145,37 @@
                     </div>
                 </div>
                     <div class="right-column">
-                        <img src="http://zone.ni.com/images/reference/en-XX/help/371361J-01/guid-8fc111e7-da03-4524-b642-5499c58894f9-help-web.png" >
+						resulting waveform (based on given inflow conditions)
+					    <div id='{{selected_node.name}}_graph'></div>
+						<script type='text/javascript'>
+							TIME_LENGTH = 20;
+							var {{selected_node.name}}_data = [];
+							// insert initial data
+							for (var i = 0; i < TIME_LENGTH; i++) {
+								{{selected_node.name}}_data.push({x: i, y: Math.random()});
+							}
+							var {{selected_node.name}}_graph = new Rickshaw.Graph( {
+								element: document.querySelector("#{{selected_node.name}}_graph"),
+								renderer: 'area',
+								stroke: true,
+								width: 600,
+								height: 200,
+								series: [{
+									name: '{{selected_node.name}}',
+									color: 'green',
+									data: {{selected_node.name}}_data
+								}]
+							});
+
+							var {{selected_node.name}}_hoverDetail = new Rickshaw.Graph.HoverDetail( {
+								graph: {{selected_node.name}}_graph,
+							} );
+
+							{{selected_node.name}}_graph.render();
+
+						</script>
+						
+						
                     </div>
                 </div>
             </div>
@@ -147,5 +219,5 @@
         # initialize the view
         @controller.makeItGo(text, closeup_paper, false)
     </script>
-
+	
 </body>

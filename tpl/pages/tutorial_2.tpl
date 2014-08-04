@@ -78,14 +78,13 @@
     </div>
 
 
-
+	<!-- make the rickshaw graphs -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
     <script src="/js/lib/d3.layout.min.js"></script> 
     <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
 
     <script type="text/javascript" src="/js/tutorial/base_config.js"></script>
     <script>
-
 
     </script>
     <script type="text/javascript" src="/js/tutorial/vp_graph.js"></script>
