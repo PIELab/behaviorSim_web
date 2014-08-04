@@ -1,7 +1,5 @@
 __author__ = '7yl4r'
 
-HIGHLIGHT_COLOR = 'red'  # color of highlighted nodes on DSL graphs
-
 class ModelBuilder(object):
     """
     Manages the steps of builiding a Model. The essential steps are (not necessarily in order):
@@ -178,12 +176,43 @@ class ModelBuilder(object):
         """
         returns Diagram Specification Language for current information flow diagram
         """
+        # blue
+        selected_node = '2488DF'  # color of highlighted nodes on DSL graphs
+
+        # greenish
+        complete_neighbor = '00A900'
+        complete_other = '76A976'
+
+        # orangish
+        incomplete_neighbor = 'D59500'
+        incomplete_other = 'D7BD81'
+
+
         if self.model.DSL is not None:
             dsl_str = self.model.DSL
         else:
             dsl_str = self._initInfoFlowDSL()
 
         if highlightedNode is not None:
-            dsl_str += ur'\n'+str(highlightedNode.name)+ur' {'+HIGHLIGHT_COLOR+ur'}\n'
+
+            def color_node(node_name, color_str):
+                return node_name + ur' {' + color_str + ur'}\n'
+
+            dsl_str += ur'\n' + color_node(highlightedNode.name, selected_node)
+
+            for node in self.model._nodes:
+                if ( node.name in [parent.name for parent in highlightedNode.parents]
+                  or node.name in [child.name for child in highlightedNode.children]):
+                    if node.defined:
+                        dsl_str += color_node(node.name, complete_neighbor)
+                    else:
+                        dsl_str += color_node(node.name, incomplete_neighbor)
+                elif node.name == highlightedNode.name:
+                    pass
+                else:
+                    if node.defined:
+                        dsl_str += color_node(node.name, complete_other)
+                    else:
+                        dsl_str += color_node(node.name, incomplete_other)
 
         return dsl_str
