@@ -89,6 +89,11 @@ def make_spec():
     except ValueError as err:
         return template('tpl/pages/notReady', CONFIG=CONFIG, simManager=sim_manager, details_message=err.message)
 
+@app.route("/done_with_specifying")
+@app.route("/reconsile")
+def make_reconsile():
+    return template('tpl/pages/reconsile', CONFIG=CONFIG, simManager=sim_manager)
+
 @app.route('/tutorial')
 @app.route('/tutorial/')
 @app.route("/tutorial/<page>" )

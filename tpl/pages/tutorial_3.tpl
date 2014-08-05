@@ -101,9 +101,9 @@
 paper = Raphael "canvas", 800, 600
 
 sampleText = """
-Verbal Persuasion -> Self Efficacy
-Vicarious Experience -> Self Efficacy
-Self Efficacy -> Physical Activity Level
+Verbal_Persuasion -> Self_Efficacy
+Vicarious_Experience -> Self_Efficacy
+Self_Efficacy -> Physical_Activity_Level
 """
 
 $listen = (target, name, callback) ->
