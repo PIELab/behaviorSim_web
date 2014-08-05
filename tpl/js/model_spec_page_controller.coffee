@@ -32,9 +32,17 @@ $ getOptionsForSelection = (selected) ->
             '''
     else if selected == 'fluid-flow'
         return '''
-                <strong>constr2 = ...</strong>
+                <strong>tao_{{simManager.selected_node.name}}*d{{simManager.selected_node.name}}/dt = {{simManager.selected_node.name}}
+                    % for parent in simManager.selected_node.parents:
+						+ c_{{parent.name}}*{{parent.name}}(t - theta_{{parent.name}})
+					% end
+				</strong>
                 <form>
-                    ...
+                    tao_{{simManager.selected_node.name}} = <input type="text" name="tao_{{simManager.selected_node.name}}" class='model-option'> <br>
+                    % for parent in simManager.selected_node.parents:
+						c_{{parent.name}} = <input type="text" name="c_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
+						theta_{{parent.name}} = <input type="text" name="theta_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
+					% end
                 </form>
             '''
     else if selected == 'other'
