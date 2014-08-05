@@ -110,7 +110,9 @@ def recieveVarList():
 def receive_dsl():
     dsl = request.forms.get('DSL')
     sim_manager.updateDSL(dsl)
-    print 'new DSL received.'
+    print 'new DSL received: ', dsl
+    print dsl.split('\n')
+
     return 'DSL received.'
 
 @app.post('/node_spec/submit')

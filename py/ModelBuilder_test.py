@@ -18,7 +18,11 @@ class model_builder_tester(unittest.TestCase):
         mb = ModelBuilder(mod)
 
         # === "draw" ===
-        infoFlow = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+        infoFlow = '''ctx2 -> constr2
+                    ctx2 -> constr3
+                    constr2 -> constr3
+                    pers1 -> constr2
+                    pers2 -> constr3'''
         mb.updateDSL(infoFlow, DSL_type='info-flow', model=mod)
 
         # === "specify" source vertices ===
@@ -59,7 +63,11 @@ class model_builder_tester(unittest.TestCase):
     def test_node_checker_on_given_nodes(self):
         mb = ModelBuilder(Model())
 
-        infoFlow = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+        infoFlow = '''ctx2 -> constr2
+                    ctx2 -> constr3
+                    constr2 -> constr3
+                    pers1 -> constr2
+                    pers2 -> constr3'''
         mb.updateDSL(infoFlow, DSL_type='info-flow')
 
         node = mb._checkNode(mb.model, 'ctx2')
@@ -68,7 +76,11 @@ class model_builder_tester(unittest.TestCase):
     def test_update_dsl_adds_nodes(self):
         mb = ModelBuilder(Model())
 
-        infoFlow = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+        infoFlow = '''ctx2 -> constr2
+                    ctx2 -> constr3
+                    constr2 -> constr3
+                    pers1 -> constr2
+                    pers2 -> constr3'''
         mb.updateDSL(infoFlow, DSL_type='info-flow')
 
         nodes = ['ctx2', 'constr2', 'constr3', 'pers1', 'pers2']
@@ -83,7 +95,12 @@ class model_builder_tester(unittest.TestCase):
         mb = ModelBuilder(Model())
 
         # === "draw" ===
-        info_flow = ur'n1a -> n2\n n1b -> n2\n n2 -> n3a\n n2 -> n3b\n n3a -> n4\n n3b -> n4'
+        info_flow =  '''n1a -> n2
+                        n1b -> n2
+                        n2 -> n3a
+                        n2 -> n3b
+                        n3a -> n4
+                        n3b -> n4'''
         mb.updateDSL(info_flow, DSL_type='info-flow')
 
         # first node must be those with no inflows
