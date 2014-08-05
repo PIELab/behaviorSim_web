@@ -1,6 +1,28 @@
 % include ('tpl/pageBits/header')
 
 <body>
+	<style type='text/css'>
+		.selected_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='selected')}};
+		}		
+		.complete_neighbor_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='neighbor', force_defined=True)}};
+		}			
+		.incomplete_neighbor_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='neighbor', force_defined=False)}};
+		}			
+		.complete_other_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='other', force_defined=True)}};
+		}				
+		.incomplete_other_node{
+			font-weight:bold;
+			color:#{{simManager.get_node_color(force_type='other', force_defined=False)}};
+		}		
+	</style>
 
     <meta charset="utf-8">
     <title>behaviorSim model specification</title>
@@ -9,36 +31,50 @@
     
     <!-- chosen -->
     <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
+	
+	<!-- rickshaw for charts -->
+    <link type="text/css" rel="stylesheet" href="/css/rickshaw/detail.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
+    <script src="/js/lib/d3.layout.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
 
     <!-- prettify things (diagramophone) -->
-    <link href="js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet/less" type="text/css" href="js/lib/diagramophone/style.less">
-    <script src="js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
+    <link href="/js/lib/diagramophone/lib/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet/less" type="text/css" href="/js/lib/diagramophone/style.less">
+    <script src="/js/lib/diagramophone/lib/less-1.3.0.min.js" type="text/javascript"></script>
     <!-- chosen -->
     <link rel="stylesheet" href="{{CONFIG.CHOSEN_CSS_URL}}">
 
     <!-- things you need to run -->
-    <script src="js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
-    <script src="js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
+    <script src="/js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
+    <script src="/js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
 
 
     <!-- my stuff -->
-    <script src="js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
-    <script src="js/lib/diagramophone/drawer.coffee" type="text/coffeescript"></script>
-    <script src="js/lib/diagramophone/parser.coffee" type="text/coffeescript"></script>
+    <script src="/js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
+    <script src="/js/lib/diagramophone/drawer.coffee" type="text/coffeescript"></script>
+    <script src="/js/lib/diagramophone/parser.coffee" type="text/coffeescript"></script>
 
     <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
 
     <!-- svg to canvas (so then i can image it) -->
-    <script type="text/javascript" src="js/lib/diagramophone/lib/rgbcolor.js"></script>
-    <script type="text/javascript" src="js/lib/diagramophone/lib/canvg.js"></script>
+    <script type="text/javascript" src="/js/lib/diagramophone/lib/rgbcolor.js"></script>
+    <script type="text/javascript" src="/js/lib/diagramophone/lib/canvg.js"></script>
 
     <div class='row'>
         <p>
-            Now let's dive a little deeper and think about what each connection between variables means. Let's focus on the variable highlighted in your graph below.
+            Now we specify what each connection between variables means. This is done one variable at a time, so focus on the variable highlighted in your graph below.
         </p>
+		<p>
+			color key:   | 
+			<span class='selected_node'>Selected Node</span> |
+			<span class='complete_neighbor_node'>Completed Neighbor</span> | 
+			<span class='complete_other_node'>Completed Non-Neighbor</span> | 
+			<span class='incomplete_neighbor_node'>Unspecified Neighbor</span> | 
+			<span class='incomplete_other_node'>Unspecified Non-Neighbor</span> |
+		</p>
     </div>
     <div class='row'>
         
@@ -48,107 +84,165 @@
         
     </div>
     <div class='row'>
-
         <p>
-            Let's start out with the "source verticies" (variables without any inflows). Since they have no variables going into them, we have to make an assumption about how they change over time. 
+            Looking at this variable's neighbors, we can see that this variable has
+            {{len(selected_node.parents)}} inflows.
+
+            % node_type = None
+
+            % if len(selected_node.parents) > 0:
+                % node_type = 'construct'
+                This means we must define a formula to describe how information flows into {{selected_node.name}}.
+            % else:
+                % node_type = 'source'
+                So <span class='selected_node'>{{selected_node.name}}</span> must be either a context variable, or a personality variable.
+            % end
         </p>
     </div>
         
     <div>
         <div class='row'>
-            <div class='title'>
-                Selected Node
+            <div id="closeupCanvas"> </div>
+        </div>
+        % if node_type == 'source':
+            <div class="row">
+                <div class="left-column">
+                    {{selected_node.name}} is a
+                    <select id="source-type-selector" class="chosen-select">
+                        <option value="personality">personality variable</option>
+                        <option value="context">context variable</option>
+                    </select>
+                </div>
+                <div class="right-column" id="source-options">
+                    loading source vertex options...
+                </div>
             </div>
-            <div class='left-column'>
-                <div id="closeupCanvas"> </div>
-            </div>
-            <div class='right-column'>
-                <div class='row'>
-                         For VAR NAME, 
-                         use        
+            <script type='text/coffeescript' src="/tpl/js/source_spec_page_controller.coffee"></script>
+        % elif node_type == 'construct':
+			<div class='row'>
+				Example inflow time series:
+                <script type="text/javascript">
+                    var INFLOWS = [];
+                </script>
+				% for parent in selected_node.parents:
+					<div class='col-md-2'>
+						<strong>{{parent.name}}</strong>
+						<div class='inflow_graph' id='{{parent.name}}_graph'></div>
+						<script type='text/javascript'>
+							TIME_LENGTH = 20;
+							var {{parent.name}}_data = [];
+							INFLOWS.push({{parent.name}}_data);
+
+							// insert initial data
+							for (var i = 0; i < TIME_LENGTH; i++) {
+								{{parent.name}}_data.push({x: i, y: Math.random()});
+							}
+							var {{parent.name}}_graph = new Rickshaw.Graph( {
+								element: document.querySelector("#{{parent.name}}_graph"),
+								renderer: 'area',
+								stroke: true,
+								width: 269,
+								height: 134,
+								series: [{
+									name: '{{parent.name}}',
+									color: 'green',
+									data: {{parent.name}}_data
+								}]
+							});
+
+							var {{parent.name}}_hoverDetail = new Rickshaw.Graph.HoverDetail( {
+								graph: {{parent.name}}_graph,
+							} );
+
+							{{parent.name}}_graph.render();
+
+						</script>
+					</div>
+				% end
+			</div>
+            <div class='row'>
+                <div class="left-column">
+                    <div class="row">
+                         For {{selected_node.name}} use
                         <select id="model-selector" data-placeholder="default-choice..." class="chosen-select" style="width:250px;" tabindex="4">
                             <option value="linear-combination">Linear Combination</option>
                             <option value="fluid-flow">Fluid-Flow Analogy</option>
                             <option value="other">Other</option>
                         </select>
-                </div>
-                <div class='row'>
-                    <div class="left-column" id='modeling-options'>
-                        PLACEHOLDER
                     </div>
+                    <div class='row' id='modeling-options'>
+                            loading modeling options...
+                    </div>
+                </div>
                     <div class="right-column">
-                        <img src="http://zone.ni.com/images/reference/en-XX/help/371361J-01/guid-8fc111e7-da03-4524-b642-5499c58894f9-help-web.png" >
+						resulting waveform (based on given inflow conditions)
+					    <div id='{{selected_node.name}}_graph'></div>
+						<script type='text/javascript'>
+							TIME_LENGTH = 20;
+							var {{selected_node.name}}_data = [];
+
+                            // initial function is simple sum
+                            function {{selected_node.name}}(t, inflows){
+                                var value = 0;
+                                for (var i=0; i < inflows.length; i++){
+                                    value += inflows[i][t].y;
+                                }
+                                return value;
+                            }
+
+							// insert initial data
+							for (var i = 0; i < TIME_LENGTH; i++) {
+								{{selected_node.name}}_data.push({x: i, y: {{selected_node.name}}(i, INFLOWS) });
+							}
+							var {{selected_node.name}}_graph = new Rickshaw.Graph( {
+								element: document.querySelector("#{{selected_node.name}}_graph"),
+								renderer: 'area',
+								stroke: true,
+								width: 600,
+								height: 200,
+								series: [{
+									name: '{{selected_node.name}}',
+									color: 'steelblue',
+									data: {{selected_node.name}}_data
+								}]
+							});
+
+							var {{selected_node.name}}_hoverDetail = new Rickshaw.Graph.HoverDetail( {
+								graph: {{selected_node.name}}_graph,
+							} );
+
+							{{selected_node.name}}_graph.render();
+
+						</script>
+						
+						
                     </div>
                 </div>
             </div>
-        </div>
-
+            <script type='text/coffeescript' src="/tpl/js/model_spec_page_controller.coffee"></script>
+        % else:
+            % raise ValueError('unknown node_type "'+node_type+'"')
+        % end
         <div class='row'>
-        <a href="#" class="disabledButton">Previous Node</a>
-        <a href="#" class="myButton">Next Node</a>
-        <a href="#" class="disabledButton">Done</a>
+            <a href="#" class="disabledButton">Previous Node</a>
+            <a href="#" class="myButton" id="submit_node_button">Next Node</a>
+            <a href="#" class="disabledButton">Done</a>
        </div>
-        %include('tpl/pageBits/nav')
-
+        <div class="row">
+            %include('tpl/pageBits/nav')
+        </div>
     </div>
     
-    <script type='text/coffeescript'>
-        ### script for controlling responsive modeling param form ###
-        modelingOptions = document.getElementById('modeling-options')
-        modelSelection  = document.getElementById('model-selector')
-         
-        $listen = (target, name, callback) ->
-            # shortcut addListener function
-            if target.addEventListener
-                target.addEventListener name, callback, false
-            else
-                target.attachEvent "on#{name}", callback
-                
-        $ getOptionsForSelection = (selected) ->
-            # returns html with options section for given selection
-            if selected == 'linear-combination'
-                return '''
-                        <strong>constr2 = c1 * ctx2</strong>
-                        <br><br> 
-                        <form> 
-                            c1 = <input type="text" name="c1"> 
-                        </form> 
-                    '''
-            else if selected == 'fluid-flow'
-                return '''
-                        <strong>constr2 = ...</strong>
-                        <form>
-                            ...
-                        </form>
-                    '''
-            else if selected == 'other'
-                return '''
-                        <strong> constr2 = f( ctx2 ) </strong
-                        <form>
-                            <input type="paragraph" name="code">
-                        </form>
-                    '''
-            else
-                return "unrecognized selection '"+selected+"'"
-                
-        $listen modelSelection, 'change', =>
-            modelingOptions.innerHTML = getOptionsForSelection( modelSelection.value )
-            
-        # initial setting of the content section
-        modelingOptions.innerHTML = getOptionsForSelection( modelSelection.value )
-        
-    </script>
 
     <script type="text/coffeescript">
-        selectedNode = "constr2"  # TODO: use something like  simManager.getNextNodeToSpec() 
+        selectedNode = "{{selected_node}}"
         ### main diagram display (with highlighted node) ###
         @controller = new Controller
 
         main_paper = Raphael "mainCanvas", 400, 400
 
-        # TODO: use something like simManger.getNextNodeToSpec() here too
         sampleText = """
-        {{ !simManager.getInfoFlowDSL('constr2') }}
+        {{ !simManager.getInfoFlowDSL(selected_node) }}
         """
 
         raphaelCanvas = document.getElementById("mainCanvas")
@@ -159,12 +253,11 @@
         ### close up display ###
         closeup_paper = Raphael "closeupCanvas", 200, 200  #NOTE: these numbers dont matter?
 
-        # TODO: use something like simManger.getNextNodeToSpec() here too
         text = """
-        {{ !simManager.getInfoFlowDSL_closeup('constr2') }}
+        {{ !simManager.getInfoFlowDSL_closeup(selected_node) }}
         """
         # initialize the view
         @controller.makeItGo(text, closeup_paper, false)
     </script>
-
+	
 </body>

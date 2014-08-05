@@ -33,7 +33,15 @@ def js_static(filename):
 @app.route('/img/<filename:path>')
 def js_static(filename):
     return static_file(filename, root='./img/')
-    
+
+#=====================================#
+#           dynamic js files          #
+#=====================================#
+@app.route("/tpl/js/<filename>")
+def getDynamicJS(filename):
+    # check for user login token in cookies
+    return template('tpl/js/'+filename, simManager=sim_manager, CONFIG=CONFIG)
+
 
 #=====================================#
 #               Pages                 #
@@ -60,19 +68,26 @@ def makeCSMB():
 
 @app.route("/draw")
 def makeDraw():
-	return template('tpl/pages/draw/draw', CONFIG=CONFIG, simManager=sim_manager)
+    return template('tpl/pages/draw/draw', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/draw/infoFlow")
 def makeInfoFLow():
-	return template('tpl/pages/draw/infoFlow', CONFIG=CONFIG, simManager=sim_manager)
+    return template('tpl/pages/draw/infoFlow', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/draw/mediatorModerator")
 def makeMedMod():
     return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
 
 @app.route("/specify")
-def makeSpec():
-	return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager)
+def make_spec():
+    try:
+        selected_node = sim_manager.getNextNode()
+        if selected_node is None:
+            redirect('/done_with_specifying')  # TODO: make this go somewhere meaningful
+        else:
+            return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+    except ValueError as err:
+        return template('tpl/pages/notReady', CONFIG=CONFIG, simManager=sim_manager, details_message=err.message)
 
 @app.route('/tutorial')
 @app.route('/tutorial/')
@@ -88,7 +103,7 @@ def makeTutorial(page=None):
         raise NotImplementedError('unknown tutorial page request for pg #'+str(page))
 
 #=====================================#
-#           data recievers            #
+#           data receivers            #
 #=====================================#
 @app.post('/think/submit')
 def recieveVarList():
@@ -100,29 +115,96 @@ def recieveVarList():
     redirect( '/draw' )
 
 @app.post('/draw/submit')
-def recieveDSL():
-    DSL= request.forms.get('DSL')
-    sim_manager.updateDSL(DSL)
-    print 'new DSL recieved.'
-    return 'DSL recieved.'
-    
-#=====================================#
-#      websockets (currently unused)  #
-#=====================================#
-@app.route('/websocket')
-def handle_websocket():
-    wsock = request.environ.get('wsgi.websocket')
-    if not wsock:
-        abort(400, 'Expected WebSocket request.')
+def receive_dsl():
+    dsl = request.forms.get('DSL')
+    sim_manager.updateDSL(dsl)
+    print 'new DSL received: ', dsl
+    print dsl.split('\n')
 
-    while True:
-        try:
-            message = wsock.receive()
-            print "received : "+str(message)
-            sim_manager.parseMessage(message, wsock)
+    return 'DSL received.'
 
-        except WebSocketError:
-            break
+@app.post('/node_spec/submit')
+def receive_node_spec():
+    node_type = request.forms.get('type')
+    model_type = request.forms.get('model')
+    options = request.forms.get('options')
+    sim_manager.specify_node(node_type, model_type, options)
+    print 'spec for node "'+sim_manager.selected_node.name+'" recieved.'
+
+
+#=====================================#
+#            test pages               #
+#=====================================#
+@app.route('/admin/tests')
+@app.route('/admin/tests/')
+def test_display():
+    #shows a list of tests and links
+    test_pages = {
+        'diagramophone demo page': '/js/lib/diagramophone/index.html',
+        'sim_manager debugger': '/admin/tests/sim_manager_touch',
+        'mock specify page': '/admin/tests/mock_specify_page',
+        'mock med/mod draw page': '/admin/tests/mock_mediator_moderator',
+        'mock specify construct': '/admin/tests/mock_specify_construct'
+    }
+
+    html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n<ul>'
+    for key in test_pages:
+        html += '<li><a href="'+test_pages[key]+'">'+key+'</a></li>'
+    html += '</ul></h3>\n</body>'
+    return html
+
+@app.route('/admin/tests/selenium')
+def show_selenium_all_tests_test_suite():
+    return static_file('_all_tests_test_suite', root='./selenium/seleniumIDE_tests/')
+
+@app.route('/admin/tests/mock_mediator_moderator')
+def draw_page_test():
+    dsl = '''ctx2 -> constr2
+            ctx2 -> constr3
+            constr2 -> constr3
+            pers1 -> constr2
+            pers2 -> constr3'''
+    sim_manager.updateDSL(dsl)
+    return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
+
+
+@app.route('/admin/tests/sim_manager_touch')
+def sim_manager_test():
+    return '<textarea style="width:800px" rows=20>'+repr(sim_manager)+'</textarea>';
+
+@app.route('/admin/tests/mock_specify_page')
+def specify_page_test():
+    # set up fake model if needed
+    if not sim_manager.connectionsMade:
+        dsl = '''ctx2 -> constr2
+                ctx2 -> constr3
+                constr2 -> constr3
+                pers1 -> constr2
+                pers2 -> constr3'''
+        sim_manager.updateDSL(dsl)
+
+    selected_node = sim_manager.getNextNode()
+    if selected_node is None:
+        redirect('/done_with_specifying')  # TODO: make this go somewhere meaningful
+
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+
+@app.route('/admin/tests/mock_specify_construct')
+def specify_construct_page():
+    # set up fake model
+    dsl = '''ctx1 -> constr
+            p1 -> constr'''
+    sim_manager.updateDSL(dsl)
+
+    # spec ctx1 and p1
+    sim_manager.getNextNode()
+    sim_manager.specify_node('context', 'i dunno i dunno', 'i dunno here neither')
+    sim_manager.getNextNode()
+    sim_manager.specify_node('personality', 'constant', '5 or something')
+
+    selected_node = sim_manager.getNextNode()
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+
 
 
 #=====================================#
@@ -130,13 +212,7 @@ def handle_websocket():
 #=====================================#
 if __name__ == "__main__":
 
-    from gevent.pywsgi import WSGIServer
-    from geventwebsocket.handler import WebSocketHandler
-    from geventwebsocket import WebSocketError
-
     port = int(os.environ.get("PORT", 80))
-    server = WSGIServer(("0.0.0.0", port), app,
-                        handler_class=WebSocketHandler)
+
     print 'starting server on '+str(port)
-    server.serve_forever()
-    # ^that^ == app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)

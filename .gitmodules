@@ -3,4 +3,4 @@
 	url = https://github.com/defnull/bottle
 [submodule "js/lib/diagramophone"]
 	path = js/lib/diagramophone
-	url = https://github.com/notwaldorf/diagramophone
+	url = https://github.com/7yl4r/diagramophone

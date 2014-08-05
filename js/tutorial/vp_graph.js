@@ -2,7 +2,7 @@ var vp_data = sampleData(timeStart, timeStop, .2, .5, 1, 6);
 
 var vp_graph = new Rickshaw.Graph( {
     element: document.querySelector("#vp_graph"),
-    renderer: 'bar',
+    renderer: 'area',
     stroke: true,
     width: 269,
     height: 134,
