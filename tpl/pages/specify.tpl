@@ -1,10 +1,5 @@
 % include ('tpl/pageBits/header')
 
-%
-% if selected_node is None:
-%   redirect('/done')
-% end
-
 <body>
 	<style type='text/css'>
 		.selected_node{
@@ -126,6 +121,9 @@
         % elif node_type == 'construct':
 			<div class='row'>
 				Example inflow time series:
+                <script type="text/javascript">
+                    var INFLOWS = [];
+                </script>
 				% for parent in selected_node.parents:
 					<div class='col-md-2'>
 						<strong>{{parent.name}}</strong>
@@ -133,6 +131,8 @@
 						<script type='text/javascript'>
 							TIME_LENGTH = 20;
 							var {{parent.name}}_data = [];
+							INFLOWS.push({{parent.name}}_data);
+
 							// insert initial data
 							for (var i = 0; i < TIME_LENGTH; i++) {
 								{{parent.name}}_data.push({x: i, y: Math.random()});
@@ -180,9 +180,19 @@
 						<script type='text/javascript'>
 							TIME_LENGTH = 20;
 							var {{selected_node.name}}_data = [];
+
+                            // initial function is simple sum
+                            function {{selected_node.name}}(t, inflows){
+                                var value = 0;
+                                for (var i=0; i < inflows.length; i++){
+                                    value += inflows[i][t].y;
+                                }
+                                return value;
+                            }
+
 							// insert initial data
 							for (var i = 0; i < TIME_LENGTH; i++) {
-								{{selected_node.name}}_data.push({x: i, y: Math.random()});
+								{{selected_node.name}}_data.push({x: i, y: {{selected_node.name}}(i, INFLOWS) });
 							}
 							var {{selected_node.name}}_graph = new Rickshaw.Graph( {
 								element: document.querySelector("#{{selected_node.name}}_graph"),
