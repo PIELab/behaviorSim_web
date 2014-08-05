@@ -151,7 +151,11 @@ def show_selenium_all_tests_test_suite():
 
 @app.route('/admin/tests/mock_mediator_moderator')
 def draw_page_test():
-    dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+    dsl = '''ctx2 -> constr2
+            ctx2 -> constr3
+            constr2 -> constr3
+            pers1 -> constr2
+            pers2 -> constr3'''
     sim_manager.updateDSL(dsl)
     return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
 
@@ -164,7 +168,11 @@ def sim_manager_test():
 def specify_page_test():
     # set up fake model if needed
     if not sim_manager.connectionsMade:
-        dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+        dsl = '''ctx2 -> constr2
+                ctx2 -> constr3
+                constr2 -> constr3
+                pers1 -> constr2
+                pers2 -> constr3'''
         sim_manager.updateDSL(dsl)
 
     selected_node = sim_manager.getNextNode()
@@ -176,7 +184,8 @@ def specify_page_test():
 @app.route('/admin/tests/mock_specify_construct')
 def specify_construct_page():
     # set up fake model
-    dsl = ur'ctx1 -> constr\n p1 -> constr'
+    dsl = '''ctx1 -> constr
+            p1 -> constr'''
     sim_manager.updateDSL(dsl)
 
     # spec ctx1 and p1
