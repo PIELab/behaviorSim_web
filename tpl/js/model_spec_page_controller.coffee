@@ -19,30 +19,30 @@ $ getOptionsForSelection = (selected) ->
     if selected == 'linear-combination'
         return '''
                 <strong>{{simManager.selected_node.name}} = 
-					% for parent in simManager.selected_node.parents:
-						+ c_{{parent.name}}*{{parent.name}}
-					% end
-				</strong>
+			% for parent in simManager.selected_node.parents:
+				+ c_{{parent.name}}*{{parent.name}}
+			% end
+		</strong>
                 <br><br>
                 <form>
-					% for parent in simManager.selected_node.parents:
-						c_{{parent.name}} = <input type="text" name="c_{{parent.name}}" class='model-option'> <br>
-					% end
+			% for parent in simManager.selected_node.parents:
+				c_{{parent.name}} = <input type="text" name="c_{{parent.name}}" class='model-option'> <br>
+			% end
                 </form>
             '''
     else if selected == 'fluid-flow'
         return '''
                 <strong>tao_{{simManager.selected_node.name}}*d{{simManager.selected_node.name}}/dt = {{simManager.selected_node.name}}
-                    % for parent in simManager.selected_node.parents:
-						+ c_{{parent.name}}*{{parent.name}}(t - theta_{{parent.name}})
-					% end
-				</strong>
+	            	% for parent in simManager.selected_node.parents:
+				+ c_{{parent.name}}*{{parent.name}}(t - theta_{{parent.name}})
+			% end
+		</strong>
                 <form>
-                    tao_{{simManager.selected_node.name}} = <input type="text" name="tao_{{simManager.selected_node.name}}" class='model-option'> <br>
-                    % for parent in simManager.selected_node.parents:
-						c_{{parent.name}} = <input type="text" name="c_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
-						theta_{{parent.name}} = <input type="text" name="theta_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
-					% end
+	        	 tao_{{simManager.selected_node.name}} = <input type="text" name="tao_{{simManager.selected_node.name}}" class='model-option'> <br>
+		    	% for parent in simManager.selected_node.parents:
+				c_{{parent.name}} = <input type="text" name="c_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
+				theta_{{parent.name}} = <input type="text" name="theta_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
+			% end
                 </form>
             '''
     else if selected == 'other'
