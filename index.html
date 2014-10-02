@@ -358,19 +358,32 @@
                                     saveBtn = document.getElementById("saveIt")
                                     raphaelCanvas = document.getElementById("canvas")
 
-                                    $listen goBtn, 'click', => @controller.makeItGo(textarea.value, paper, fontBtn.checked)
+                                    draw_colored_graph: (inputText, paper, hasSillyFont) ->
+                                        # color the nodes
+                                        text = inputText
+
+                                        console.log("TODO: color the nodes!!!")
+                                        # TODO: for each line, add desired color
+                                        # ref: https://github.com/PIELab/behaviorSim_web/commit/fd1c8b3ba0508e81609108f4c621da75ec1436e5
+
+                                        # call the main method
+                                        @controller.makeItGo(text, paper, fontBtn.checked)
+
+
+
+                                    $listen goBtn, 'click', => draw_colored_graph(textarea.value, paper, fontBtn.checked)
                                     $listen saveBtn, 'click', => @controller.saveAllTheThings(raphaelCanvas)
 
                                     $listen textarea, 'keyup', =>
                                         if (repl.checked)
-                                            @controller.makeItGo(textarea.value, paper, fontBtn.checked)
+                                            draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
                                     $listen fontBtn, 'change', =>
-                                        @controller.makeItGo(textarea.value, paper, fontBtn.checked)
+                                        draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
                                     # initialize the view
                                     textarea.value = sampleText
-                                    @controller.makeItGo(textarea.value, paper, fontBtn.checked)
+                                    draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
                                     ### this is the model inserter button ###
                                     insertbutton = document.getElementById("submodel_inserter")
@@ -379,10 +392,24 @@
                                     $listen submodel_inserter, 'click', =>
                                         if submodel_selector.value == 'TPB'
                                             textarea.value+='\n behavioral attitude -> intention \n subjective norms -> intention \n perceived behavioral control -> intention \n perceived behavioral control -> behavior \n intention -> behavior \n'
-                                            @controller.makeItGo(textarea.value, paper, fontBtn.checked)
+                                            draw_colored_graph(textarea.value, paper, fontBtn.checked)
                                         else
                                             console.log('unrecognized submodel value "'+submodel_selector.value+'"')
                                 </script>
+
+                            <script type="text/javascript">
+                                  function findElementByText(text){
+                                      /* finds and returns the tspan containing the given text
+                                       * if the element has no children.
+                                       * Useful for retrieving a box in the diagram. NOTE: why did I do this?
+                                       * /
+                                      var jSpot=$("tspan:contains("+text+")")
+                                            .filter(function(){ return $(this).children().length === 0;})
+                                            .parent();  // because you asked the parent of that element
+
+                                      return jSpot;
+                                   }
+                            </script>
                         </div>
                     </div>
                     <div class="row">
