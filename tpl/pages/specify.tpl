@@ -66,11 +66,6 @@
     <script type="text/javascript" src="/js/lib/diagramophone/lib/canvg.js"></script>
 
     <div class='row'>
-<<<<<<< HEAD
-            <p>
-                Now think about what each connection between variables means. Focus on the variable highlighted in your graph below.
-            </p>
-=======
         <p>
             Now we specify what each connection between variables means. This is done one variable at a time, so focus on the variable highlighted in your graph below.
         </p>
@@ -82,7 +77,6 @@
 			<span class='incomplete_neighbor_node'>Unspecified Neighbor</span> | 
 			<span class='incomplete_other_node'>Unspecified Non-Neighbor</span> |
 		</p>
->>>>>>> 47c774fa84dfdb2260386f019021af2ee96fda87
     </div>
     <div class='row'>
         <div id='infoFlow'>
@@ -90,24 +84,6 @@
         </div>
     </div>
     <div class='row'>
-<<<<<<< HEAD
-        <div class='col-md-4'>
-            <p>
-                Looking at this variable's neighbors, we can see that this variable has
-                {{len(selected_node.parents)}} inflows.
-
-                % node_type = None
-                % if len(selected_node.parents) > 0:
-                    % node_type = 'construct'
-                    This means we must define a formula to describe how information flows into {{selected_node.name}}.
-                % else:
-                    % node_type = 'source'
-                    So {{selected_node.name}} must be either a context variable, or a personality variable.
-                % end
-            </p>
-        </div>
-        <div class='col-md-8'>
-=======
         <p>
             Looking at this variable's neighbors, we can see that this variable has
             {{len(selected_node.parents)}} inflows.
@@ -126,7 +102,6 @@
         
     <div>
         <div class='row'>
->>>>>>> 47c774fa84dfdb2260386f019021af2ee96fda87
             <div id="closeupCanvas"> </div>
         </div>
     </div>
@@ -156,7 +131,6 @@
                 </select>
             </div>
             <script type='text/coffeescript' src="/tpl/js/source_spec_page_controller.coffee"></script>
-        % elif node_type == 'construct':
 			<div class='row'>
 				Example inflow time series:
                 <script type="text/javascript">
@@ -252,20 +226,16 @@
 							{{selected_node.name}}_graph.render();
 
 						</script>
-						
-						
                     </div>
                 </div>
             </div>
             <script type='text/coffeescript' src="/tpl/js/model_spec_page_controller.coffee"></script>
-        % else:
-            % raise ValueError('unknown node_type "'+node_type+'"')
-        % end
+
         <div class='row'>
             <a href="#" class="disabledButton">Previous Node</a>
             <a href="#" class="myButton" id="submit_node_button">Next Node</a>
             <a href="#" class="disabledButton">Done</a>
-       </div>
+        </div>
         <div class="row">
             %include('tpl/pageBits/nav')
         </div>
