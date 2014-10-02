@@ -1,5 +1,8 @@
 __author__ = '7yl4r'
 
+
+
+
 class ModelBuilder(object):
     """
     Manages the steps of builiding a Model. The essential steps are (not necessarily in order):
@@ -50,7 +53,7 @@ class ModelBuilder(object):
         if DSL_type == 'info-flow':
             self._applyInfoFlow(newDSL, model)
         else:
-            raise NotImplementedError('unknown DSL type "'+type+'"')
+            raise NotImplementedError('unknown DSL type "'+DSL_type+'"')
 
     def _checkModel(self, model):
         """
@@ -106,9 +109,11 @@ class ModelBuilder(object):
         dsl = ur''
         for parent in selected_node.parents:
             dsl += parent.name + ur' -> ' + selected_node.name + ur'\n'
+            dsl += self.get_node_color_str(parent, selected_node)
         for child in selected_node.children:
             dsl += selected_node.name + ur' -> ' + child.name + ur'\n'
-        dsl += selected_node.name + ur' {red}\n'
+            dsl += self.get_node_color_str(child, selected_node)
+        dsl += self.get_node_color_str(selected_node, selected_node)
         return dsl
 
 
@@ -121,26 +126,27 @@ class ModelBuilder(object):
         :param model_options: model details array to be parsed out
         """
 
-        # TODO: fix all dis:
+        # TODO: use these if/elses to build the correct "formula" representation
+        print model_options
+
         formula = ''
         if node_type == 'context':
+            self.specifyContextNode(formula)
+
+        elif node_type == 'personality':
+            self.specifyPersonalityNode(formula)
+
+        elif node_type == 'construct':
             if model_type == 'fluid-flow':
-                pass
-            elif model_type == 'linear-combo':
-                pass
+                self.specifyConstructNode(formula)
+            elif model_type == 'linear-combination':
+                self.specifyConstructNode(formula)
             else:
                 raise ValueError('unknown model_type "'+model_type+'"')
-            self.specifyContextNode(formula)
-        elif node_type == 'personality':
-            pass
-            self.specifyPersonalityNode(formula)
-        elif node_type == 'construct':
-            pass
-            self.specifyPersonalityNode(formula)
+
         else:
             raise ValueError('unknown node_type given "'+node_type+'"')
 
-        print model_options
 
 
     def specifyContextNode(self, formulation, node_name=None, model=None):
@@ -170,3 +176,88 @@ class ModelBuilder(object):
         node = self._checkNode(model, node_name)
 
         model.set_node(node, 'construct', formulation, is_observable)
+
+    def getInfoFlowDSL(self, highlightedNode=None):
+        """
+        returns Diagram Specification Language for current information flow diagram
+        """
+        if self.model.DSL is not None:
+            dsl_str = self.model.DSL
+        else:
+            dsl_str = self._initInfoFlowDSL()
+
+        if highlightedNode is not None:
+
+            dsl_str += ur'\n'  # adds newline to the end of the dsl just in case (else things can get weird)
+
+            for node in self.model._nodes:
+                dsl_str += self.get_node_color_str(node, highlightedNode)
+
+        return dsl_str
+
+    def get_node_color(self, node=None, highlightedNode=None, force_type=None, force_defined=None):
+        """
+        returns the appropriate color for the given node & highlight
+        :param node: node obj which we are coloring
+        :param highlightedNode: node which is highlighted in the graph
+        :param force_type: relationship to the highlightedNode which we are forcing (even if not actual relation)
+        :param force_defined: overrides usage of node.defined
+        """
+
+        ####################################
+        ### GRAPH COLOR SCHEME CONSTANTS ###
+        ####################################
+        # blue
+        SELECTED_NODE_COLOR = '2488DF'  # color of highlighted nodes on DSL graphs
+
+        # greenish
+        COMPLETE_NEIGHBOR_COLOR = '00A900'
+        COMPLETE_OTHER_COLOR = '76A976'
+
+        # orangish
+        INCOMPLETE_NEIGHBOR_COLOR = 'D59500'
+        INCOMPLETE_OTHER_COLOR = 'D7BD81'
+        ####################################
+        if force_type == 'selected' or node == 'highlighted':
+            return SELECTED_NODE_COLOR
+        else:
+            # use node.defined if defined is not forced
+            if force_defined is None:
+                defined = node.defined
+            else:
+                defined = force_defined
+
+            # use forced type or get type from node if not given
+            if force_type is None:
+                if ( node.name in [parent.name for parent in highlightedNode.parents]
+                  or node.name in [child.name for child in highlightedNode.children]):
+                    type = 'neighbor'
+                elif node.name == highlightedNode.name:
+                    return SELECTED_NODE_COLOR
+                else:
+                    type = 'other'
+            elif force_type == 'neighbor' or node == 'parent' or node == 'child':
+                type = 'neighbor'
+            elif force_type is not None:
+                type = 'other'
+
+            # figure out what color to send
+            if type == 'neighbor':
+                if defined:
+                    return COMPLETE_NEIGHBOR_COLOR
+                else:
+                    return INCOMPLETE_NEIGHBOR_COLOR
+            elif type == 'other':
+                if defined:
+                    return COMPLETE_OTHER_COLOR
+                else:
+                    return INCOMPLETE_OTHER_COLOR
+            else:
+                raise AssertionError('this code should never be reached... unknown type "'+str(type)+'"')
+
+
+    def get_node_color_str(self, node, highlightedNode):
+        """
+        returns a dsl string which colorifies the node appropriately
+        """
+        return node.name + ur' {' + self.get_node_color(node, highlightedNode) + ur'}\n'

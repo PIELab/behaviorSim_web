@@ -33,7 +33,15 @@ def js_static(filename):
 @app.route('/img/<filename:path>')
 def js_static(filename):
     return static_file(filename, root='./img/')
-    
+
+#=====================================#
+#           dynamic js files          #
+#=====================================#
+@app.route("/tpl/js/<filename>")
+def getDynamicJS(filename):
+    # check for user login token in cookies
+    return template('tpl/js/'+filename, simManager=sim_manager, CONFIG=CONFIG)
+
 
 #=====================================#
 #               Pages                 #
@@ -73,6 +81,11 @@ def make_spec():
     except ValueError as err:
         return template('tpl/pages/notReady', CONFIG=CONFIG, simManager=sim_manager, details_message=err.message)
 
+@app.route("/done_with_specifying")
+@app.route("/reconsile")
+def make_reconsile():
+    return template('tpl/pages/reconsile', CONFIG=CONFIG, simManager=sim_manager)
+
 @app.route('/tutorial')
 @app.route('/tutorial/')
 @app.route("/tutorial/<page>" )
@@ -102,7 +115,9 @@ def recieveVarList():
 def receive_dsl():
     dsl = request.forms.get('DSL')
     sim_manager.updateDSL(dsl)
-    print 'new DSL received.'
+    print 'new DSL received: ', dsl
+    print dsl.split('\n')
+
     return 'DSL received.'
 
 @app.post('/node_spec/submit')
@@ -111,6 +126,7 @@ def receive_node_spec():
     model_type = request.forms.get('model')
     options = request.forms.get('options')
     sim_manager.specify_node(node_type, model_type, options)
+    print 'spec for node "'+sim_manager.selected_node.name+'" recieved.'
 
 
 #=====================================#
@@ -124,7 +140,8 @@ def test_display():
         'diagramophone demo page': '/js/lib/diagramophone/index.html',
         'sim_manager debugger': '/admin/tests/sim_manager_touch',
         'mock specify page': '/admin/tests/mock_specify_page',
-        'mock med/mod draw page': '/admin/tests/mock_mediator_moderator'
+        'mock med/mod draw page': '/admin/tests/mock_mediator_moderator',
+        'mock specify construct': '/admin/tests/mock_specify_construct'
     }
 
     html = '<body>\n<h1>Choose a test:</h1>\n<h3>\n<ul>'
@@ -139,7 +156,11 @@ def show_selenium_all_tests_test_suite():
 
 @app.route('/admin/tests/mock_mediator_moderator')
 def draw_page_test():
-    dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+    dsl = '''ctx2 -> constr2
+            ctx2 -> constr3
+            constr2 -> constr3
+            pers1 -> constr2
+            pers2 -> constr3'''
     sim_manager.updateDSL(dsl)
     return template('tpl/pages/draw/mediatorModerator', CONFIG=CONFIG, simManager=sim_manager)
 
@@ -152,7 +173,11 @@ def sim_manager_test():
 def specify_page_test():
     # set up fake model if needed
     if not sim_manager.connectionsMade:
-        dsl = ur'ctx2 -> constr2\n ctx2 -> constr3\n constr2 -> constr3\n pers1 -> constr2\n pers2 -> constr3'
+        dsl = '''ctx2 -> constr2
+                ctx2 -> constr3
+                constr2 -> constr3
+                pers1 -> constr2
+                pers2 -> constr3'''
         sim_manager.updateDSL(dsl)
 
     selected_node = sim_manager.getNextNode()
@@ -160,6 +185,23 @@ def specify_page_test():
         redirect('/done_with_specifying')  # TODO: make this go somewhere meaningful
 
     return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+
+@app.route('/admin/tests/mock_specify_construct')
+def specify_construct_page():
+    # set up fake model
+    dsl = '''ctx1 -> constr
+            p1 -> constr'''
+    sim_manager.updateDSL(dsl)
+
+    # spec ctx1 and p1
+    sim_manager.getNextNode()
+    sim_manager.specify_node('context', 'i dunno i dunno', 'i dunno here neither')
+    sim_manager.getNextNode()
+    sim_manager.specify_node('personality', 'constant', '5 or something')
+
+    selected_node = sim_manager.getNextNode()
+    return template('tpl/pages/specify', CONFIG=CONFIG, simManager=sim_manager, selected_node=selected_node)
+
 
 
 #=====================================#

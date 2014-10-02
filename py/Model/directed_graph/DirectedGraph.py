@@ -78,15 +78,16 @@ class DirectedGraph(object):
         :return:
         """
         self.reset()
-        for line in DSL.split('\\n'):
+        for line in DSL.split('\n'):
+            print 'parsing line ', line
             tokens = line.split()
             try:
                 fromNode = tokens[0]
                 op = tokens[1]
                 toNode = tokens[2]
+                self.addNode(fromNode)
+                self.addNode(toNode)
+                self.connect(fromNode, toNode, connectType=op)
             except IndexError:
                 raise Warning('skipping malformed dsl line"'+line+'"')
                 continue
-            self.addNode(fromNode)
-            self.addNode(toNode)
-            self.connect(fromNode, toNode, connectType=op)

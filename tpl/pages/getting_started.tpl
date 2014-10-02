@@ -3,7 +3,7 @@
 <body>
 
 	<p class="textBox">
-	This interface is designed to make the use of modeling and simulation in behavioral science easy.
+	BehaviorSim is designed to make the use of modeling and simulation in behavioral science easy.
 	</p>
 
 	<br>

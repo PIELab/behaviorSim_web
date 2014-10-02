@@ -1,4 +1,9 @@
+%# TPL PARAMS:
+%# simManager
+%# CONFIG
+
 ### script for controlling responsive modeling param form ###
+
 modelingOptions = document.getElementById('modeling-options')
 model_selector = document.getElementById("model-selector")
 
@@ -13,17 +18,31 @@ $ getOptionsForSelection = (selected) ->
     # returns html with options section for given selection
     if selected == 'linear-combination'
         return '''
-                <strong>constr2 = c1 * ctx2</strong>
+                <strong>{{simManager.selected_node.name}} = 
+			% for parent in simManager.selected_node.parents:
+				+ c_{{parent.name}}*{{parent.name}}
+			% end
+		</strong>
                 <br><br>
                 <form>
-                    c1 = <input type="text" name="c1" class='model-option'>
+			% for parent in simManager.selected_node.parents:
+				c_{{parent.name}} = <input type="text" name="c_{{parent.name}}" class='model-option'> <br>
+			% end
                 </form>
             '''
     else if selected == 'fluid-flow'
         return '''
-                <strong>constr2 = ...</strong>
+                <strong>tao_{{simManager.selected_node.name}}*d{{simManager.selected_node.name}}/dt = {{simManager.selected_node.name}}
+	            	% for parent in simManager.selected_node.parents:
+				+ c_{{parent.name}}*{{parent.name}}(t - theta_{{parent.name}})
+			% end
+		</strong>
                 <form>
-                    ...
+	        	 tao_{{simManager.selected_node.name}} = <input type="text" name="tao_{{simManager.selected_node.name}}" class='model-option'> <br>
+		    	% for parent in simManager.selected_node.parents:
+				c_{{parent.name}} = <input type="text" name="c_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
+				theta_{{parent.name}} = <input type="text" name="theta_{{simManager.selected_node.name}}_{{parent.name}}" class='model-option'> <br>
+			% end
                 </form>
             '''
     else if selected == 'other'
@@ -34,7 +53,7 @@ $ getOptionsForSelection = (selected) ->
                 </form>
             '''
     else
-        return "unrecognized selection '"+selected+"'"
+        return "unrecognised selection '"+selected+"'"
 
 $listen model_selector, 'change', =>
     modelingOptions.innerHTML = getOptionsForSelection( model_selector.value )
