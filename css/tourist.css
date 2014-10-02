@@ -10,6 +10,13 @@
 /* bootstrap styles */
 .popover{
   padding: 0;
+  border-color: #77d42a;
+  border-width: 3px;
+}
+.tour-next{
+  color: #77d42a
+  background: #77d42a
+
 }
 .popover .popover-content{
   padding: 10px 0 0 0;
@@ -19,7 +26,7 @@
   margin: 0 8px 10px 8px;
 }
 .popover .popover-content .action-label{
-  background: rgba(0, 111, 255, 0.168627);
+  background: #77d42a;
   font-size: 14px;
   padding: 3px 10px;
 }

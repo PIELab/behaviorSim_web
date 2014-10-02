@@ -14,26 +14,31 @@
             top: 85px; /* 10px; */
             left: 15px;
         }
-        
+
         #scale_slider{
             position:absolute;
             top: 320;
             left: 200;
             width: 370;
         }
-        
+
         #response_slider{
             position:absolute;
             top: 420;
             left: 200;
             width: 370;
         }
-        
+
     </style>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- (Optional) tourist tour css -->
     <link rel="stylesheet" href="/css/tourist.css" type="text/css" media="screen">
-    
+    <!-- TODO: $.blockUI() doesn't work and idk why!
+    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
+    -->
+
     <!-- rickshaw for charts -->
     <link type="text/css" rel="stylesheet" href="/css/rickshaw/detail.css">
     <!-- jqueryUI for slider -->
@@ -44,15 +49,15 @@
     <title>behaviorSim model specification</title>
     <meta name="description" content="behavioral modeling for all">
     <meta name="author" content="USF PIE Lab">
-    
+
     <object type="image/svg+xml" data="/img/tutorial.svg">Your browser does not support SVG. :(</object>
-    
+
     <div id='pa_graph'></div>
     <div id='se_graph'></div>
 
     <!-- TODO: use (read:fix) this or remove it: -->
     <div id="y_axis"></div>
-    
+
     <div id='scale_slider'></div>
     <div id='response_slider'></div>
     <br>
@@ -78,8 +83,8 @@
 
 
     <!-- rickshaw graphs -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script> 
-    <script src="/js/lib/d3.layout.min.js"></script> 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script>
+    <script src="/js/lib/d3.layout.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
     <script type="text/javascript" src="/js/tutorial/base_config.js"></script>
     <script>
@@ -93,20 +98,19 @@
     <script type="text/javascript" src="/js/tutorial/se_pa_sliders.js"></script>
 
     <!-- tourist.js guided tour -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
     <script src="/js/lib/tourist.js"></script>
     <script type="text/javascript">
         var steps = [{
-          content: "<p>So let's imagine that we want to measure physical activity.</p>",
+          content: "<p>Let's imagine that we want to measure physical activity.</p>",
           highlightTarget: true,
           nextButton: true,
           target: $('#pa_graph'),
           my: 'left center',
           at: 'right center'
         }, {
-          content: '<p>And we think physical activity (PA) is influenced by self-efficacy.</p>',
+          content: '<p>We think physical activity (PA) is influenced by self-efficacy.</p>',
           highlightTarget: true,
           nextButton: true,
           target: $('#se_graph'),
@@ -129,11 +133,22 @@
         }
         ]
 
+        var successStep = {
+          // Final step after a successful run through
+          content:
+            '<p>Nice job, this is a success step.</p>'+
+            '<p>Notice you can now choose either kitten.</p>',
+          $.unblockUI()
+        }
+
         var tour = new Tourist.Tour({
           steps: steps,
+          successStep: successStep,
           tipClass: 'Bootstrap',
           tipOptions:{ showEffect: 'slidein' }
         });
+        $.blockUI();
         tour.start();
+
     </script>
 </body>
