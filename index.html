@@ -42,6 +42,9 @@
         <![endif]-->
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/coffeescript">
+            window.$ = jQuery
+        </script>
 
         <!-- for diagrammophone -->
         <!-- chosen -->
@@ -67,6 +70,7 @@
         <!-- graph data struct -->
         <script type="text/coffeescript" src="/js/Graph.coffee"></script>
 
+        <script type="text/javascript" src="/js/diagram_globals.js"></script>
         <script type="text/coffeescript" src="/js/diagram_globals.coffee"></script>
 
     </head>
@@ -343,7 +347,9 @@
 
                         <!-- main diagram display -->
                         <div class="col-lg-9 col-md-8 col-sm-12">
-                            <div class="title" style="overflow:hidden">Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="title" style="overflow:hidden">
+                                Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
+                                (click to select a node)
                                 <button class="btn btn-primary btn-mini" id="saveIt">SAVE IT</button>
                             </div>
                             <div id="color-key">
@@ -352,36 +358,6 @@
                             </div>
                             <div id="canvas"> </div>
                             <script type="text/coffeescript" src="/js/diagram_controls.coffee"></script>
-
-                            <script type="text/javascript">
-                                function getInputsOf(node_id){
-                                    try{
-                                        _result = []
-                                        for (node in graph._nodes[node_id]._inEdges){
-                                            _result.push(node)
-                                        }
-                                        return _result
-                                    } catch(e) {
-                                        if (e.name == 'TypeError') {
-                                            return []
-                                        } else {
-                                            throw e;
-                                        }
-                                    }
-                                }
-
-                                function findElementByText(text) {
-                                  /* finds and returns the tspan containing the given text
-                                   * if the element has no children.
-                                   * Useful for retrieving a box in the diagram. NOTE: why did I do this?
-                                   */
-                                  var jSpot=$("tspan:contains("+text+")")
-                                        .filter(function(){ return $(this).children().length === 0;})
-                                        .parent();  // because you asked the parent of that element
-
-                                  return jSpot;
-                                }
-                            </script>
                         </div>
                     </div>
                     <div class="row">
@@ -435,24 +411,33 @@
                                     Selected Node Details
                                 </div>
                                 <div id="selected-node-desc">
-                                    loading selected node details...
+                                    <span class='selected_node selected_node_text'>???</span> has
+                                    <span class="node_inflow_count">?</span> inflows.
+                                    <div id='modeling-spec'>
+                                        We must define a formula to describe how information flows into
+                                        <span class='selected_node selected_node_text'>???</span>.
+                                        <select id="model-selector" data-placeholder="default-choice..."
+                                                class="chosen-select" style="width:250px;" tabindex="4">
+                                            <option value="linear-combination">Linear Combination</option>
+                                            <option value="fluid-flow">Fluid-Flow Analogy</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div id='source-spec'>
+                                        So <span class='selected_node selected_node_text'>???</span> must be either a
+                                        context variable, or a personality variable.
+                                        <span class='selected_node selected_node_text'>???</span> is a
+                                        <select id="source-type-selector" class="chosen-select">
+                                            <option value="personality-var-options">personality variable</option>
+                                            <option value="context-var-options">context variable</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <script type="text/javascript">
                                     retry_count = 0
-                                    show_selected_details = function(){
+                                    init_node_details = function(){
                                         try{
-                                            inflows = getInputsOf(graph.selected_node);
-                                            text = "<span class='selected_node'>"+graph.selected_node + "</span> has "
-                                                    + inflows.length + " inflows. ";
-                                            if (inflows > 0){
-                                                text += "We must define a formula to describe how information flows into "
-                                                        +"<span class='selected_node'>" + graph.selected_node +"</span>.";
-                                            } else {
-                                                text += "So <span class='selected_node'>"+graph.selected_node+"</span> must be either a"
-                                                        +" context variable, or a personality variable.";
-                                            }
-
-                                            $('#selected-node-desc')[0].innerHTML = text;
+                                            graph.set_selected_node(graph.selected_node)
                                         } catch(e) {
                                             if (e.message == "graph is not defined"){
                                                 if (retry_count > 5){
@@ -460,15 +445,37 @@
                                                     return
                                                 }
                                                 retry_count += 1;
-                                                setTimeout(show_selected_details, 1500);
-                                                console.log('posponing selected_node detail show b/c graph obj not ready.');
+                                                setTimeout(init_node_details, 1500);
+                                                console.log('postponing selected_node detail show b/c graph obj not ready.');
                                             } else {
                                                 throw e;
                                             }
                                         }
                                     }
-                                    $(document).ready(show_selected_details)
+                                    $(document).ready(init_node_details)
                                 </script>
+                                <div id="modeling-options">
+                                    loading node specification options...
+                                </div>
+                                <div id="source-options">
+                                    <div id="personality-var-options">
+                                        <strong>Assuming a normal distribution,</strong>
+                                        <br><br>
+                                        <form>
+                                            mu = <input type="text" name="mu" class='model-option'>
+                                            <br>
+                                            sigma = <input type="text" name="sigma" class='model-option'>
+                                        </form>
+                                    </div>
+                                    <div id="context-var-options">
+                                        <strong>Enter a comma-separated list of environmental influences.</strong>
+                                        <form>
+                                            <input type="textarea" name="dep-list" class='model-option'>
+                                        </form>
+                                    </div>
+                                </div>
+                                <script type='text/coffeescript' src="/js/source_spec_page_controller.coffee"></script>
+                                <script type='text/coffeescript' src="/js/model_spec_page_controller.coffee"></script>
                             </div>
                         </section>
 

@@ -1,4 +1,3 @@
-
 @controller = new Controller
 
 window.paper = Raphael "canvas", 800, 600
@@ -6,6 +5,7 @@ window.paper = Raphael "canvas", 800, 600
 window.graph = new Graph;
 window.graph.selected_node = 'Verbal_Persuasion'
 window.graph.completed_nodes = []
+window.graph.selected_node_model = 'context'
 
 window.sampleText = """
 Verbal_Persuasion -> Self_Efficacy
@@ -46,3 +46,13 @@ window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
 
     # call the main method
     @controller.makeItGo(newText, paper, fontBtn.checked)
+
+
+window.graph.set_selected_node = (node_id) ->
+    window.graph.selected_node = node_id
+
+    # redraw the graph
+    draw_colored_graph(textarea.value, paper, fontBtn.checked)
+
+    update_selected_node_details()
+    update_selected_node_texts()

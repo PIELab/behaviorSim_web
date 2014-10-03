@@ -34,6 +34,4 @@ $listen submodel_inserter, 'click', =>
         console.log('unrecognized submodel value "'+submodel_selector.value+'"')
 
 window.Drawer.click_node = (node_id) ->
-    window.graph.selected_node = node_id
-    show_selected_details()
-    draw_colored_graph(textarea.value, paper, fontBtn.checked)
+    graph.set_selected_node(node_id)
