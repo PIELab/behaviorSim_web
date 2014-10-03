@@ -28,6 +28,18 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 
+        <!-- node coloration guide-->
+        <style type='text/css'>
+		.selected_node{
+			font-weight:bold;
+			color:#2488DF;
+		}
+		.complete_node{
+			font-weight:bold;
+			color:#00A900;
+		}
+	</style>
+
 
         <!-- for diagrammophone -->
         <!-- chosen -->
@@ -327,82 +339,88 @@
                             <div class="title" style="overflow:hidden">Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button class="btn btn-primary btn-mini" id="saveIt">SAVE IT</button>
                             </div>
+                            <div id="color-key">
+                                color key: | <span class='selected_node'>Selected Node</span> |
+                                <span class='complete_node'>Completed Node</span> |
+                            </div>
                             <div id="canvas"> </div>
-                                <script type="text/coffeescript">
+                            <script type="text/coffeescript">
+                                ### diagramophone controls ###
 
-                                    ### all this is diagramophone controls that I don't yet fully understand ###
+                                @controller = new Controller
 
-                                    @controller = new Controller
+                                paper = Raphael "canvas", 800, 600
 
-                                    paper = Raphael "canvas", 800, 600
+                                selected_node = 'Verbal_Persuasion'
+                                completed_nodes = []
 
-                                    sampleText = """
-                                    Verbal_Persuasion -> Self_Efficacy
-                                    Vicarious_Experience -> Self_Efficacy
-                                    Self_Efficacy -> Physical_Activity_Level
-                                    """
+                                sampleText = """
+                                Verbal_Persuasion -> Self_Efficacy
+                                Vicarious_Experience -> Self_Efficacy
+                                Self_Efficacy -> Physical_Activity_Level
+                                """
 
-                                    $listen = (target, name, callback) ->
-                                        if target
-                                            if target.addEventListener
-                                                target.addEventListener name, callback, false
-                                            else
-                                                target.attachEvent "on#{name}", callback
+                                $listen = (target, name, callback) ->
+                                    if target
+                                        if target.addEventListener
+                                            target.addEventListener name, callback, false
                                         else
-                                            console.log('cannot listen for '+name+' on '+target+' with '+callback)
+                                            target.attachEvent "on#{name}", callback
+                                    else
+                                        console.log('cannot listen for '+name+' on '+target+' with '+callback)
 
-                                    goBtn = document.getElementById("diagramophone")
-                                    textarea = document.getElementById("textarea")
-                                    repl = document.getElementById("replBtn")
-                                    fontBtn = document.getElementById("fontBtn")
-                                    saveBtn = document.getElementById("saveIt")
-                                    raphaelCanvas = document.getElementById("canvas")
+                                goBtn = document.getElementById("diagramophone")
+                                textarea = document.getElementById("textarea")
+                                repl = document.getElementById("replBtn")
+                                fontBtn = document.getElementById("fontBtn")
+                                saveBtn = document.getElementById("saveIt")
+                                raphaelCanvas = document.getElementById("canvas")
 
-                                    draw_colored_graph: (inputText, paper, hasSillyFont) ->
-                                        # color the nodes
-                                        text = inputText
+                                draw_colored_graph = (inputText, paper, hasSillyFont) ->
+                                    # color the nodes
+                                    text = inputText
 
-                                        console.log("TODO: color the nodes!!!")
-                                        # TODO: for each line, add desired color
-                                        # ref: https://github.com/PIELab/behaviorSim_web/commit/fd1c8b3ba0508e81609108f4c621da75ec1436e5
+                                    # desired color to selected node
+                                    newText = inputText.replace(selected_node, selected_node + ' {#2488DF}')
+                                    # and completed nodes
+                                    for node in completed_nodes
+                                        newText = newText.replace(node, node + ' {#00A900}')
 
-                                        # call the main method
-                                        @controller.makeItGo(text, paper, fontBtn.checked)
+                                    # call the main method
+                                    @controller.makeItGo(newText, paper, fontBtn.checked)
 
+                                $listen goBtn, 'click', => draw_colored_graph(textarea.value, paper, fontBtn.checked)
+                                $listen saveBtn, 'click', => @controller.saveAllTheThings(raphaelCanvas)
 
-
-                                    $listen goBtn, 'click', => draw_colored_graph(textarea.value, paper, fontBtn.checked)
-                                    $listen saveBtn, 'click', => @controller.saveAllTheThings(raphaelCanvas)
-
-                                    $listen textarea, 'keyup', =>
-                                        if (repl.checked)
-                                            draw_colored_graph(textarea.value, paper, fontBtn.checked)
-
-                                    $listen fontBtn, 'change', =>
+                                $listen textarea, 'keyup', =>
+                                    if (repl.checked)
                                         draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
-                                    # initialize the view
-                                    textarea.value = sampleText
+                                $listen fontBtn, 'change', =>
                                     draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
-                                    ### this is the model inserter button ###
-                                    insertbutton = document.getElementById("submodel_inserter")
-                                    modelselector= document.getElementById("submodel_selector")
+                                # initialize the view
+                                textarea.value = sampleText
+                                draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
-                                    $listen submodel_inserter, 'click', =>
-                                        if submodel_selector.value == 'TPB'
-                                            textarea.value+='\n behavioral attitude -> intention \n subjective norms -> intention \n perceived behavioral control -> intention \n perceived behavioral control -> behavior \n intention -> behavior \n'
-                                            draw_colored_graph(textarea.value, paper, fontBtn.checked)
-                                        else
-                                            console.log('unrecognized submodel value "'+submodel_selector.value+'"')
-                                </script>
+                                ### this is the model inserter button ###
+                                insertbutton = document.getElementById("submodel_inserter")
+                                modelselector= document.getElementById("submodel_selector")
+
+                                $listen submodel_inserter, 'click', =>
+                                    if submodel_selector.value == 'TPB'
+                                        textarea.value+='\n behavioral attitude -> intention \n subjective norms -> intention \n perceived behavioral control -> intention \n perceived behavioral control -> behavior \n intention -> behavior \n'
+                                        draw_colored_graph(textarea.value, paper, fontBtn.checked)
+                                    else
+                                        console.log('unrecognized submodel value "'+submodel_selector.value+'"')
+                            </script>
 
                             <script type="text/javascript">
-                                  function findElementByText(text){
+                                  function findElementByText(text) {
                                       /* finds and returns the tspan containing the given text
                                        * if the element has no children.
                                        * Useful for retrieving a box in the diagram. NOTE: why did I do this?
-                                       * /
+                                       */
                                       var jSpot=$("tspan:contains("+text+")")
                                             .filter(function(){ return $(this).children().length === 0;})
                                             .parent();  // because you asked the parent of that element
@@ -580,7 +598,7 @@
                                             </span>
                                             <!-- checkbox -->
                                             <input type="checkbox" value="" name=""/>
-                                            <!-- todo text -->
+                                            <!-- to do text -->
                                             <span class="text">Design a nice theme</span>
                                             <!-- Emphasis label -->
                                             <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
