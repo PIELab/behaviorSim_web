@@ -2,7 +2,7 @@ __author__ = '7yl4r'
 
 import os
 
-from py.lib.bottle.bottle import template, Bottle, request, abort, static_file, redirect
+from bottle import template, Bottle, request, abort, static_file, redirect
 
 from py.SimManager import SimManager, TIME_SCALES
 from py.config import Config
