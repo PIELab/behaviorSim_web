@@ -5,7 +5,6 @@ source_type_selector = document.getElementById('source-type-selector')
 source_model_option_sections = ['context-var-options', 'personality-var-options']
 
 window.show_only_selected_source_node_options_div = (selection) ->
-    console.log(selection)
     for option in source_model_option_sections
         console.log(option)
         if option == selection

@@ -48,4 +48,6 @@ function update_selected_node_texts(){
     $('.selected_node_text').text(graph.selected_node);
 
     $('.node_inflow_count').text(getInputsOf(graph.selected_node).length);
+
+    $('.selected_node_functional_form').text(graph.get_selected_node_functional_form())
 }

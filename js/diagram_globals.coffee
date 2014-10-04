@@ -54,5 +54,55 @@ window.graph.set_selected_node = (node_id) ->
     # redraw the graph
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
-    update_selected_node_details()
     update_selected_node_texts()
+    update_selected_node_details()
+
+    $('.selected_node_functional_form').html(graph.get_selected_node_functional_form())
+
+window.graph.get_selected_node_form = () ->
+    _result = ''
+    if graph.selected_node_model == 'linear-combination'
+        for parent of graph.getNode(graph.selected_node)._inEdges
+            _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option"><br>'
+        return _result
+    else if graph.selected_node_model == 'fluid-flow'
+        _result += 'tao_' + graph.selected_node + ' = <input type="text" name="tao_'
+        _result += graph.selected_node + '" class="model-option"> <br>'
+        for parent of graph.getNode(graph.selected_node)._inEdges
+            _result += 'c_'+parent+' = <input type="text" '+'name="c_'
+            _result += graph.selected_node+'_'+parent+'" class="model-option"><br>theta_'+parent
+            _result += ' = <input type="text" name="theta_'+graph.selected_node+'_'+parent
+            _result += '" class="model-option"><br>'
+        return _result
+    else if graph.selected_node_model == 'other'
+        _result += 'define your function in javascript<br>'
+        _result += '<input type="textarea" name="'+graph.selected_node
+        _result += '_func" style="width:100%" rows="17"></input>'
+
+    else
+        console.log('ERR: unknown node form "'+graph.selected_node_model+'"')
+
+window.graph.get_selected_node_functional_form = () ->
+    lhs = graph.selected_node + "("  # left hand side
+    rhs = ""  # right hand side
+
+    if graph.selected_node_model == 'linear-combination'
+        for parent of graph.getNode(graph.selected_node)._inEdges
+            lhs += parent + ', '
+            rhs += 'c_'+parent+'*'+parent+'(t) +'
+        lhs += 't)'
+        rhs = rhs[0..rhs.length-2]  # trim off last plus
+        return (lhs + ' = ' + rhs)
+    else if graph.selected_node_model == 'fluid-flow'
+        rhs += 'tao_' + graph.selected_node + '*d' + graph.selected_node + '/dt =' + graph.selected_node
+        for parent of graph.getNode(graph.selected_node)._inEdges
+            rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
+        lhs += 't)'
+        return (lhs + ' = ' + rhs)
+    else if graph.selected_node_model == 'other'
+        for parent of graph.getNode(graph.selected_node)._inEdges
+            lhs += parent + ', '
+        lhs += 't)'
+        return (lhs + ' = ')
+    else
+        console.log('ERR: unknown node model "'+graph.selected_node_model+'"')
