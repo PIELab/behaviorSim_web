@@ -105,6 +105,8 @@ class ModelBuilder
             @get_node_children(),
             @get_node_formulation())
 
+        graph.completed_nodes.push(graph.selected_node)
+
     get_node_name: () ->
         return graph.selected_node
 
@@ -129,7 +131,7 @@ class ModelBuilder
 
     get_node_formulation: () ->
         node_type = graph.selected_node_model
-        if node_type == 'context'
+        if node_type == 'context-var-options'
             return {
                 type : "dependency_list"
                 dependencies : @get_context_node_dependencies()

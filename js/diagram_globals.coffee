@@ -47,6 +47,11 @@ window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
     # call the main method
     @controller.makeItGo(newText, paper, fontBtn.checked)
 
+window.mark_node_completed = (node_id) ->
+    window.graph.completed_nodes.puF
+
+    # update the graphic
+    draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
 window.graph.set_selected_node = (node_id) ->
     window.graph.selected_node = node_id
@@ -106,3 +111,4 @@ window.graph.get_selected_node_functional_form = () ->
         return (lhs + ' = ')
     else
         console.log('ERR: unknown node model "'+graph.selected_node_model+'"')
+
