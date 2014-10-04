@@ -63,16 +63,16 @@ window.graph.get_selected_node_form = () ->
     _result = ''
     if graph.selected_node_model == 'linear-combination'
         for parent of graph.getNode(graph.selected_node)._inEdges
-            _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option"><br>'
+            _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
         return _result
     else if graph.selected_node_model == 'fluid-flow'
         _result += 'tao_' + graph.selected_node + ' = <input type="text" name="tao_'
-        _result += graph.selected_node + '" class="model-option"> <br>'
+        _result += graph.selected_node + '" class="model-option-fluid-flow"> <br>'
         for parent of graph.getNode(graph.selected_node)._inEdges
             _result += 'c_'+parent+' = <input type="text" '+'name="c_'
-            _result += graph.selected_node+'_'+parent+'" class="model-option"><br>theta_'+parent
+            _result += graph.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
             _result += ' = <input type="text" name="theta_'+graph.selected_node+'_'+parent
-            _result += '" class="model-option"><br>'
+            _result += '" class="model-option-fluid-flow"><br>'
         return _result
     else if graph.selected_node_model == 'other'
         _result += 'define your function in javascript<br>'
