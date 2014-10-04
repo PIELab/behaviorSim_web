@@ -39,16 +39,19 @@ window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
     text = inputText
 
     # desired color to selected node
-    newText = inputText.replace(graph.selected_node, graph.selected_node + ' {#2488DF}')
+    newText = inputText.replace(graph.selected_node, graph.selected_node + ' {#2488DF}')  # 0->blue
     # and completed nodes
     for node in graph.completed_nodes
-        newText = newText.replace(node, node + ' {#00A900}')
+        if node == graph.selected_node # if node is completed and selected
+            newText = newText.replace(node+ ' {#2488DF}',  node + ' {#199E7C}')  # blue->teal
+        else
+            newText = newText.replace(node, node + ' {#00A900}')  # 0->green
 
     # call the main method
     @controller.makeItGo(newText, paper, fontBtn.checked)
 
-window.mark_node_completed = (node_id) ->
-    window.graph.completed_nodes.puF
+window.complete_a_node = (node_id) ->
+    window.graph.completed_nodes.push(node_id)
 
     # update the graphic
     draw_colored_graph(textarea.value, paper, fontBtn.checked)

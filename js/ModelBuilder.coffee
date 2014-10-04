@@ -105,7 +105,7 @@ class ModelBuilder
             @get_node_children(),
             @get_node_formulation())
 
-        graph.completed_nodes.push(graph.selected_node)
+        complete_a_node(graph.selected_node)
 
     get_node_name: () ->
         return graph.selected_node
