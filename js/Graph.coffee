@@ -75,6 +75,15 @@ class Graph
     ###
     @_nodes[id]
 
+  getParentsOf: (node_id) ->
+    ###
+    _Returns:_ list of parents of given node or empty array if None
+    ###
+    nodes = []
+    for node of @getNode(node_id)._inEdges
+        nodes.push(node.toString())
+    return nodes
+
   removeNode: (id) ->
     ###
     _Returns:_ the node object removed, or undefined if it didn't exist in the

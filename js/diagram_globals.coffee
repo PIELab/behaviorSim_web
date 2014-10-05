@@ -56,13 +56,16 @@ window.complete_a_node = (node_id) ->
 window.graph.set_selected_node = (node_id) ->
     window.graph.selected_node = node_id
 
-    # redraw the graph
+    # redraw the infoflow graph
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
+    # update various texts
     update_selected_node_texts()
     update_selected_node_details()
-
     $('.selected_node_functional_form').html(graph.get_selected_node_functional_form())
+
+    # update parent graphs
+    draw_parent_graphs()
 
 window.graph.get_selected_node_form = () ->
     _result = ''
@@ -112,3 +115,66 @@ window.graph.get_selected_node_functional_form = () ->
     else
         console.log('ERR: unknown node model "'+graph.selected_node_model+'"')
 
+node_sparkline_id = (node_id) ->
+   # returns element id for given node id
+   return ''+node_id+'_sparkline'
+
+get_node_graph_html = (node_id) ->
+    ###
+    returns html for a given node id
+    ###
+    html = node_id+'<br><div class="sparkline" id="'+node_sparkline_id(node_id)+'"'
+    html += ' data-type="line" data-spot-Radius="3" '
+    html += ' data-highlight-Spot-Color="#f39c12" data-highlight-Line-Color="#222" '
+    html += ' data-min-Spot-Color="#f56954" data-max-Spot-Color="#00a65a" '
+    html += ' data-spot-Color="#39CCCC" data-offset="90" data-width="100%" '
+    html += ' data-height="100px" data-line-Width="2" data-line-Color="#39CCCC" '
+    html += ' data-fill-Color="rgba(57, 204, 204, 0.08)"> '
+    html += ' </div> '
+    return html
+
+window.draw_parent_graphs = () ->
+    ###
+    inserts parent graphs into parent graph widget
+    ###
+    parents = graph.getParentsOf(graph.selected_node)
+    if parents.length > 0
+        # clear old html
+        $('#parent-graphs').html('<strong>Mini-simulation: '+graph.selected_node+"'s parents.</strong><br>")
+
+        # insert parent graphs
+        for parent in parents
+            $('#parent-graphs').append(get_node_graph_html(parent))
+            $('#'+node_sparkline_id(parent)).sparkline([0,1,0,2,0,3,0,4,0,1,1,1,1])
+    else
+        $('#parent-graphs').html(graph.selected_node+' has no inflow nodes.')
+
+    ###
+        TIME_LENGTH = 20;
+        var {{parent.name}}_data = [];
+        INFLOWS.push({{parent.name}}_data);
+
+        // insert initial data
+        for (var i = 0; i < TIME_LENGTH; i++) {
+            {{parent.name}}_data.push({x: i, y: Math.random()});
+        }
+        var {{parent.name}}_graph = new Rickshaw.Graph( {
+            element: document.querySelector("#{{parent.name}}_graph"),
+            renderer: 'area',
+            stroke: true,
+            width: 269,
+            height: 134,
+            series: [{
+                name: '{{parent.name}}',
+                color: 'green',
+                data: {{parent.name}}_data
+            }]
+        });
+
+        var {{parent.name}}_hoverDetail = new Rickshaw.Graph.HoverDetail( {
+            graph: {{parent.name}}_graph,
+        } );
+
+        {{parent.name}}_graph.render();
+
+    ###
