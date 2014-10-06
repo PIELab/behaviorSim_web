@@ -140,7 +140,7 @@ window.draw_parent_graphs = () ->
     inserts parent graphs into parent graph widget
     ###
     # clear old html
-    $('#parent-graphs').html('<strong>Mini-simulation: '+graph.selected_node+"'s parents.</strong><br>")
+    $('#parent-graphs').html('<div class="box-header">Mini-simulation: '+graph.selected_node+"'s parents.</div>")
 
     parents = graph.getParentsOf(graph.selected_node)
     if parents.length > 0
