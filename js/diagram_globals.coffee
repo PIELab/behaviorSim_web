@@ -7,6 +7,8 @@ window.graph.selected_node = 'Verbal_Persuasion'
 window.graph.completed_nodes = []
 window.graph.selected_node_model = 'context'
 
+window.simulator = new Simulator(model_builder._model, graph)
+
 window.sampleText = """
 Verbal_Persuasion -> Self_Efficacy
 Vicarious_Experience -> Self_Efficacy
@@ -137,17 +139,20 @@ window.draw_parent_graphs = () ->
     ###
     inserts parent graphs into parent graph widget
     ###
+    # clear old html
+    $('#parent-graphs').html('<strong>Mini-simulation: '+graph.selected_node+"'s parents.</strong><br>")
+
     parents = graph.getParentsOf(graph.selected_node)
     if parents.length > 0
-        # clear old html
-        $('#parent-graphs').html('<strong>Mini-simulation: '+graph.selected_node+"'s parents.</strong><br>")
-
         # insert parent graphs
         for parent in parents
-            $('#parent-graphs').append(get_node_graph_html(parent))
-            $('#'+node_sparkline_id(parent)).sparkline([0,1,0,2,0,3,0,4,0,1,1,1,1])
+            try
+                $('#parent-graphs').append(get_node_graph_html(parent))
+                $('#'+node_sparkline_id(parent)).sparkline(simulator.get_node_values(parent))
+            catch error
+                $('#parent-graphs').append('!!! ~ node not yet defined. ~ !!!<br>')
     else
-        $('#parent-graphs').html(graph.selected_node+' has no inflow nodes.')
+        $('#parent-graphs').append(graph.selected_node+' has no inflow nodes.')
 
     ###
         var {{parent.name}}_data = [];

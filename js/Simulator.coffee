@@ -55,7 +55,7 @@ class Simulator
             if node.name == node_id
                 return node
         # else
-        return
+        throw Error('node not found! : '+node_id)
 try
     window.Simulator = Simulator
 catch error
