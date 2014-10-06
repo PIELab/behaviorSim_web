@@ -150,7 +150,6 @@ window.draw_parent_graphs = () ->
         $('#parent-graphs').html(graph.selected_node+' has no inflow nodes.')
 
     ###
-        TIME_LENGTH = 20;
         var {{parent.name}}_data = [];
         INFLOWS.push({{parent.name}}_data);
 

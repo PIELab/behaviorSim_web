@@ -8,6 +8,7 @@ class Model
         "creator": "John1234",
         "name": "super_duper_cool_model",
         "description": "This model uses the super duper cool theory with constants I made up!",
+        "time_step": 1,
         "node_count": 2,
         "nodes":[
             {
@@ -43,6 +44,7 @@ class Model
         @description = ''
         @nodes = []
         @node_count = 0
+        @time_step = 1
     add_node: (name, type, parents, children, formulation) ->
         @nodes.push({
             "name":name,
@@ -52,4 +54,7 @@ class Model
             "formulation":formulation})
         @node_count += 1
 
-window.Model = Model
+try
+    window.Model = Model
+catch error
+    module.exports = Model

@@ -217,4 +217,7 @@ class Graph
     # Manual return, check forEachNode for reason.
     return
 
-window.Graph = Graph
+try
+    window.Graph = Graph
+catch error
+    module.exports = Graph
