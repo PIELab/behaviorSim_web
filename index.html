@@ -413,10 +413,19 @@
                             </div>
                         </section>
                         <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- selected node details -->
+                            <!-- selected node miniSimulation -->
+                            <div class='box box-primary'>
+                                <div class="box-header">
+                                    selected node mini-simulation
+                                </div>
+                                <div id="selected-node-graph">
+                                    loading selected node graph...
+                                </div>
+                            </div>
+                            <!-- selected node specification -->
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    Selected Node Details
+                                    Selected Node Model Specification
                                 </div>
                                 <div id="selected-node-desc">
                                     <span class='selected_node selected_node_text'>???</span> has
@@ -486,7 +495,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-mini" id="submit_node_spec_btn" onclick="model_builder.submit_node()">
+                                <button class="btn btn-primary btn-mini" id="submit_node_spec_btn" onclick="submit_node_spec()">
                                     Submit Node Specification
                                 </button>
                                 <script type='text/coffeescript' src="/js/source_spec_page_controller.coffee"></script>

@@ -8,7 +8,7 @@ $listen model_selector, 'change', =>
     $('#modeling-options-form').html(graph.get_selected_node_form())
 
 # initial setting of the content section
-graph.selected_node_model = model_selector.value
+#graph.selected_node_model = model_selector.value
 $('#modeling-options-form').html(graph.get_selected_node_form())
 
 

@@ -23,7 +23,6 @@ class Simulator
         prev_value = assumption.initial_value ? 0
         t = 0
         while t < @_time_length
-            console.log('computing '+assumption.calculator+'('+t+') using prev_value and args')
             new_value = assumption.calculator(t, prev_value, assumption.arguments)
             data.push(new_value)
             prev_value = new_value

@@ -5,7 +5,7 @@ window.paper = Raphael "canvas", 800, 600
 window.graph = new Graph;
 window.graph.selected_node = 'Verbal_Persuasion'
 window.graph.completed_nodes = []
-window.graph.selected_node_model = 'context'
+window.graph.selected_node_model = 'context-var-options'
 
 window.simulator = new Simulator(model_builder._model, graph)
 
@@ -23,6 +23,12 @@ window.$listen = (target, name, callback) ->
             target.attachEvent "on#{name}", callback
     else
         console.log('cannot listen for '+name+' on '+target+' with '+callback)
+
+window.submit_node_spec = () ->
+    model_builder.submit_node()
+
+    # reset node to reload graphs and stuff
+    graph.set_selected_node(graph.selected_node)
 
 window.build_graph_obj = (dsl_text) ->
     for line in textarea.value.split('\n')
@@ -68,6 +74,7 @@ window.graph.set_selected_node = (node_id) ->
 
     # update parent graphs
     draw_parent_graphs()
+    draw_selected_graph()
 
 window.graph.get_selected_node_form = () ->
     _result = ''
@@ -135,6 +142,28 @@ get_node_graph_html = (node_id) ->
     html += ' </div> '
     return html
 
+window.draw_selected_graph = () ->
+    $('#selected-node-graph').html(get_node_graph_html(graph.selected_node))
+    n_parents = graph.getParentsOf(graph.selected_node).length
+    if n_parents <= 0
+        if graph.selected_node_model == 'context-var-options'
+            $('#selected-node-graph').append('TODO: preset dropdowns')
+        else if graph.selected_node_model == 'personality-var-options'
+            $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
+        else
+            throw Error('unparented node type unrecognized: '+graph.selected_node_model)
+        try
+            $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node))
+        catch error
+            console.log(error)
+            $('#selected-node-graph').append('! ~ node must be specified first ~ !<br>')
+    else
+        try
+            $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node))
+        catch error
+            console.log(error)
+            $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
+
 window.draw_parent_graphs = () ->
     ###
     inserts parent graphs into parent graph widget
@@ -150,35 +179,6 @@ window.draw_parent_graphs = () ->
                 $('#parent-graphs').append(get_node_graph_html(parent))
                 $('#'+node_sparkline_id(parent)).sparkline(simulator.get_node_values(parent))
             catch error
-                $('#parent-graphs').append('!!! ~ node not yet defined. ~ !!!<br>')
+                $('#parent-graphs').append('!!! ~ node not yet defined ~ !!!<br>')
     else
         $('#parent-graphs').append(graph.selected_node+' has no inflow nodes.')
-
-    ###
-        var {{parent.name}}_data = [];
-        INFLOWS.push({{parent.name}}_data);
-
-        // insert initial data
-        for (var i = 0; i < TIME_LENGTH; i++) {
-            {{parent.name}}_data.push({x: i, y: Math.random()});
-        }
-        var {{parent.name}}_graph = new Rickshaw.Graph( {
-            element: document.querySelector("#{{parent.name}}_graph"),
-            renderer: 'area',
-            stroke: true,
-            width: 269,
-            height: 134,
-            series: [{
-                name: '{{parent.name}}',
-                color: 'green',
-                data: {{parent.name}}_data
-            }]
-        });
-
-        var {{parent.name}}_hoverDetail = new Rickshaw.Graph.HoverDetail( {
-            graph: {{parent.name}}_graph,
-        } );
-
-        {{parent.name}}_graph.render();
-
-    ###
