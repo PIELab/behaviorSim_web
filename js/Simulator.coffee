@@ -17,8 +17,11 @@ class Simulator
         else
             throw Error('cannot run random walk without scale!')
 
-    calculate_from_assumption: (assumption) ->
-        # calculates a set of values using given assumption
+    calculate_from_assumption: (assumption, node=undefined) ->
+        ### 
+        calculates a set of values using given assumption
+        :param node: node object to save the data for later
+        ###
         data = []
         prev_value = assumption.initial_value ? 0
         t = 0
@@ -27,11 +30,17 @@ class Simulator
             data.push(new_value)
             prev_value = new_value
             t += 1
+        if node  # save values if node given
+            node.data_values = data
         return data
 
-    get_node_values: (node_id) ->
+    get_node_values: (node_id, recalculate=false) ->
+        ###
+        returns values for given node
+        :param recalculate: forces recalculation even if existing values already saved
+        ###
         node = @get_node_object(node_id)
-        if node.data_values
+        if node.data_values && !recalculate
             return node.data_values
         else
             if node.type == 'state'
@@ -40,11 +49,11 @@ class Simulator
                 throw Error('state calc not yet implemented')
             # if node assumption has been set
             else if node.assumption
-                return @calculate_from_assumption(node.assumption)
+                return @calculate_from_assumption(node.assumption, node)
             else
                 # set default assumption
                 @set_node_assumption(node_id, @calculator_random_walk,{scale: 10, initial_value:5})
-                return @calculate_from_assumption(node.assumption)
+                return @calculate_from_assumption(node.assumption, node)
 
     set_node_assumption: (node_id, calculator, args) ->
         @get_node_object(node_id).assumption = {calculator:calculator, arguments:args}
