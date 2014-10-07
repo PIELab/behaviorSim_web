@@ -22,12 +22,11 @@ class ModelBuilder
     ###
     constructor: ->
         @_model = new Model
-
-    submit_node: () ->
+        
+    submit_node: (nname=@get_node_name(), type=@get_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         accepts submission of node & updates or adds node spec if needed
         ###
-        nname = @get_node_name()
         for existing_node in @_model.nodes
             if nname == existing_node.name
                 console.log('updating existing node')
@@ -35,17 +34,13 @@ class ModelBuilder
                 return
         # else
         console.log('adding node to the model')
-        return @add_node()
+        return @add_node(nname, type, parents, children, formulation)
 
-    add_node: () ->
+    add_node: (nname=@get_node_name(), type=@get_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         adds a node to the model
         ###
-        @_model.add_node(@get_node_name(),
-            @get_node_type(),
-            @get_node_parents(),
-            @get_node_children(),
-            @get_node_formulation())
+        @_model.add_node(nname, type, parents, children, formulation)
 
         complete_a_node(graph.selected_node)
 
@@ -94,7 +89,7 @@ class ModelBuilder
                 formula: $("input[name='"+graph.selected_node+"_func']").val()
             }
         else
-            console.log('ERR: unknown node formulation req: '+node_type)
+            throw Error('unknown node formulation req: '+node_type)
 
     _add_modeling_options: (target_obj, selector_string) ->
         model_options = $(selector_string)

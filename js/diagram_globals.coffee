@@ -85,6 +85,8 @@ window.graph.set_selected_node = (node_id) ->
     # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
     # redraw the infoflow graph
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
+    
+    $('#modeling-options-form').html(graph.get_selected_node_form())
 
     # update parent graphs
     draw_parent_graphs()
@@ -92,51 +94,62 @@ window.graph.set_selected_node = (node_id) ->
 
 window.graph.get_selected_node_form = () ->
     _result = ''
-    if graph.selected_node_model == 'linear-combination'
-        for parent of graph.getNode(graph.selected_node)._inEdges
-            _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
-        return _result
-    else if graph.selected_node_model == 'fluid-flow'
-        _result += 'tao_' + graph.selected_node + ' = <input type="text" name="tao_'
-        _result += graph.selected_node + '" class="model-option-fluid-flow"> <br>'
-        for parent of graph.getNode(graph.selected_node)._inEdges
-            _result += 'c_'+parent+' = <input type="text" '+'name="c_'
-            _result += graph.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
-            _result += ' = <input type="text" name="theta_'+graph.selected_node+'_'+parent
-            _result += '" class="model-option-fluid-flow"><br>'
-        return _result
-    else if graph.selected_node_model == 'other'
-        _result += 'define your function in javascript<br>'
-        _result += '<input type="textarea" name="'+graph.selected_node
-        _result += '_func" style="width:100%" rows="17"></input>'
+    switch graph.selected_node_model 
+        when 'linear-combination'
+            for parent of graph.getNode(graph.selected_node)._inEdges
+                _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
+            return _result
+        when 'fluid-flow'
+            _result += 'tao_' + graph.selected_node + ' = <input type="text" name="tao_'
+            _result += graph.selected_node + '" class="model-option-fluid-flow"> <br>'
+            for parent of graph.getNode(graph.selected_node)._inEdges
+                _result += 'c_'+parent+' = <input type="text" '+'name="c_'
+                _result += graph.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
+                _result += ' = <input type="text" name="theta_'+graph.selected_node+'_'+parent
+                _result += '" class="model-option-fluid-flow"><br>'
+            return _result
+        when 'other', 'context-var-options', 'personality-var-options'
+            _result += 'define your function in javascript<br>'
+            _result += '<input type="textarea" name="'+graph.selected_node
+            _result += '_func" style="width:100%" rows="17"></input>'
 
-    else
-        console.log('ERR: unknown node form "'+graph.selected_node_model+'"')
+        else
+            throw Error('unknown node form "'+graph.selected_node_model+'"')
 
 window.graph.get_selected_node_functional_form = () ->
     lhs = graph.selected_node + "("  # left hand side
     rhs = ""  # right hand side
 
-    if graph.selected_node_model == 'linear-combination'
-        for parent of graph.getNode(graph.selected_node)._inEdges
-            lhs += parent + ', '
-            rhs += 'c_'+parent+'*'+parent+'(t) +'
-        lhs += 't)'
-        rhs = rhs[0..rhs.length-2]  # trim off last plus
-        return (lhs + ' = ' + rhs)
-    else if graph.selected_node_model == 'fluid-flow'
-        rhs += 'tao_' + graph.selected_node + '*d' + graph.selected_node + '/dt =' + graph.selected_node
-        for parent of graph.getNode(graph.selected_node)._inEdges
-            rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
-        lhs += 't)'
-        return (lhs + ' = ' + rhs)
-    else if graph.selected_node_model == 'other'
-        for parent of graph.getNode(graph.selected_node)._inEdges
-            lhs += parent + ', '
-        lhs += 't)'
-        return (lhs + ' = ')
-    else
-        console.log('ERR: unknown node model "'+graph.selected_node_model+'"')
+    switch graph.selected_node_model
+        when 'linear-combination'
+            for parent of graph.getNode(graph.selected_node)._inEdges
+                lhs += parent + ', '
+                rhs += 'c_'+parent+'*'+parent+'(t) +'
+            lhs += 't)'
+            rhs = rhs[0..rhs.length-2]  # trim off last plus
+        when 'fluid-flow'
+            rhs += 'tao_' + graph.selected_node + '*d' + graph.selected_node + '/dt =' + graph.selected_node
+            for parent of graph.getNode(graph.selected_node)._inEdges
+                rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
+            lhs += 't)'
+        when 'other'
+            for parent of graph.getNode(graph.selected_node)._inEdges
+                lhs += parent + ', '
+            lhs += 't)'
+            rhs = 'f()'
+        when 'constant'
+            lhs += ')'
+            rhs += 'C'
+        when 'context-var-options'
+            lhs += 't)'
+            rhs += 'f(context(t))'
+        when 'personality-var-options'
+            lhs += ')'
+            rhs += 'gauss(mu, sigma)'
+        else
+            throw Error('unknown node model "'+graph.selected_node_model+'"')
+            
+    return lhs + ' = ' + rhs
 
 node_sparkline_id = (node_id) ->
    # returns element id for given node id
@@ -156,11 +169,10 @@ get_node_graph_html = (node_id) ->
     html += ' </div> '
     return html
 
-window.make_selected_node_sparkline = () ->
-    $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
-        {type: 'line', height: '2.5em', width: '4em'})
-
 window.get_node_type = (node_id) ->
+    ###
+    returns a string indicating the type of the given node 
+    ###
     n_parents = graph.getParentsOf(node_id).length
     if n_parents <= 0  # source node
         if graph.selected_node_model == 'context-var-options'
@@ -169,8 +181,16 @@ window.get_node_type = (node_id) ->
             return 'personality-var-options'
         else
             return 'unknown-source'
-    else
+    else  # state node
         return 'state'
+        
+window.update_assumption_preset = () ->
+    ###
+    updates the calculation method used on the current node using the value of the 'calculator-preset' element
+    ###
+    # TODO: set model thing?
+    model_builder.submit_node()
+
 
 window.draw_selected_graph = () ->
     $('#selected-node-graph').html(get_node_graph_html(graph.selected_node))
@@ -178,19 +198,31 @@ window.draw_selected_graph = () ->
     node_type = get_node_type(graph.selected_node)
     
     if node_type == 'context-var-options'
-        $('#selected-node-graph').append('TODO: preset dropdowns')
+        $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." '
+            + ' class="chosen-select" style="width:250px;" tabindex="4" '
+            + ' onclick="update_assumption_preset()">'
+            + '     <option value="random_walk">random_walk</option>'
+            + '     <option value="constant">constant</option> '
+            + '</select>'
+        )
+        try
+            $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
+                {type: 'line', width: '100%'})
+        catch error
+            console.log(error)
+            $('#selected-node-graph').append('! ~ node must be specified first ~ !<br>')
     else if node_type == 'personality-var-options'
         $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
     else if node_type == 'state'
-        null
+        try
+            $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
+                {type: 'line', width: '100%'})
+        catch error
+            console.log(error)
+            $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
     else
         throw Error('unparented node type unrecognized: '+graph.selected_node_model)
         
-    try
-        make_selected_node_sparkline()
-    catch error
-        console.log(error)
-        $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
 
 window.draw_parent_graphs = () ->
     ###
