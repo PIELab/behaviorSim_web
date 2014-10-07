@@ -365,17 +365,31 @@
                     </div>
                     <div class="row">
                         <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- settings -->
+                            <!-- program state info -->
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    Settings
+                                    Program State Info
                                 </div>
-                                <label class="checkbox">
-                                        <input type="checkbox" id="fontBtn" checked="false">use silly handwritten font
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" id="replBtn" checked="false">live updates -- this will make things slower
-                                </label>
+                                Selected Node:
+                                <div id='selected-node-name'>
+                                    ???
+                                </div>
+                                Node Type:
+                                <div id='selected-node-type'>
+                                    ???
+                                </div>
+                                Node Model: 
+                                <div id='selected-node-model'>
+                                    ???
+                                </div>
+                                Node Parents:
+                                <div id='selected-node-parents'>
+                                    ???
+                                </div>
+                                Completed Nodes:
+                                <div id='completed-node-list'>
+                                    ???
+                                </div>
                             </div>
                             <!-- help -->
                             <div class="box box-primary">
@@ -388,6 +402,18 @@
                                     <p class="code comment">// connect nodes together using arrows </p>
                                     <p class="code">a -&gt; b</p>
                                 </div>
+                            </div>
+                            <!-- settings -->
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    Settings
+                                </div>
+                                <label class="checkbox">
+                                        <input type="checkbox" id="fontBtn" checked="false">use silly handwritten font
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="replBtn" checked="false">live updates -- this will make things slower
+                                </label>
                             </div>
                         </section>
                         <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
@@ -505,8 +531,13 @@
 
                     </div>
 
+					
 
+					===========================================================================
+					=== ADDITIONAL UNCONNECTED WIDGETS (HAVE ANY IDEAS ON HOW TO USE THEM?) ===
+					===========================================================================
 
+					
 
                     <div class="row">
                         <!-- Left col -->

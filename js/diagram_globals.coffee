@@ -57,20 +57,34 @@ window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
 
 window.complete_a_node = (node_id) ->
     window.graph.completed_nodes.push(node_id)
+    $('#completed-node-list').html(graph.completed_nodes)
 
+
+    # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
     # update the graphic
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
-
+    
 window.graph.set_selected_node = (node_id) ->
     window.graph.selected_node = node_id
+    try
+        graph.selected_node_model = simulator.get_node_object(graph.selected_node).type
+    catch error  # node not found
+        graph.selected_node_model = 'personality-var-options'
 
-    # redraw the infoflow graph
-    draw_colored_graph(textarea.value, paper, fontBtn.checked)
-
+    $('#selected-node-name').html(graph.selected_node)
+    $('#selected-node-type').html(get_node_type(graph.selected_node))
+    $('#selected-node-model').html(graph.selected_node_model)
+    $('#selected-node-parents').html(graph.getParentsOf(graph.selected_node))
+    $('#completed-node-list').html(graph.completed_nodes)
+    
     # update various texts
     update_selected_node_texts()
     update_selected_node_details()
     $('.selected_node_functional_form').html(graph.get_selected_node_functional_form())
+    
+    # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
+    # redraw the infoflow graph
+    draw_colored_graph(textarea.value, paper, fontBtn.checked)
 
     # update parent graphs
     draw_parent_graphs()
@@ -146,28 +160,37 @@ window.make_selected_node_sparkline = () ->
     $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
         {type: 'line', height: '2.5em', width: '4em'})
 
+window.get_node_type = (node_id) ->
+    n_parents = graph.getParentsOf(node_id).length
+    if n_parents <= 0  # source node
+        if graph.selected_node_model == 'context-var-options'
+            return 'context-var-options'
+        else if graph.selected_node_model == 'personality-var-options'
+            return 'personality-var-options'
+        else
+            return 'unknown-source'
+    else
+        return 'state'
 
 window.draw_selected_graph = () ->
     $('#selected-node-graph').html(get_node_graph_html(graph.selected_node))
-    n_parents = graph.getParentsOf(graph.selected_node).length
-    if n_parents <= 0
-        if graph.selected_node_model == 'context-var-options'
-            $('#selected-node-graph').append('TODO: preset dropdowns')
-        else if graph.selected_node_model == 'personality-var-options'
-            $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
-        else
-            throw Error('unparented node type unrecognized: '+graph.selected_node_model)
-        try
-            make_selected_node_sparkline()
-        catch error
-            console.log(error)
-            $('#selected-node-graph').append('! ~ node must be specified first ~ !<br>')
+    
+    node_type = get_node_type(graph.selected_node)
+    
+    if node_type == 'context-var-options'
+        $('#selected-node-graph').append('TODO: preset dropdowns')
+    else if node_type == 'personality-var-options'
+        $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
+    else if node_type == 'state'
+        null
     else
-        try
-            make_selected_node_sparkline()
-        catch error
-            console.log(error)
-            $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
+        throw Error('unparented node type unrecognized: '+graph.selected_node_model)
+        
+    try
+        make_selected_node_sparkline()
+    catch error
+        console.log(error)
+        $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
 
 window.draw_parent_graphs = () ->
     ###
