@@ -204,7 +204,7 @@ window.draw_selected_graph = () ->
             try
                 $('#'+node_sparkline_id(graph.selected_node)).sparkline(
                     simulator.get_node_values(graph.selected_node),
-                    {type: 'line', width: '100%'})
+                    {type: 'line', height: '4em', width: '100%'})
                 $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option>  </select>')
             catch error
                 console.log("node not yet spec'd, no big deal.")
@@ -214,14 +214,14 @@ window.draw_selected_graph = () ->
             $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
             try
                 $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
-                    {type: 'line', width: '100%'})
+                    {type: 'line', height: '4em', width: '100%'})
             catch error
                 console.log(error)
                 $('#selected-node-graph').append('! ~ node must be specified first ~ !<br>')
         when 'state'
             try
                 $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
-                    {type: 'line', width: '100%'})
+                    {type: 'line', height: '4em', width: '100%'})
             catch error
                 console.log(error)
                 $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
@@ -242,7 +242,9 @@ window.draw_parent_graphs = () ->
         for parent in parents
             try
                 $('#parent-graphs').append(get_node_graph_html(parent))
-                $('#'+node_sparkline_id(parent)).sparkline(simulator.get_node_values(parent))
+                $('#'+node_sparkline_id(parent)).sparkline(
+                    simulator.get_node_values(parent),
+                    {type: 'line', height: '2em', width: '100%'})
             catch error
                 $('#parent-graphs').append('!!! ~ node not yet defined ~ !!!<br>')
     else
