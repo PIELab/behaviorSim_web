@@ -73,7 +73,7 @@ class ModelBuilder
                 type : "dependency_list"
                 dependencies : @get_context_node_dependencies()
             }
-        else if node_type == 'personality'
+        else if node_type == 'personality-var-options'
             return {
                 type : "normal_distribution"
                 mu : $("input[name='mu']").val()
