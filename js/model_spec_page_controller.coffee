@@ -1,6 +1,5 @@
 ### script for controlling responsive modeling param form ###
 
-modelingOptions = document.getElementById('modeling-options')
 model_selector = document.getElementById("model-selector")
 
 $listen model_selector, 'change', =>

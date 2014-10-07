@@ -31,14 +31,10 @@ function update_selected_node_details(){
     inflows = getInputsOf(graph.selected_node);
     if (inflows.length > 0){
         $('#modeling-spec').show()
-        $('#modeling-options').show()
         $('#source-spec').hide()
-        $('#source-options').hide()
     } else {
         $('#modeling-spec').hide()
-        $('#modeling-options').hide()
         $('#source-spec').show()
-        $('#source-options').show()
     }
 }
 

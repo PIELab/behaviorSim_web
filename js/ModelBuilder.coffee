@@ -71,7 +71,7 @@ class ModelBuilder
         if node_type == 'context-var-options'
             return {
                 type : "dependency_list"
-                dependencies : @get_context_node_dependencies()
+                dependencies : $("input[name='dep-list']").val()
             }
         else if node_type == 'personality-var-options'
             return {
@@ -98,8 +98,5 @@ class ModelBuilder
             console.log(option.name+':'+option.value)
             target_obj[option.name] = option.value
         return target_obj
-
-    get_context_node_dependencies: () ->
-        return $("input[name='dep-list']").val()
 
 window.model_builder = new ModelBuilder()

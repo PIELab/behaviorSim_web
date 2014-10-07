@@ -98,7 +98,6 @@ window.graph.get_selected_node_form = () ->
         when 'linear-combination'
             for parent of graph.getNode(graph.selected_node)._inEdges
                 _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
-            return _result
         when 'fluid-flow'
             _result += 'tao_' + graph.selected_node + ' = <input type="text" name="tao_'
             _result += graph.selected_node + '" class="model-option-fluid-flow"> <br>'
@@ -107,14 +106,17 @@ window.graph.get_selected_node_form = () ->
                 _result += graph.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
                 _result += ' = <input type="text" name="theta_'+graph.selected_node+'_'+parent
                 _result += '" class="model-option-fluid-flow"><br>'
-            return _result
-        when 'other', 'context-var-options', 'personality-var-options'
+        when 'other'
             _result += 'define your function in javascript<br>'
             _result += '<input type="textarea" name="'+graph.selected_node
             _result += '_func" style="width:100%" rows="17"></input>'
-
+        when 'context-var-options'
+            _result += 'Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">'
+        when 'personality-var-options'
+            _result += 'Assuming a normal distribution across the population,<br> mu = <input type="text" name="mu" class="model-option-personality"><br>sigma = <input type="text" name="sigma" class="model-option-personality">'
         else
             throw Error('unknown node form "'+graph.selected_node_model+'"')
+    return _result
 
 window.graph.get_selected_node_functional_form = () ->
     lhs = graph.selected_node + "("  # left hand side
