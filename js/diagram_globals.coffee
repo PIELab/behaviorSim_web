@@ -142,6 +142,11 @@ get_node_graph_html = (node_id) ->
     html += ' </div> '
     return html
 
+window.make_selected_node_sparkline = () ->
+    $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
+        {type: 'line', height: '2.5em', width: '4em'})
+
+
 window.draw_selected_graph = () ->
     $('#selected-node-graph').html(get_node_graph_html(graph.selected_node))
     n_parents = graph.getParentsOf(graph.selected_node).length
@@ -153,13 +158,13 @@ window.draw_selected_graph = () ->
         else
             throw Error('unparented node type unrecognized: '+graph.selected_node_model)
         try
-            $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node))
+            make_selected_node_sparkline()
         catch error
             console.log(error)
             $('#selected-node-graph').append('! ~ node must be specified first ~ !<br>')
     else
         try
-            $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node))
+            make_selected_node_sparkline()
         catch error
             console.log(error)
             $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
