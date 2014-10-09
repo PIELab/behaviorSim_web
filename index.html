@@ -503,6 +503,10 @@
                                     <form id="modeling-options-form">
                                         loading options...
                                     </form>
+                                    <script type='text/coffeescript'>
+                                        $listen document.getElementById('selected-node-model'), 'change', =>
+                                            $('#modeling-options-form').html(graph.get_selected_node_form())
+                                    </script>
                                 </div>
                                 <button class="btn btn-primary btn-mini" id="submit_node_spec_btn" onclick="submit_node_spec()">
                                     Submit Node Specification
