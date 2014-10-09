@@ -64,6 +64,12 @@ class Simulator
                 return node
         # else
         throw Error('node not found! : '+node_id)
+        
+    get_node_spec_parameter: (node_id, parameter_name) ->
+        ###
+        returns the value of the requested parameter for the given node
+        ###
+        return @get_node_object(node_id).formulation[parameter_name]
 try
     window.Simulator = Simulator
 catch error

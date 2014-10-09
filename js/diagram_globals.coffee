@@ -69,19 +69,42 @@ window.graph.set_selected_node = (node_id) ->
     try
         graph.selected_node_model = simulator.get_node_object(graph.selected_node).type
     catch error  # node not found
+        # default model selection:
         graph.selected_node_model = 'personality-var-options'
 
+    # ==================================================================
+    # set all of the data elements (which may trigger various listeners)
+    # ==================================================================
     $('#selected-node-name').html(graph.selected_node)
     $('#selected-node-type').html(get_node_type(graph.selected_node))
     $('#selected-node-model').html(graph.selected_node_model)
     $('#selected-node-parents').html(graph.getParentsOf(graph.selected_node))
     $('#completed-node-list').html(graph.completed_nodes)
+    # personality spec details
+    try
+        $('#personality-spec_sigma').html(simulator.get_node_spec_parameter(graph.selected_node, 'sigma'))
+        $('#personality-spec_mu').html(simulator.get_node_spec_parameter(graph.selected_node, 'mu'))
+    catch error
+        # simulator could not find node (or param?)
+        $('#personality-spec_sigma').html('undefined')
+        $('#personality-spec_mu').html('undefined')
+        
+        # TODO: maybe this should be more proactive... like:
+        ###
+        # set it
+        model_builder.submit_node()
+        # try again
+        graph.set_selected_node(node_id)
+        ###
     
+    # ==================================================================
     # update various texts
+    # ==================================================================
     update_selected_node_texts()
     update_selected_node_details()
     $('.selected_node_functional_form').html(graph.get_selected_node_functional_form())
     
+    # ==================================================================
     # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
     # redraw the infoflow graph
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
