@@ -131,6 +131,22 @@ class ModelBuilder
 
         return result
 
+    build_graph_obj: (dsl_str) ->
+        for line in dsl_str.split('\n')
+            line = line.split('//')[0]  # this ignores everything after a // (comments)
+            if line == '' # ignore blank lines
+                continue
+            try
+                stmt = line.split('->')  # split by arrow 
+                n1 = stmt[0].trim()
+                n2 = stmt[1].trim()
+                # console.log(n1, '->', n2)
+                graph.addNode(n1)
+                graph.addNode(n2)
+                graph.addEdge(n1, n2);
+            catch error  # malformed line (no big deal)
+                console.log('dsl parse error @: ' + line)
+
     _add_modeling_options: (target_obj, selector_string) ->
         model_options = $(selector_string)
         console.log('adding options '+model_options)
