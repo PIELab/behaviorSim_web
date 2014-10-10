@@ -20,8 +20,12 @@ class ModelBuilder
     - nodeSize: total number of nodes.
     - edgeSize: total number of edges.
     ###
-    constructor: ->
+    constructor: () ->
         @_model = new Model
+        @_graph = new Graph;
+        @selected_node = 'Verbal_Persuasion'
+        @completed_nodes = []
+        @selected_node_model = 'context-var-options'
         
     submit_node: (nname=@get_node_name(), type=@get_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
@@ -42,32 +46,32 @@ class ModelBuilder
         ###
         @_model.add_node(nname, type, parents, children, formulation)
 
-        complete_a_node(graph.selected_node)
+        complete_a_node(@selected_node)
 
     get_node_name: () ->
-        return graph.selected_node
+        return @selected_node
 
     get_node_type: () ->
-        inflows = getInputsOf(graph.selected_node);
+        inflows = getInputsOf(@selected_node);
         if inflows.length > 0
             return 'state'
         else
-            return graph.selected_node_model
+            return @selected_node_model
 
     get_node_parents: () ->
         _result = []
-        for parent of graph.getNode(graph.selected_node)._inEdges
+        for parent of @_graph.getNode(@selected_node)._inEdges
             _result.push(parent)
         return _result
 
     get_node_children: () ->
         _result = []
-        for parent of graph.getNode(graph.selected_node)._outEdges
+        for parent of @_graph.getNode(@selected_node)._outEdges
             _result.push(parent)
         return _result
 
     get_node_formulation: () ->
-        node_type = graph.selected_node_model
+        node_type = @selected_node_model
         if node_type == 'context-var-options'
             return {
                 type : "dependency_list"
@@ -86,7 +90,7 @@ class ModelBuilder
         else if node_type == 'other'
             return {
                 type : "general_formulation"
-                formula: $("input[name='"+graph.selected_node+"_func']").val()
+                formula: $("input[name='"+@selected_node+"_func']").val()
             }
         else
             throw Error('unknown node formulation req: '+node_type)
@@ -137,13 +141,13 @@ class ModelBuilder
             if line == '' # ignore blank lines
                 continue
             try
-                stmt = line.split('->')  # split by arrow 
+                stmt = line.split('->')  # split by arrow
                 n1 = stmt[0].trim()
                 n2 = stmt[1].trim()
                 # console.log(n1, '->', n2)
-                graph.addNode(n1)
-                graph.addNode(n2)
-                graph.addEdge(n1, n2);
+                @_graph.addNode(n1)
+                @_graph.addNode(n2)
+                @_graph.addEdge(n1, n2);
             catch error  # malformed line (no big deal)
                 console.log('dsl parse error @: ' + line)
 
@@ -155,4 +159,7 @@ class ModelBuilder
             target_obj[option.name] = option.value
         return target_obj
 
-window.model_builder = new ModelBuilder()
+try
+    window.model_builder = new ModelBuilder
+catch error
+    module.exports = ModelBuilder

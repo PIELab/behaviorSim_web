@@ -79,10 +79,13 @@ class Graph
     ###
     _Returns:_ list of parents of given node or empty array if None
     ###
-    nodes = []
-    for node of @getNode(node_id)._inEdges
-        nodes.push(node.toString())
-    return nodes
+    try
+        nodes = []
+        for node of @getNode(node_id)._inEdges
+            nodes.push(node.toString())
+        return nodes
+    catch error
+        throw Error('node not found :', node_id)
 
   removeNode: (id) ->
     ###

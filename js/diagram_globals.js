@@ -1,7 +1,7 @@
 function getInputsOf(node_id){
     try{
         _result = []
-        for (node in graph._nodes[node_id]._inEdges){
+        for (node in model_builder._graph._nodes[node_id]._inEdges){
             _result.push(node)
         }
         return _result
@@ -28,7 +28,7 @@ function findElementByText(text) {
 
 function update_selected_node_details(){
     // updates the node spec details widget
-    inflows = getInputsOf(graph.selected_node);
+    inflows = getInputsOf(model_builder.selected_node);
     if (inflows.length > 0){
         $('#modeling-spec').show()
         $('#source-spec').hide()
@@ -41,9 +41,9 @@ function update_selected_node_details(){
 function update_selected_node_texts(){
     // updates all tspans of class selected_node_text to display new node name
     // and tspans of class node_inflow_count to contain proper count
-    $('.selected_node_text').text(graph.selected_node);
+    $('.selected_node_text').text(model_builder.selected_node);
 
-    $('.node_inflow_count').text(getInputsOf(graph.selected_node).length);
+    $('.node_inflow_count').text(getInputsOf(model_builder.selected_node).length);
 
-    $('.selected_node_functional_form').text(graph.get_selected_node_functional_form())
+    $('.selected_node_functional_form').text(model_builder.get_selected_node_functional_form())
 }

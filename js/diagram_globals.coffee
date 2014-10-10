@@ -2,12 +2,7 @@
 
 window.paper = Raphael "canvas", 800, 600
 
-window.graph = new Graph;
-window.graph.selected_node = 'Verbal_Persuasion'
-window.graph.completed_nodes = []
-window.graph.selected_node_model = 'context-var-options'
-
-window.simulator = new Simulator(model_builder._model, graph)
+window.simulator = new Simulator(model_builder._model, model_builder._graph)
 
 window.sampleText = """
 Verbal_Persuasion -> Self_Efficacy
@@ -28,17 +23,17 @@ window.submit_node_spec = () ->
     model_builder.submit_node()
 
     # reset node to reload graphs and stuff
-    graph.set_selected_node(graph.selected_node)
+    model_builder.set_selected_node(model_builder.selected_node)
 
 window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
     # update the js graph object
     model_builder.build_graph_obj(inputText )
 
     # desired color to selected node
-    inputText += '\n' + graph.selected_node + ' {#2488DF}'  # 0->blue
+    inputText += '\n' + model_builder.selected_node + ' {#2488DF}'  # 0->blue
     # and completed nodes
-    for node in graph.completed_nodes
-        if node == graph.selected_node # if node is completed and selected
+    for node in model_builder.completed_nodes
+        if node == model_builder.selected_node # if node is completed and selected
             inputText = inputText.replace(node+ ' {#2488DF}',  node + ' {#199E7C}')  # blue->teal
         else
             inputText += '\n' + node + ' {#00A900}'  # 0->green
@@ -47,34 +42,34 @@ window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
     @controller.makeItGo(inputText, paper, fontBtn.checked)
 
 window.complete_a_node = (node_id) ->
-    window.graph.completed_nodes.push(node_id)
-    $('#completed-node-list').html(graph.completed_nodes)
+    window.model_builder.completed_nodes.push(node_id)
+    $('#completed-node-list').html(model_builder.completed_nodes)
 
 
     # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
     # update the graphic
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
     
-window.graph.set_selected_node = (node_id) ->
-    window.graph.selected_node = node_id
+model_builder.set_selected_node = (node_id) ->
+    model_builder.selected_node = node_id
     try
-        graph.selected_node_model = simulator.get_node_object(graph.selected_node).type
+        model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).type
     catch error  # node not found
         # default model selection:
-        graph.selected_node_model = 'personality-var-options'
+        model_builder.selected_node_model = 'personality-var-options'
 
     # ==================================================================
     # set all of the data elements (which may trigger various listeners)
     # ==================================================================
-    $('#selected-node-name').html(graph.selected_node)
-    $('#selected-node-type').html(get_node_type(graph.selected_node))
-    $('#selected-node-model').html(graph.selected_node_model)
-    $('#selected-node-parents').html(graph.getParentsOf(graph.selected_node))
-    $('#completed-node-list').html(graph.completed_nodes)
+    $('#selected-node-name').html(model_builder.selected_node)
+    $('#selected-node-type').html(get_node_type(model_builder.selected_node))
+    $('#selected-node-model').html(model_builder.selected_node_model)
+    $('#selected-node-parents').html(model_builder._graph.getParentsOf(model_builder.selected_node))
+    $('#completed-node-list').html(model_builder.completed_nodes)
     # personality spec details
     try
-        $('#personality-spec_sigma').html(simulator.get_node_spec_parameter(graph.selected_node, 'sigma'))
-        $('#personality-spec_mu').html(simulator.get_node_spec_parameter(graph.selected_node, 'mu'))
+        $('#personality-spec_sigma').html(simulator.get_node_spec_parameter(model_builder.selected_node, 'sigma'))
+        $('#personality-spec_mu').html(simulator.get_node_spec_parameter(model_builder.selected_node, 'mu'))
     catch error
         # simulator could not find node (or param?)
         $('#personality-spec_sigma').html('undefined')
@@ -85,7 +80,7 @@ window.graph.set_selected_node = (node_id) ->
         # set it
         model_builder.submit_node()
         # try again
-        graph.set_selected_node(node_id)
+        model_builder.set_selected_node(node_id)
         ###
     
     # ==================================================================
@@ -93,63 +88,63 @@ window.graph.set_selected_node = (node_id) ->
     # ==================================================================
     update_selected_node_texts()
     update_selected_node_details()
-    $('.selected_node_functional_form').html(graph.get_selected_node_functional_form())
+    $('.selected_node_functional_form').html(model_builder.get_selected_node_functional_form())
     
     # ==================================================================
     # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
     # redraw the infoflow graph
     draw_colored_graph(textarea.value, paper, fontBtn.checked)
     
-    $('#modeling-options-form').html(graph.get_selected_node_form())
+    $('#modeling-options-form').html(model_builder.get_selected_node_form())
 
     # update parent graphs
     draw_parent_graphs()
     draw_selected_graph()
 
-window.graph.get_selected_node_form = () ->
+window.model_builder.get_selected_node_form = () ->
     _result = ''
-    switch graph.selected_node_model 
+    switch model_builder.selected_node_model
         when 'linear-combination'
-            for parent of graph.getNode(graph.selected_node)._inEdges
+            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
                 _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
         when 'fluid-flow'
-            _result += 'tao_' + graph.selected_node + ' = <input type="text" name="tao_'
-            _result += graph.selected_node + '" class="model-option-fluid-flow"> <br>'
-            for parent of graph.getNode(graph.selected_node)._inEdges
+            _result += 'tao_' + model_builder.selected_node + ' = <input type="text" name="tao_'
+            _result += model_builder.selected_node + '" class="model-option-fluid-flow"> <br>'
+            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
                 _result += 'c_'+parent+' = <input type="text" '+'name="c_'
-                _result += graph.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
-                _result += ' = <input type="text" name="theta_'+graph.selected_node+'_'+parent
+                _result += model_builder.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
+                _result += ' = <input type="text" name="theta_'+model_builder.selected_node+'_'+parent
                 _result += '" class="model-option-fluid-flow"><br>'
         when 'other'
             _result += 'define your function in javascript<br>'
-            _result += '<input type="textarea" name="'+graph.selected_node
+            _result += '<input type="textarea" name="'+model_builder.selected_node
             _result += '_func" style="width:100%" rows="17"></input>'
         when 'context-var-options'
             _result += 'Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">'
         when 'personality-var-options'
             _result += 'Assuming a normal distribution across the population,<br> mu = <input type="text" name="mu" class="model-option-personality"><br>sigma = <input type="text" name="sigma" class="model-option-personality">'
         else
-            throw Error('unknown node form "'+graph.selected_node_model+'"')
+            throw Error('unknown node form "'+model_builder.selected_node_model+'"')
     return _result
 
-window.graph.get_selected_node_functional_form = () ->
-    lhs = graph.selected_node + "("  # left hand side
+window.model_builder.get_selected_node_functional_form = () ->
+    lhs = model_builder.selected_node + "("  # left hand side
     rhs = ""  # right hand side
 
-    switch graph.selected_node_model
+    switch model_builder.selected_node_model
         when 'linear-combination'
-            for parent of graph.getNode(graph.selected_node)._inEdges
+            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
                 lhs += parent + ', '
                 rhs += 'c_'+parent+'*'+parent+'(t) +'
             lhs += 't)'
             rhs = rhs[0..rhs.length-2]  # trim off last plus
         when 'fluid-flow'
-            rhs += 'tao_' + graph.selected_node + '*d' + graph.selected_node + '/dt =' + graph.selected_node
-            for parent of graph.getNode(graph.selected_node)._inEdges
+            rhs += 'tao_' + model_builder.selected_node + '*d' + model_builder.selected_node + '/dt =' + model_builder.selected_node
+            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
                 rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
             lhs += 't)'
         when 'other'
-            for parent of graph.getNode(graph.selected_node)._inEdges
+            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
                 lhs += parent + ', '
             lhs += 't)'
             rhs = 'f()'
@@ -163,7 +158,7 @@ window.graph.get_selected_node_functional_form = () ->
             lhs += ')'
             rhs += 'gauss(mu, sigma)'
         else
-            throw Error('unknown node model "'+graph.selected_node_model+'"')
+            throw Error('unknown node model "'+model_builder.selected_node_model+'"')
             
     return lhs + ' = ' + rhs
 
@@ -189,11 +184,11 @@ window.get_node_type = (node_id) ->
     ###
     returns a string indicating the type of the given node 
     ###
-    n_parents = graph.getParentsOf(node_id).length
+    n_parents = model_builder._graph.getParentsOf(node_id).length
     if n_parents <= 0  # source node
-        if graph.selected_node_model == 'context-var-options'
+        if model_builder.selected_node_model == 'context-var-options'
             return 'context-var-options'
-        else if graph.selected_node_model == 'personality-var-options'
+        else if model_builder.selected_node_model == 'personality-var-options'
             return 'personality-var-options'
         else
             return 'unknown-source'
@@ -209,15 +204,15 @@ window.update_assumption_preset = () ->
 
 
 window.draw_selected_graph = () ->
-    $('#selected-node-graph').html(get_node_graph_html(graph.selected_node))
+    $('#selected-node-graph').html(get_node_graph_html(model_builder.selected_node))
     
-    node_type = get_node_type(graph.selected_node)
+    node_type = get_node_type(model_builder.selected_node)
     
     switch node_type 
         when 'context-var-options'
             try
-                $('#'+node_sparkline_id(graph.selected_node)).sparkline(
-                    simulator.get_node_values(graph.selected_node),
+                $('#'+node_sparkline_id(model_builder.selected_node)).sparkline(
+                    simulator.get_node_values(model_builder.selected_node),
                     {type: 'line', height: '4em', width: '100%'})
                 $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option>  </select>')
             catch error
@@ -227,20 +222,20 @@ window.draw_selected_graph = () ->
         when 'personality-var-options'
             $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
             try
-                $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
+                $('#'+node_sparkline_id(model_builder.selected_node)).sparkline(simulator.get_node_values(model_builder.selected_node),
                     {type: 'line', height: '4em', width: '100%'})
             catch error
                 console.log(error)
                 $('#selected-node-graph').append('! ~ node must be specified first ~ !<br>')
         when 'state'
             try
-                $('#'+node_sparkline_id(graph.selected_node)).sparkline(simulator.get_node_values(graph.selected_node),
+                $('#'+node_sparkline_id(model_builder.selected_node)).sparkline(simulator.get_node_values(model_builder.selected_node),
                     {type: 'line', height: '4em', width: '100%'})
             catch error
                 console.log(error)
                 $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
         else
-            throw Error('node type unrecognized: '+graph.selected_node_model)
+            throw Error('node type unrecognized: '+model_builder.selected_node_model)
         
 
 window.draw_parent_graphs = () ->
@@ -248,9 +243,9 @@ window.draw_parent_graphs = () ->
     inserts parent graphs into parent graph widget
     ###
     # clear old html
-    $('#parent-graphs').html('<div class="box-header">Mini-simulation: '+graph.selected_node+"'s parents.</div>")
+    $('#parent-graphs').html('<div class="box-header">Mini-simulation: '+model_builder.selected_node+"'s parents.</div>")
 
-    parents = graph.getParentsOf(graph.selected_node)
+    parents = model_builder._graph.getParentsOf(model_builder.selected_node)
     if parents.length > 0
         # insert parent graphs
         for parent in parents
@@ -262,4 +257,4 @@ window.draw_parent_graphs = () ->
             catch error
                 $('#parent-graphs').append('!!! ~ node not yet defined ~ !!!<br>')
     else
-        $('#parent-graphs').append(graph.selected_node+' has no inflow nodes.')
+        $('#parent-graphs').append(model_builder.selected_node+' has no inflow nodes.')

@@ -3,12 +3,12 @@
 model_selector = document.getElementById("model-selector")
 
 $listen model_selector, 'change', =>
-    graph.selected_node_model = model_selector.value
-    $('#modeling-options-form').html(graph.get_selected_node_form())
+    model_builder.selected_node_model = model_selector.value
+    $('#modeling-options-form').html(model_builder.get_selected_node_form())
 
 # initial setting of the content section
-#graph.selected_node_model = model_selector.value
-$('#modeling-options-form').html(graph.get_selected_node_form())
+#model_builder.selected_node_model = model_selector.value
+$('#modeling-options-form').html(model_builder.get_selected_node_form())
 
 
 ###
