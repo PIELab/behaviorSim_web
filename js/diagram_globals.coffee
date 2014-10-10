@@ -32,12 +32,19 @@ window.submit_node_spec = () ->
 
 window.build_graph_obj = (dsl_text) ->
     for line in textarea.value.split('\n')
-        stmt = line.split('->')
-        n1 = stmt[0].replace(' ', '')
-        n2 = stmt[1].replace(' ', '')
-        graph.addNode(n1)
-        graph.addNode(n2)
-        graph.addEdge(n1, n2);
+        line = line.split('//')[0]  # this ignores everything after a // (comments)
+        if line == '' # ignore blank lines
+            continue
+        try
+            stmt = line.split('->')  # split by arrow
+            n1 = stmt[0].trim()
+            n2 = stmt[1].trim()
+            # console.log(n1, '->', n2)
+            graph.addNode(n1)
+            graph.addNode(n2)
+            graph.addEdge(n1, n2);
+        catch error  # malformed line (no big deal)
+            console.log('dsl parse error @: ' + line)
 
 window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
     # update the js graph object
