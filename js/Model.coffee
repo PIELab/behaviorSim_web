@@ -14,7 +14,7 @@ class Model
             {
                 "name":"node1",
                 "type": "context",
-                "parents": []
+                "parents": [],
                 "children": [
                     "node2"
                 ],
@@ -27,7 +27,7 @@ class Model
                 "type": "context",
                 "parents": [
                     "node1"
-                ]
+                ],
                 "children": [],
                 "formulation":{
                     "type": "linear sum",

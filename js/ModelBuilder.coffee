@@ -91,6 +91,46 @@ class ModelBuilder
         else
             throw Error('unknown node formulation req: '+node_type)
 
+    load_model_from_file: (model_file) ->
+        ###
+        loads a the given file and overwrites the current model
+        ###
+        new_model = new Model
+        throw ReferenceError('load_model_from_file() not yet implemented')
+
+    set_model: (new_model_obj) ->
+        ###
+        sets the model to the given object
+        ###
+        @_model = new_model_obj
+        console.log('model set to:')
+        console.log(@_model)
+
+    load_model: (file_loc) ->
+        ###
+        loads a model from a given json file location (presumably on server)
+        ###
+        $.ajax file_loc,
+            success  : (data, status, xhr) =>
+                @set_model(data)
+                $('#textarea').val(@get_model_dsl())
+        error    : (xhr, status, err) ->
+            console.log(err)
+        complete : (xhr, status) ->
+            console.log("done loading model")
+
+    get_model_dsl: () ->
+        ###
+        returns diagram specification languange (DSL) string for model.
+        Assumes that all nodes are linked (no stray nodes)
+        ###
+        result = ''
+        for node in @_model.nodes
+            for child in node.children
+                result += node.name + ' -> ' + child + '\n'
+
+        return result
+
     _add_modeling_options: (target_obj, selector_string) ->
         model_options = $(selector_string)
         console.log('adding options '+model_options)
