@@ -2,7 +2,7 @@
 draw_selected_graph = () ->
     $('#selected-node-graph').html(get_node_graph_html(model_builder.selected_node))
 
-    node_type = get_node_type(model_builder.selected_node)
+    node_type = model_builder.get_selected_node_type()
 
     switch node_type
         when 'context-var-options'

@@ -2,21 +2,7 @@ class ModelBuilder
     ###
     A generalized system model specification object for building a model JSON object.
 
-    ## Overview example:
-
-    ```js
-    var bulider = new ModelBuilder;
-    builder.spec_node(); //  specifies a node using default get_node_type, get_node_spec, etc
-
-    // overloads the get_node_type function to fit your application
-    builder.get_node_type = function(){
-        return $('#node-type-selector').value()
-    }
-
-    builder.spec_node();  // specifies a node using new get_node_type
-    ```
-
-    ## Properties:
+    Properties:
     - nodeSize: total number of nodes.
     - edgeSize: total number of edges.
     ###
@@ -27,7 +13,7 @@ class ModelBuilder
         @completed_nodes = []
         @selected_node_model = 'context-var-options'
         
-    submit_node: (nname=@get_node_name(), type=@get_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
+    submit_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         accepts submission of node & updates or adds node spec if needed
         ###
@@ -40,7 +26,7 @@ class ModelBuilder
         console.log('adding node to the model')
         return @add_node(nname, type, parents, children, formulation)
 
-    add_node: (nname=@get_node_name(), type=@get_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
+    add_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         adds a node to the model
         ###
@@ -50,13 +36,6 @@ class ModelBuilder
 
     get_node_name: () ->
         return @selected_node
-
-    get_node_type: () ->
-        inflows = getInputsOf(@selected_node);
-        if inflows.length > 0
-            return 'state'
-        else
-            return @selected_node_model
 
     get_node_parents: () ->
         _result = []
@@ -217,6 +196,21 @@ class ModelBuilder
             else
                 throw Error('unknown node form "'+@selected_node_model+'"')
         return _result
+
+    get_selected_node_type: () ->
+        ###
+        returns a string indicating the type (context, personality, or state) of the selected node
+        ###
+        n_parents = @_graph.getParentsOf(@selected_node).length
+        if n_parents <= 0  # source node
+            if @selected_node_model == 'context-var-options'
+                return 'context-var-options'
+            else if @selected_node_model == 'personality-var-options'
+                return 'personality-var-options'
+            else
+                return 'unknown-source'
+        else  # state node
+            return 'state'
 
     _add_modeling_options: (target_obj, selector_string) ->
         model_options = $(selector_string)

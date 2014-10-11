@@ -49,7 +49,7 @@ model_builder.set_selected_node = (node_id) ->
     # set all of the data debugging elements
     # ==================================================================
     $('#selected-node-name').html(model_builder.selected_node)
-    $('#selected-node-type').html(get_node_type(model_builder.selected_node))
+    $('#selected-node-type').html(model_builder.get_selected_node_type())
     $('#selected-node-model').html(model_builder.selected_node_model)
     $('#selected-node-parents').html(model_builder._graph.getParentsOf(model_builder.selected_node))
     $('#completed-node-list').html(model_builder.completed_nodes)
@@ -61,14 +61,6 @@ model_builder.set_selected_node = (node_id) ->
         # simulator could not find node (or param?)
         $('#personality-spec_sigma').html('undefined')
         $('#personality-spec_mu').html('undefined')
-        
-        # TODO: maybe this should be more proactive... like:
-        ###
-        # set it
-        model_builder.submit_node()
-        # try again
-        model_builder.set_selected_node(node_id)
-        ###
 
     node_selection_changed.trigger()
 
@@ -90,21 +82,6 @@ window.get_node_graph_html = (node_id) ->
     html += ' </div> '
     return html
 
-window.get_node_type = (node_id) ->
-    ###
-    returns a string indicating the type of the given node 
-    ###
-    n_parents = model_builder._graph.getParentsOf(node_id).length
-    if n_parents <= 0  # source node
-        if model_builder.selected_node_model == 'context-var-options'
-            return 'context-var-options'
-        else if model_builder.selected_node_model == 'personality-var-options'
-            return 'personality-var-options'
-        else
-            return 'unknown-source'
-    else  # state node
-        return 'state'
-        
 window.update_assumption_preset = () ->
     ###
     updates the calculation method used on the current node using the value of the 'calculator-preset' element

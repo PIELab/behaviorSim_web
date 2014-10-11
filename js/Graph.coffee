@@ -85,7 +85,7 @@ class Graph
             nodes.push(node.toString())
         return nodes
     catch error
-        throw Error('node not found :', node_id)
+        throw Error('node not found, id:', node_id)
 
   removeNode: (id) ->
     ###
