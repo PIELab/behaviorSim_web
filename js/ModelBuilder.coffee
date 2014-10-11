@@ -151,7 +151,48 @@ class ModelBuilder
             catch error  # malformed line (no big deal)
                 console.log('dsl parse error @: ' + line)
 
+    get_selected_node_functional_form: () ->
+        ###
+        returns a string showing the functional form of the selected node
+        ###
+        lhs = @selected_node + "("  # left hand side
+        rhs = ""  # right hand side
+
+        switch @selected_node_model
+            when 'linear-combination'
+                for parent of @_graph.getNode(@selected_node)._inEdges
+                    lhs += parent + ', '
+                    rhs += 'c_'+parent+'*'+parent+'(t) +'
+                lhs += 't)'
+                rhs = rhs[0..rhs.length-2]  # trim off last plus
+            when 'fluid-flow'
+                rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
+                for parent of @_graph.getNode(@selected_node)._inEdges
+                    rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
+                lhs += 't)'
+            when 'other'
+                for parent of @_graph.getNode(@selected_node)._inEdges
+                    lhs += parent + ', '
+                lhs += 't)'
+                rhs = 'f()'
+            when 'constant'
+                lhs += ')'
+                rhs += 'C'
+            when 'context-var-options'
+                lhs += 't)'
+                rhs += 'f(context(t))'
+            when 'personality-var-options'
+                lhs += ')'
+                rhs += 'gauss(mu, sigma)'
+            else
+                throw Error('unknown node model "'+@selected_node_model+'"')
+
+        return lhs + ' = ' + rhs
+
     get_selected_node_form: () ->
+        ###
+        returns an html string for the contents of a form used to specify the selected node
+        ###
         _result = ''
         switch @selected_node_model
             when 'linear-combination'

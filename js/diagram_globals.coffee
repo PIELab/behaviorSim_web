@@ -77,41 +77,6 @@ model_builder.set_selected_node = (node_id) ->
     # TODO: the following should be implemented as listeners to model_changed_event
     $('#modeling-options-form').html(model_builder.get_selected_node_form())
 
-window.model_builder.get_selected_node_functional_form = () ->
-    lhs = model_builder.selected_node + "("  # left hand side
-    rhs = ""  # right hand side
-
-    switch model_builder.selected_node_model
-        when 'linear-combination'
-            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
-                lhs += parent + ', '
-                rhs += 'c_'+parent+'*'+parent+'(t) +'
-            lhs += 't)'
-            rhs = rhs[0..rhs.length-2]  # trim off last plus
-        when 'fluid-flow'
-            rhs += 'tao_' + model_builder.selected_node + '*d' + model_builder.selected_node + '/dt =' + model_builder.selected_node
-            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
-                rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
-            lhs += 't)'
-        when 'other'
-            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
-                lhs += parent + ', '
-            lhs += 't)'
-            rhs = 'f()'
-        when 'constant'
-            lhs += ')'
-            rhs += 'C'
-        when 'context-var-options'
-            lhs += 't)'
-            rhs += 'f(context(t))'
-        when 'personality-var-options'
-            lhs += ')'
-            rhs += 'gauss(mu, sigma)'
-        else
-            throw Error('unknown node model "'+model_builder.selected_node_model+'"')
-            
-    return lhs + ' = ' + rhs
-
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
    return ''+node_id+'_sparkline'
