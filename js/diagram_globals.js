@@ -1,19 +1,3 @@
-function getInputsOf(node_id){
-    try{
-        _result = []
-        for (node in model_builder._graph._nodes[node_id]._inEdges){
-            _result.push(node)
-        }
-        return _result
-    } catch(e) {
-        if (e.name == 'TypeError') {
-            return []
-        } else {
-            throw e;
-        }
-    }
-}
-
 function findElementByText(text) {
   /* finds and returns the tspan containing the given text
    * if the element has no children.
