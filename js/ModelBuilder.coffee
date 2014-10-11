@@ -151,6 +151,32 @@ class ModelBuilder
             catch error  # malformed line (no big deal)
                 console.log('dsl parse error @: ' + line)
 
+    get_selected_node_form: () ->
+        _result = ''
+        switch @selected_node_model
+            when 'linear-combination'
+                for parent of @_graph.getNode(@selected_node)._inEdges
+                    _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
+            when 'fluid-flow'
+                _result += 'tao_' + @selected_node + ' = <input type="text" name="tao_'
+                _result += @selected_node + '" class="model-option-fluid-flow"> <br>'
+                for parent of @_graph.getNode(@selected_node)._inEdges
+                    _result += 'c_'+parent+' = <input type="text" '+'name="c_'
+                    _result += @selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
+                    _result += ' = <input type="text" name="theta_'+@selected_node+'_'+parent
+                    _result += '" class="model-option-fluid-flow"><br>'
+            when 'other'
+                _result += 'define your function in javascript<br>'
+                _result += '<input type="textarea" name="'+@selected_node
+                _result += '_func" style="width:100%" rows="17"></input>'
+            when 'context-var-options'
+                _result += 'Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">'
+            when 'personality-var-options'
+                _result += 'Assuming a normal distribution across the population,<br> mu = <input type="text" name="mu" class="model-option-personality"><br>sigma = <input type="text" name="sigma" class="model-option-personality">'
+            else
+                throw Error('unknown node form "'+@selected_node_model+'"')
+        return _result
+
     _add_modeling_options: (target_obj, selector_string) ->
         model_options = $(selector_string)
         console.log('adding options '+model_options)

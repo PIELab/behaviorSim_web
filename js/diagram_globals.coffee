@@ -77,33 +77,6 @@ model_builder.set_selected_node = (node_id) ->
     # TODO: the following should be implemented as listeners to model_changed_event
     $('#modeling-options-form').html(model_builder.get_selected_node_form())
 
-
-window.model_builder.get_selected_node_form = () ->
-    _result = ''
-    switch model_builder.selected_node_model
-        when 'linear-combination'
-            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
-                _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
-        when 'fluid-flow'
-            _result += 'tao_' + model_builder.selected_node + ' = <input type="text" name="tao_'
-            _result += model_builder.selected_node + '" class="model-option-fluid-flow"> <br>'
-            for parent of model_builder._graph.getNode(model_builder.selected_node)._inEdges
-                _result += 'c_'+parent+' = <input type="text" '+'name="c_'
-                _result += model_builder.selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
-                _result += ' = <input type="text" name="theta_'+model_builder.selected_node+'_'+parent
-                _result += '" class="model-option-fluid-flow"><br>'
-        when 'other'
-            _result += 'define your function in javascript<br>'
-            _result += '<input type="textarea" name="'+model_builder.selected_node
-            _result += '_func" style="width:100%" rows="17"></input>'
-        when 'context-var-options'
-            _result += 'Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">'
-        when 'personality-var-options'
-            _result += 'Assuming a normal distribution across the population,<br> mu = <input type="text" name="mu" class="model-option-personality"><br>sigma = <input type="text" name="sigma" class="model-option-personality">'
-        else
-            throw Error('unknown node form "'+model_builder.selected_node_model+'"')
-    return _result
-
 window.model_builder.get_selected_node_functional_form = () ->
     lhs = model_builder.selected_node + "("  # left hand side
     rhs = ""  # right hand side
