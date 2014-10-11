@@ -1,5 +1,5 @@
 `
-function plot_personality_var_pdf(sigma, mu, selector_string){
+function plot_personality_var_pdf(sigma, mu, highlight, selector_string){
     /*
     creates the bell curve plot
     */
@@ -23,30 +23,51 @@ function plot_personality_var_pdf(sigma, mu, selector_string){
     var dd = [];
     for (var i = mu-plot_range; i <= mu+plot_range; i += plot_step)
         dd.push([i, density(i)]);
-    var d1 = {
-                label: "Gaussian",
-                data: dd
-    };
-    var d2 = {marks: { show: true }, data: [], markdata: [
-        {label: '3&sigma;', position: -3.0, row: 0},
-        {label: '2&sigma;', position: -2.0, row: 0},
-        {label: '&sigma;', position: -1.0, row: 0},
-        {label: '&sigma;', position: 1.0, row: 0},
-        {label: '2&sigma;', position: 2.0, row: 0},
-        {label: '3&sigma;', position: 3.0, row: 0}
-    ]};
 
-    $.plot($(selector_string), [ d1, d2 ], {
-        xaxis: { min: -plot_range*sigma, max: plot_range*sigma }
-    });
+    var d1 = {
+        label: "PDF",
+        data: dd,
+        points: {show: false},
+        lines: {show: true}
+
+    };
+    var d2 = {
+        label: "Selected Value",
+        data: [[highlight, density(highlight)]],
+        points: {show: true},
+        lines: {show: false}
+    };
+
+    try{
+        $.plot(selector_string, [d1, d2]);
+    }catch (err){
+        console.log(dd);
+        console.log(selector_string);
+        throw err
+    }
+
 }
 `
 
-stochastic_graph = () ->
-    plot_personality_var_pdf(
-        $('#personality-spec_sigma').html(), 
-        $('#personality-spec_mu').html(), 
-        '#selected-node-stochastic')
+draw_stochastic_graph = () ->
+    selected_value = .7
+    if model_builder.get_selected_node_type() == 'personality-var-options'
+        try
+            sigma = simulator.get_node_spec_parameter(model_builder.selected_node, 'sigma')
+            mu =simulator.get_node_spec_parameter(model_builder.selected_node, 'mu')
+        catch error
+            if error.message.split(':')[0] == "node not found, id"
+                sigma = 1
+                mu = 0
+        $('#selected-node-stochastic').height('15em')
+        plot_personality_var_pdf(sigma, mu, selected_value, '#selected-node-stochastic')
+
+    else
+        $('#selected-node-stochastic').html('')
+        $('#selected-node-stochastic').height(0)
+
+model_changed_event.add_action(draw_stochastic_graph)
+node_selection_changed.add_action(draw_stochastic_graph)
 
 $listen document.getElementById('personality-spec_sigma'), 'change', =>
     stochastic_graph()

@@ -14,13 +14,13 @@ draw_selected_graph = () ->
         when 'context-var-options'
             try
                 el.sparkline(simulator.get_node_values(model_builder.selected_node), sparkline_options)
-                $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option>  </select>')
             catch error
                 if error.message.split(':')[0] == "node not found! "
                     console.log("context node not yet specified; not drawing simulation.")
                     insert_dummy_graph(el)
                 else
                     throw error
+            $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option></select>')
         when 'personality-var-options'
             $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
             try
