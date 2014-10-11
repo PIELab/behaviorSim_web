@@ -71,11 +71,10 @@ model_builder.set_selected_node = (node_id) ->
     # update various texts
     # ==================================================================
     update_selected_node_details()
-    $('.selected_node_functional_form').html(model_builder.get_selected_node_functional_form())
-    
+
     # ==================================================================
-    # TODO: the following should be implemented as listeners to model_changed_event
-    $('#modeling-options-form').html(model_builder.get_selected_node_form())
+
+    node_selection_changed.trigger()
 
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id

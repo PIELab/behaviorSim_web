@@ -6,8 +6,7 @@ source_model_option_sections = ['context-var-options', 'personality-var-options'
 
 $listen source_type_selector, 'change', =>
     model_builder.selected_node_model = source_type_selector.value
-    $('#modeling-options-form').html(model_builder.get_selected_node_form())
-
+    model_changed_event.trigger()
 
 
 ###
