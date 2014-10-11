@@ -24,6 +24,7 @@ class Event
             assumed >1, default=infinite
         ###
         @actions.push({action:action_function, times:times})
+        return
 
     trigger: () ->
         ###
@@ -34,6 +35,7 @@ class Event
                 act.action()
 
             # TODO: if number of times run out, delete from functions list
+        return
 
 try
     window.Event = Event

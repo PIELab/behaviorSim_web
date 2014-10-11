@@ -13,4 +13,3 @@ exports.EventTest =
         test.throws(event.trigger, Error, 'the trigger should cause an error to be thrown')
 
         test.done()
-        

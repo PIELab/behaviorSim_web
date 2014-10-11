@@ -34,4 +34,8 @@ $listen submodel_inserter, 'click', =>
         console.log('unrecognized submodel value "'+submodel_selector.value+'"')
 
 window.Drawer.click_node = (node_id) ->
+    # TODO remove this & use listener below instead
     model_builder.set_selected_node(node_id)
+
+    node_selection_changed.trigger()
+

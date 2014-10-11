@@ -68,6 +68,7 @@
         <script type="text/javascript" src="/js/lib/diagramophone/lib/canvg.js"></script>
 
         <!-- graph data struct -->
+        <script type="text/coffeescript" src="/js/Event.coffee"></script>
         <script type="text/coffeescript" src="/js/Graph.coffee"></script>
         <script type="text/coffeescript" src="/js/Model.coffee"></script>
         <script type="text/coffeescript" src="/js/ModelBuilder.coffee"></script>
@@ -448,6 +449,7 @@
                                 <div id="parent-graphs">
                                     loading parent node(s) detail...
                                 </div>
+                                <script type="text/coffeescript" src="/js/parent_timeseries_graphs.coffee"></script>
                             </div>
                         </section>
                         <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
@@ -927,7 +929,8 @@
                 try{
                     model_builder.set_selected_node(model_builder.selected_node)
                 } catch(e) {
-                    if (e.message == "model_builder is not defined" ){
+                    if (e.message == "model_builder is not defined"
+                        || e.message == "undefined is not a function"){
                         if (retry_count > 5){
                             console.log('max retries on loading selected_node details reached. giving up.');
                             return

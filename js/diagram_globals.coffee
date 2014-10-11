@@ -1,3 +1,6 @@
+@model_changed_event = new Event
+@node_selection_changed = new Event
+
 @controller = new Controller
 
 window.paper = Raphael "canvas", 800, 600
@@ -11,6 +14,9 @@ Self_Efficacy -> Physical_Activity_Level
 """
 
 window.$listen = (target, name, callback) ->
+    ###
+    Helper function to make assigning listeners easy
+    ###
     if target
         if target.addEventListener
             target.addEventListener name, callback, false
@@ -20,9 +26,14 @@ window.$listen = (target, name, callback) ->
         console.log('cannot listen for '+name+' on '+target+' with '+callback)
 
 window.submit_node_spec = () ->
+    ###
+    submits node specification from web form
+    ###
     model_builder.submit_node()
 
-    # reset node to reload graphs and stuff
+    model_changed_event.trigger()
+
+    # TODO: replace this call with event listeners elsewhere
     model_builder.set_selected_node(model_builder.selected_node)
 
 window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
@@ -60,6 +71,7 @@ model_builder.set_selected_node = (node_id) ->
 
     # ==================================================================
     # set all of the data elements (which may trigger various listeners)
+    # TODO: undo this... it doesn't work...
     # ==================================================================
     $('#selected-node-name').html(model_builder.selected_node)
     $('#selected-node-type').html(get_node_type(model_builder.selected_node))
@@ -98,7 +110,8 @@ model_builder.set_selected_node = (node_id) ->
     $('#modeling-options-form').html(model_builder.get_selected_node_form())
 
     # update parent graphs
-    draw_parent_graphs()
+    #draw_parent_graphs()
+
     draw_selected_graph()
 
 window.model_builder.get_selected_node_form = () ->
@@ -162,11 +175,11 @@ window.model_builder.get_selected_node_functional_form = () ->
             
     return lhs + ' = ' + rhs
 
-node_sparkline_id = (node_id) ->
+window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
    return ''+node_id+'_sparkline'
 
-get_node_graph_html = (node_id) ->
+window.get_node_graph_html = (node_id) ->
     ###
     returns html for a given node id
     ###
@@ -236,25 +249,3 @@ window.draw_selected_graph = () ->
                 $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
         else
             throw Error('node type unrecognized: '+model_builder.selected_node_model)
-        
-
-window.draw_parent_graphs = () ->
-    ###
-    inserts parent graphs into parent graph widget
-    ###
-    # clear old html
-    $('#parent-graphs').html('<div class="box-header">Mini-simulation: '+model_builder.selected_node+"'s parents.</div>")
-
-    parents = model_builder._graph.getParentsOf(model_builder.selected_node)
-    if parents.length > 0
-        # insert parent graphs
-        for parent in parents
-            try
-                $('#parent-graphs').append(get_node_graph_html(parent))
-                $('#'+node_sparkline_id(parent)).sparkline(
-                    simulator.get_node_values(parent),
-                    {type: 'line', height: '2em', width: '100%'})
-            catch error
-                $('#parent-graphs').append('!!! ~ node not yet defined ~ !!!<br>')
-    else
-        $('#parent-graphs').append(model_builder.selected_node+' has no inflow nodes.')
