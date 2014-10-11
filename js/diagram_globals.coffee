@@ -43,8 +43,7 @@ model_builder.set_selected_node = (node_id) ->
         model_builder.selected_node_model = 'personality-var-options'
 
     # ==================================================================
-    # set all of the data elements (which may trigger various listeners)
-    # TODO: undo this... it doesn't work...
+    # set all of the data debugging elements
     # ==================================================================
     $('#selected-node-name').html(model_builder.selected_node)
     $('#selected-node-type').html(get_node_type(model_builder.selected_node))
@@ -71,7 +70,6 @@ model_builder.set_selected_node = (node_id) ->
     # ==================================================================
     # update various texts
     # ==================================================================
-    update_selected_node_texts()
     update_selected_node_details()
     $('.selected_node_functional_form').html(model_builder.get_selected_node_functional_form())
     
