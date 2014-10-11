@@ -1,16 +1,9 @@
 # interaction events:
 @model_changed_event = new Event
 @node_selection_changed = new Event
+@graph_display_settings_changed_event = new Event
 
 window.simulator = new Simulator(model_builder._model, model_builder._graph)
-
-@controller = new Controller
-window.paper = Raphael "canvas", 800, 600
-window.sampleText = """
-Verbal_Persuasion -> Self_Efficacy
-Vicarious_Experience -> Self_Efficacy
-Self_Efficacy -> Physical_Activity_Level
-"""
 
 window.$listen = (target, name, callback) ->
     ###
@@ -35,31 +28,12 @@ window.submit_node_spec = () ->
     # TODO: replace this call with event listeners elsewhere
     model_builder.set_selected_node(model_builder.selected_node)
 
-window.draw_colored_graph = (inputText, paper, hasSillyFont) ->
-    # update the js graph object
-    model_builder.build_graph_obj(inputText )
-
-    # desired color to selected node
-    inputText += '\n' + model_builder.selected_node + ' {#2488DF}'  # 0->blue
-    # and completed nodes
-    for node in model_builder.completed_nodes
-        if node == model_builder.selected_node # if node is completed and selected
-            inputText = inputText.replace(node+ ' {#2488DF}',  node + ' {#199E7C}')  # blue->teal
-        else
-            inputText += '\n' + node + ' {#00A900}'  # 0->green
-
-    # call the main method
-    @controller.makeItGo(inputText, paper, fontBtn.checked)
-
 window.complete_a_node = (node_id) ->
     window.model_builder.completed_nodes.push(node_id)
     $('#completed-node-list').html(model_builder.completed_nodes)
 
+    model_changed_event.trigger()
 
-    # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
-    # update the graphic
-    draw_colored_graph(textarea.value, paper, fontBtn.checked)
-    
 model_builder.set_selected_node = (node_id) ->
     model_builder.selected_node = node_id
     try
@@ -102,10 +76,7 @@ model_builder.set_selected_node = (node_id) ->
     $('.selected_node_functional_form').html(model_builder.get_selected_node_functional_form())
     
     # ==================================================================
-    # TODO: the following should be implemented as listeners to the 'selected-node-name' element id
-    # redraw the infoflow graph
-    draw_colored_graph(textarea.value, paper, fontBtn.checked)
-    
+    # TODO: the following should be implemented as listeners to model_changed_event
     $('#modeling-options-form').html(model_builder.get_selected_node_form())
 
 
