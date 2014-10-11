@@ -221,6 +221,6 @@ class ModelBuilder
         return target_obj
 
 try
-    window.model_builder = new ModelBuilder
+    window.ModelBuilder = ModelBuilder
 catch error
     module.exports = ModelBuilder

@@ -3,7 +3,8 @@
 @node_selection_changed = new Event
 @graph_display_settings_changed_event = new Event
 
-window.simulator = new Simulator(model_builder._model, model_builder._graph)
+@model_builder = new ModelBuilder
+@simulator = new Simulator(model_builder._model, model_builder._graph)
 
 window.$listen = (target, name, callback) ->
     ###
