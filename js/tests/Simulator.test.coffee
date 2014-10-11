@@ -50,7 +50,7 @@ exports.SimulatorTest =
             }
 
         graph = new Graph
-        model_builder._graph.addNode('test_node')
+        graph.addNode('test_node')
 
         simulator = new Simulator(model, graph)
         result = simulator.get_node_values('test_node')
