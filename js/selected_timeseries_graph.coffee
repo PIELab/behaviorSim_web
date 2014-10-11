@@ -22,7 +22,6 @@ draw_selected_graph = () ->
                     throw error
             $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option></select>')
         when 'personality-var-options'
-            $('#selected-node-graph').append('TODO: show dist. w/ rand selection highlighted and set calculator to const')
             try
                 el.sparkline(simulator.get_node_values(model_builder.selected_node), sparkline_options)
             catch error

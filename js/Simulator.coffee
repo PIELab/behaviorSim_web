@@ -17,6 +17,12 @@ class Simulator
         else
             throw Error('cannot run random walk without scale!')
 
+    calculator_constant: (t, prev_value, args) ->
+        if args.value
+            return args.value
+        else
+            throw Error('value not specified for constant calculator!')
+
     calculate_from_assumption: (assumption, node=undefined) ->
         ### 
         calculates a set of values using given assumption
@@ -52,11 +58,20 @@ class Simulator
                 return @calculate_from_assumption(node.assumption, node)
             else
                 # set default assumption
-                @set_node_assumption(node_id, @calculator_random_walk,{scale: 10, initial_value:5})
+                if node.type == 'personality-var-options'
+                    @set_node_assumption(node_id, @calculator_constant, {value:@get_personality_value(node_id)})
+                else
+                    @set_node_assumption(node_id, @calculator_random_walk,{scale: 10, initial_value:5})
                 return @calculate_from_assumption(node.assumption, node)
 
     set_node_assumption: (node_id, calculator, args) ->
         @get_node_object(node_id).assumption = {calculator:calculator, arguments:args}
+
+    get_personality_value: (node_id) ->
+        ###
+        returns a value selected from the given personality node's probability distribution
+        ###
+        return normal_random(@get_node_spec_parameter(node_id, 'mu'), @get_node_spec_parameter(node_id, 'sigma'))
 
     get_node_object: (node_id) ->
         for node in @_model.nodes
