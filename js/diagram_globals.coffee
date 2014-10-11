@@ -40,7 +40,10 @@ model_builder.set_selected_node = (node_id) ->
         model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).type
     catch error  # node not found
         # default model selection:
-        model_builder.selected_node_model = 'personality-var-options'
+        if getInputsOf(model_builder.selected_node).length > 0
+            model_builder.selected_node_model = $('#model-selector').val()
+        else
+            model_builder.selected_node_model = $('#source-type-selector').val()
 
     # ==================================================================
     # set all of the data debugging elements
@@ -66,13 +69,6 @@ model_builder.set_selected_node = (node_id) ->
         # try again
         model_builder.set_selected_node(node_id)
         ###
-    
-    # ==================================================================
-    # update various texts
-    # ==================================================================
-    update_selected_node_details()
-
-    # ==================================================================
 
     node_selection_changed.trigger()
 

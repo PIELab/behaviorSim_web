@@ -26,15 +26,3 @@ function findElementByText(text) {
   return jSpot;
 }
 
-function update_selected_node_details(){
-    // updates the node spec details widget
-    inflows = getInputsOf(model_builder.selected_node);
-    if (inflows.length > 0){
-        $('#modeling-spec').show()
-        $('#source-spec').hide()
-    } else {
-        $('#modeling-spec').hide()
-        $('#source-spec').show()
-    }
-}
-

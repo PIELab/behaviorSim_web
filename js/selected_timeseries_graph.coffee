@@ -31,7 +31,7 @@ draw_selected_graph = () ->
                 console.log(error)
                 $('#selected-node-graph').append('! ~ node & inflows must be specified first ~ !<br>')
         else
-            throw Error('node type unrecognized: '+model_builder.selected_node_model)
+            throw Error('node type unrecognized: '+node_type)
 
 model_changed_event.add_action(draw_selected_graph)
 node_selection_changed.add_action(draw_selected_graph)
