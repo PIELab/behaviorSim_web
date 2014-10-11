@@ -45,23 +45,6 @@ model_builder.set_selected_node = (node_id) ->
         else
             model_builder.selected_node_model = $('#source-type-selector').val()
 
-    # ==================================================================
-    # set all of the data debugging elements
-    # ==================================================================
-    $('#selected-node-name').html(model_builder.selected_node)
-    $('#selected-node-type').html(model_builder.get_selected_node_type())
-    $('#selected-node-model').html(model_builder.selected_node_model)
-    $('#selected-node-parents').html(model_builder._graph.getParentsOf(model_builder.selected_node))
-    $('#completed-node-list').html(model_builder.completed_nodes)
-    # personality spec details
-    try
-        $('#personality-spec_sigma').html(simulator.get_node_spec_parameter(model_builder.selected_node, 'sigma'))
-        $('#personality-spec_mu').html(simulator.get_node_spec_parameter(model_builder.selected_node, 'mu'))
-    catch error
-        # simulator could not find node (or param?)
-        $('#personality-spec_sigma').html('undefined')
-        $('#personality-spec_mu').html('undefined')
-
     node_selection_changed.trigger()
 
 window.node_sparkline_id = (node_id) ->
