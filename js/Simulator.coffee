@@ -28,9 +28,15 @@ class Simulator
 
     calculator_constant: (t, prev_value, args) ->
         if args.value
-            return args.value
+            return +args.value
         else
             throw Error('value not specified for constant calculator!')
+            
+    calculator_linear_combination: (t, prev_value, args) ->
+        value = 0
+        for parent in args.parents
+            value += simulator.get_node_values(parent)[t] * args['c_'+parent]
+        return value
 
     calculate_from_assumption: (assumption, node=undefined) ->
         ### 
@@ -42,6 +48,32 @@ class Simulator
         t = 0
         while t < @_time_length
             new_value = assumption.calculator(t, prev_value, assumption.arguments)
+            data.push(new_value)
+            prev_value = new_value
+            t += 1
+        if node  # save values if node given
+            node.data_values = data
+        return data
+        
+    calculate_from_formulation: (formulation, parents, node=undefined) ->
+        ### 
+        calculates a set of values using given formulation
+        :param node: node object to save the data for later
+        ###
+        data = []
+        prev_value = formulation.initial_value ? 0  # TODO: see issue #36
+        t = 0
+        if !formulation.calculator  # if calculator not defined explicitly in formulation
+            #set calculator using formulation.type name
+            if formulation.type == "linear-combination"
+                formulation.calculator = @calculator_linear_combination
+            else
+                throw Error("calculator not defined for formulation", formulation)
+        
+        formulation.parents = parents
+        
+        while t < @_time_length
+            new_value = formulation.calculator(t, prev_value, formulation)
             data.push(new_value)
             prev_value = new_value
             t += 1
@@ -61,7 +93,7 @@ class Simulator
             if node.type == 'state'
                 # calculate from formulation & parents (if possible)
                 calc_type = node.formulation
-                throw Error('state calc not yet implemented')
+                @calculate_from_formulation(node.formulation, node.parents, node)
             # if node assumption has been set
             else if node.assumption
                 return @calculate_from_assumption(node.assumption, node)
