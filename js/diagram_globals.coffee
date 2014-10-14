@@ -1,8 +1,25 @@
 # interaction events:
-@model_changed_event = new Event
-@node_selection_changed = new Event
-@graph_display_settings_changed_event = new Event
+@model_changed_event = new Event  # fires whenever model changes
+@node_selection_changed = new Event  # fires when different node is selected
+@graph_display_settings_changed_event = new Event  # fires when settings for the infoFlow graph changes
+@model_complete_event = new Event  # fires whenever the model is completed (re-fires when model changes and is complete)
 
+model_is_complete = () ->
+    # returns true if model is complete, else false
+    if simulator._model.node_count == simulator._graph.nodeSize  # basic check: completed count == total node count
+        return true
+    else
+        return false
+
+check_for_complete_model = () ->
+    # checks if the model is complete and fires the model_complete_event if needed
+    if model_is_complete()
+        model_complete_event.trigger()
+        return
+    else
+        return
+model_changed_event.add_action(check_for_complete_model) 
+        
 @model_builder = new ModelBuilder
 @simulator = new Simulator(model_builder._model, model_builder._graph)
 
