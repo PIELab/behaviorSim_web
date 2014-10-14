@@ -56,6 +56,8 @@ model_builder.set_selected_node = (node_id) ->
     model_builder.selected_node = node_id
     try
         model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).type
+        if model_builder.selected_node_model == "state"
+            model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).formulation.type
     catch error  # node not found
         # default model selection:
         if model_builder._graph.getParentsOf(model_builder.selected_node).length > 0

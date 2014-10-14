@@ -96,14 +96,6 @@ class ModelBuilder
         @selected_node = @_model.nodes[0].name
         @selected_node_model = @_model.nodes[0].type
         
-        
-        
-        
-        # TODO: update the @_graph !!!
-        
-        
-        
-        
         # update the dsl display
         $('#textarea').val(@get_model_dsl())
         

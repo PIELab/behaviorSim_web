@@ -35,8 +35,11 @@ draw_selected_graph = () ->
                 $('#'+node_sparkline_id(model_builder.selected_node)).sparkline(simulator.get_node_values(model_builder.selected_node),
                     {type: 'line', height: '4em', width: '100%'})
             catch error
-                console.log('state node not yet specified; not drawing simulation')
-                insert_dummy_graph(el)
+                if error.message.split(':')[0] == 'node not found! '
+                    console.log('state node not yet specified; not drawing simulation')
+                    insert_dummy_graph(el)
+                else
+                    throw error
         else
             throw Error('node type unrecognized: '+node_type)
 
