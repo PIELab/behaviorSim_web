@@ -10,7 +10,16 @@ class Simulator
         @_graph = graph
         @_time_length = time_length
         @_time_step = time_step
-
+        
+    set_model: (new_model) ->
+        # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
+        #   causes reference of global model to be unaltered... we want to modify that (so model_builder can see new model)
+        # Clear all the 'old' properties from the object
+        for prop in @_model
+            delete @_model[prop]
+        # Insert the new ones
+        $.extend(@_model, new_model)    
+        
     calculator_random_walk: (t, prev_value, args) ->
         if args.scale
             return prev_value + Math.random()*args.scale - args.scale/2

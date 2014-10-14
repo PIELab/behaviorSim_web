@@ -355,8 +355,7 @@
                         <div class="col-lg-9 col-md-8 col-sm-12">
                             <div class="title" style="overflow:hidden">
                                 Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
-                                (click to select a node)
-                                <button class="btn btn-primary btn-mini" id="saveIt">SAVE IT</button>
+                                (click to select a node) &nbsp;&nbsp;&nbsp;&nbsp;
                             </div>
                             <div id="color-key">
                                 color key: | <span class='selected_node'>Selected Node</span> |
@@ -370,7 +369,7 @@
                         <!-- save your model section -->
                         <div class="box box-success" id="model-saver">
                             <div class="box-header">
-                                Download Your Model
+                                Save Your Model
                             </div>
                             <div id="download-button">
                                 loading...
@@ -445,6 +444,17 @@
                             </div>
                         </section>
                         <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                            <!-- model uploader -->
+                            <div class="box box-primary" id="model-loader">
+                                <div class="box-header">
+                                    Load a Model
+                                </div>
+                                Upload:
+                                <form enctype="multipart/form-data">
+                                    <input name="file" type="file" id='file-chooser' />
+                                </form>
+                                <script type="text/javascript" src="/js/load_model.js"></script>
+                            </div>
                             <!-- sub-diagram inserter -->
                             <div class="box box-primary">
                                 <div class="box-header">

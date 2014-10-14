@@ -5,7 +5,6 @@ $("#model-saver").hide()
     // downloads the json file
     var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(simulator._model));
     $('#download-button').html('<a href="data:' + data + '" download="data.json">download JSON</a>');
-    
 }`
 
 make_save_model_box = () ->

@@ -11,11 +11,8 @@ goBtn = document.getElementById("diagramophone")
 textarea = document.getElementById("textarea")
 repl = document.getElementById("replBtn")
 fontBtn = document.getElementById("fontBtn")
-saveBtn = document.getElementById("saveIt")
-raphaelCanvas = document.getElementById("canvas")
 
 $listen goBtn, 'click', => model_changed_event.trigger()
-$listen saveBtn, 'click', => controller.saveAllTheThings(raphaelCanvas)
 
 $listen textarea, 'keyup', =>
     if (repl.checked)

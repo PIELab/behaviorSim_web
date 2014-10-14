@@ -74,20 +74,41 @@ class ModelBuilder
         else
             throw Error('unknown node formulation req: '+node_type)
 
-    load_model_from_file: (model_file) ->
-        ###
-        loads a the given file and overwrites the current model
-        ###
-        new_model = new Model
-        throw ReferenceError('load_model_from_file() not yet implemented')
-
-    set_model: (new_model_obj) ->
+    set_model: (new_model) ->
         ###
         sets the model to the given object
         ###
-        @_model = new_model_obj
-        console.log('model set to:')
-        console.log(@_model)
+        # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
+        #   causes reference of global model to be unaltered... we want to modify that (so simulator can see new model)
+        # Clear all the 'old' properties from the object
+        for prop in @_model
+            delete @_model[prop]
+        # Insert the new ones
+        $.extend(@_model, new_model)
+        
+        # update the completed nodes list
+        @completed_nodes = []
+        for node in @_model.nodes
+            if node.formulation
+                @completed_nodes.push(node.name)
+                
+        # select the first node of the new model
+        @selected_node = @_model.nodes[0].name
+        @selected_node_model = @_model.nodes[0].type
+        
+        
+        
+        
+        # TODO: update the @_graph !!!
+        
+        
+        
+        
+        # update the dsl display
+        $('#textarea').val(@get_model_dsl())
+        
+        console.log('model set to:', @_model)
+        model_changed_event.trigger()
 
     load_model: (file_loc) ->
         ###
@@ -96,7 +117,6 @@ class ModelBuilder
         $.ajax file_loc,
             success  : (data, status, xhr) =>
                 @set_model(data)
-                $('#textarea').val(@get_model_dsl())
         error    : (xhr, status, err) ->
             console.log(err)
         complete : (xhr, status) ->
