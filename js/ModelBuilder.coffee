@@ -36,15 +36,16 @@ class ModelBuilder
         ###
         accepts submission of node & updates or adds node spec if needed
         ###
-        return @add_node(nname, type, parents, children, formulation)
+        node = @add_node(nname, type, parents, children, formulation)
+        simulator.recalc(nname)
+        return node
 
     add_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         adds a node to the model
         ###
-        @_model.update_node(nname, type, parents, children, formulation)
-
         complete_a_node(@selected_node)
+        return @_model.update_node(nname, type, parents, children, formulation)
 
     get_node_name: () ->
         return @selected_node

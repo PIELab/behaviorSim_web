@@ -9,6 +9,13 @@ class Simulator
         @_model = model
         @_time_length = time_length
         @_time_step = time_step
+
+    recalc: (node_id) ->
+        ###
+        ensures that the last calculations for the node are thrown out and new calculations are done.
+        ###
+        # clear out data_values so that get_values recalcs next time
+        @_model.get_node(node_id).data_values = undefined
         
     set_model: (new_model) ->
         # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
@@ -92,17 +99,19 @@ class Simulator
             if node.type == 'state'
                 # calculate from formulation & parents (if possible)
                 calc_type = node.formulation
-                @calculate_from_formulation(node.formulation, node.parents, node)
+                return @calculate_from_formulation(node.formulation, node.parents, node)
             # if node assumption has been set
             else if node.assumption
                 return @calculate_from_assumption(node.assumption, node)
             else
-                # set default assumption
-                if node.type == 'personality-var-options'
-                    @set_node_assumption(node_id, @calculator_constant, {value:@get_personality_value(node_id)})
-                else
-                    @set_node_assumption(node_id, @calculator_random_walk,{scale: 10, initial_value:5})
-                return @calculate_from_assumption(node.assumption, node)
+                console.log('formulation or assumption not set')
+                return []
+                ## set default assumption
+                #if node.type == 'personality-var-options'
+                #    @set_node_assumption(node_id, @calculator_constant, {value:@get_personality_value(node_id)})
+                #else
+                #    @set_node_assumption(node_id, @calculator_random_walk,{scale: 10, initial_value:5})
+                #return @calculate_from_assumption(node.assumption, node)
 
     set_node_assumption: (node_id, calculator, args) ->
         @get_node_object(node_id).assumption = {calculator:calculator, arguments:args}
