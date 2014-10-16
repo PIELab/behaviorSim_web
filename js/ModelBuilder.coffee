@@ -11,6 +11,16 @@ class ModelBuilder
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
+    complete_a_node: (node_id) ->
+        if node_id in @completed_nodes  # if node already in list
+            return undefined
+        else
+            @completed_nodes.push(node_id)
+            $('#completed-node-list').html(model_builder.completed_nodes)
+            return @completed_nodes
+
+        model_changed_event.trigger()
+
     get_node_model: (node_id) ->
         ###
         returns a string indicating the given node's model
@@ -45,7 +55,7 @@ class ModelBuilder
         ###
         adds a node to the model
         ###
-        complete_a_node(@selected_node)
+        @complete_a_node(@selected_node)
         return @_model.update_node(nname, type, parents, children, formulation)
 
     get_node_name: () ->

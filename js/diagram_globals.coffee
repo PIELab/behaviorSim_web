@@ -47,13 +47,6 @@ window.submit_node_spec = () ->
     # TODO: replace this call with event listeners elsewhere
     model_builder.set_selected_node(model_builder.selected_node)
 
-window.complete_a_node = (node_id) ->
-    # TODO: move this into ModelBuilder class and check for unique id before adding to list
-    window.model_builder.completed_nodes.push(node_id)
-    $('#completed-node-list').html(model_builder.completed_nodes)
-
-    model_changed_event.trigger()
-
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
    return ''+node_id+'_sparkline'
