@@ -38,7 +38,6 @@ class ModelBuilder
         ###
         accepts submission of node & updates or adds node spec if needed
         ###
-        
         return @add_node(nname, type, parents, children, formulation)
 
     add_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
@@ -53,16 +52,10 @@ class ModelBuilder
         return @selected_node
 
     get_node_parents: () ->
-        _result = []
-        for parent of @_model.get_node(@selected_node)._inEdges
-            _result.push(parent)
-        return _result
+        return @_model.get_node(@selected_node).parents ? []
 
     get_node_children: () ->
-        _result = []
-        for parent of @_model.get_node(@selected_node)._outEdges
-            _result.push(parent)
-        return _result
+        return @_model.get_node(@selected_node).children ? []
 
     get_node_formulation: () ->
         node_type = @get_node_model(@selected_node)
@@ -88,6 +81,10 @@ class ModelBuilder
             }
         else
             throw Error('unknown node formulation req: '+node_type)
+
+    set_selected_node: (node_id) ->
+        model_builder.selected_node = node_id
+        node_selection_changed.trigger()
 
     set_model: (new_model) ->
         ###
@@ -165,18 +162,18 @@ class ModelBuilder
 
         switch @get_node_model(@selected_node)
             when 'linear-combination'
-                for parent of @_model.get_node(@selected_node)._inEdges
+                for parent in @_model.get_node(@selected_node).parents
                     lhs += parent + ', '
                     rhs += 'c_'+parent+'*'+parent+'(t) +'
                 lhs += 't)'
                 rhs = rhs[0..rhs.length-2]  # trim off last plus
             when 'fluid-flow'
                 rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
-                for parent of @_model.get_node(@selected_node)._inEdges
+                for parent in @_model.get_node(@selected_node).parents
                     rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
                 lhs += 't)'
             when 'other'
-                for parent of @_model.get_node(@selected_node)._inEdges
+                for parent in @_model.get_node(@selected_node).parents
                     lhs += parent + ', '
                 lhs += 't)'
                 rhs = 'f()'
@@ -201,12 +198,12 @@ class ModelBuilder
         _result = ''
         switch @get_node_model(@selected_node)
             when 'linear-combination'
-                for parent of @_model.get_node(@selected_node)._inEdges
+                for parent in @_model.get_node(@selected_node).parents
                     _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
             when 'fluid-flow'
                 _result += 'tao_' + @selected_node + ' = <input type="text" name="tao_'
                 _result += @selected_node + '" class="model-option-fluid-flow"> <br>'
-                for parent of @_model.get_node(@selected_node)._inEdges
+                for parent in @_model.get_node(@selected_node).parents
                     _result += 'c_'+parent+' = <input type="text" '+'name="c_'
                     _result += @selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
                     _result += ' = <input type="text" name="theta_'+@selected_node+'_'+parent

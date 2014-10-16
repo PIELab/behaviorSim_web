@@ -6,6 +6,7 @@
 
 model_is_complete = () ->
     # returns true if model is complete, else false
+    # TODO: this is broken now; fix it.
     if simulator._model.node_count == simulator._model.node_count  # basic check: completed count == total node count
         return true
     else
@@ -47,14 +48,11 @@ window.submit_node_spec = () ->
     model_builder.set_selected_node(model_builder.selected_node)
 
 window.complete_a_node = (node_id) ->
+    # TODO: move this into ModelBuilder class and check for unique id before adding to list
     window.model_builder.completed_nodes.push(node_id)
     $('#completed-node-list').html(model_builder.completed_nodes)
 
     model_changed_event.trigger()
-
-model_builder.set_selected_node = (node_id) ->
-    model_builder.selected_node = node_id
-    node_selection_changed.trigger()
 
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
