@@ -13,9 +13,12 @@ draw_selected_graph = () ->
     switch node_type
         when 'context-var-options'
             try
-                el.sparkline(simulator.get_node_values(model_builder.selected_node), sparkline_options)
+                vals = simulator.get_node_values(model_builder.selected_node)
+                if vals.length < 1
+                    throw Error('empty value list')
+                el.sparkline(vals, sparkline_options)
             catch error
-                if error.message.split(':')[0] == "node not found! "
+                if error.message.split(':')[0] == "node not found! " || error.message == 'empty value list'
                     console.log("context node not yet specified; not drawing simulation.")
                     insert_dummy_graph(el)
                 else
@@ -23,9 +26,12 @@ draw_selected_graph = () ->
             $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option></select>')
         when 'personality-var-options'
             try
-                el.sparkline(simulator.get_node_values(model_builder.selected_node), sparkline_options)
+                vals = simulator.get_node_values(model_builder.selected_node)
+                if vals.length < 1
+                    throw Error('empty value list')
+                el.sparkline(vals, sparkline_options)
             catch error
-                if error.message.split(':')[0] == "node not found! "
+                if error.message.split(':')[0] == "node not found! " || error.message == 'empty value list'
                     console.log('personality node not yet specified; not drawing simulation')
                     insert_dummy_graph(el)
                 else
