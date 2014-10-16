@@ -10,7 +10,29 @@ class ModelBuilder
         @_model = new Model
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
-        @selected_node_model = 'context-var-options'
+
+    get_node_model: (node_id) ->
+        ###
+        returns a string indicating the given node's model
+        ###
+        try
+            selected_model = simulator.get_node_object(model_builder.selected_node).type
+            console.log('model from simulator', selected_model)
+            switch selected_model
+                when "state"
+                    selected_model = simulator.get_node_object(model_builder.selected_node).formulation.type
+                    if selected_model == undefined
+                        throw Error('state node has not formulation type')
+                when undefined
+                    throw Error('simulator has no node type')
+        catch error  # node (or type) not found
+            console.log('model from selectors used.')
+            # select a model using the html selector elements
+            if model_builder._model.get_parents_of(model_builder.selected_node).length > 0
+                selected_model = $('#model-selector').val()
+            else
+                selected_model = $('#source-type-selector').val()
+        return selected_model
         
     submit_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
@@ -49,7 +71,7 @@ class ModelBuilder
         return _result
 
     get_node_formulation: () ->
-        node_type = @selected_node_model
+        node_type = @get_node_model(@selected_node)
         if node_type == 'context-var-options'
             return {
                 type : "dependency_list"
@@ -93,8 +115,7 @@ class ModelBuilder
                 
         # select the first node of the new model
         @selected_node = @_model.nodes[0].name
-        @selected_node_model = @_model.nodes[0].type
-        
+
         # update the dsl display
         $('#textarea').val(@get_model_dsl())
         
@@ -148,7 +169,7 @@ class ModelBuilder
         lhs = @selected_node + "("  # left hand side
         rhs = ""  # right hand side
 
-        switch @selected_node_model
+        switch @get_node_model(@selected_node)
             when 'linear-combination'
                 for parent of @_model.get_node(@selected_node)._inEdges
                     lhs += parent + ', '
@@ -175,7 +196,7 @@ class ModelBuilder
                 lhs += ')'
                 rhs += 'gauss(mu, sigma)'
             else
-                throw Error('unknown node model "'+@selected_node_model+'"')
+                throw Error('unknown node model "'+@get_node_model(@selected_node)+'"')
 
         return lhs + ' = ' + rhs
 
@@ -184,7 +205,7 @@ class ModelBuilder
         returns an html string for the contents of a form used to specify the selected node
         ###
         _result = ''
-        switch @selected_node_model
+        switch @get_node_model(@selected_node)
             when 'linear-combination'
                 for parent of @_model.get_node(@selected_node)._inEdges
                     _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
@@ -205,7 +226,7 @@ class ModelBuilder
             when 'personality-var-options'
                 _result += 'Assuming a normal distribution across the population,<br> mu = <input type="text" name="mu" class="model-option-personality"><br>sigma = <input type="text" name="sigma" class="model-option-personality">'
             else
-                throw Error('unknown node form "'+@selected_node_model+'"')
+                throw Error('unknown node form "'+@get_node_model(@selected_node)+'"')
         return _result
 
     get_selected_node_type: () ->
@@ -214,9 +235,9 @@ class ModelBuilder
         ###
         n_parents = @_model.get_parents_of(@selected_node).length
         if n_parents <= 0  # source node
-            if @selected_node_model == 'context-var-options'
+            if @get_node_model(@selected_node) == 'context-var-options'
                 return 'context-var-options'
-            else if @selected_node_model == 'personality-var-options'
+            else if @get_node_model(@selected_node) == 'personality-var-options'
                 return 'personality-var-options'
             else
                 return 'unknown-source'

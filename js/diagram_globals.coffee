@@ -54,17 +54,6 @@ window.complete_a_node = (node_id) ->
 
 model_builder.set_selected_node = (node_id) ->
     model_builder.selected_node = node_id
-    try
-        model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).type
-        if model_builder.selected_node_model == "state"
-            model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).formulation.type
-    catch error  # node not found
-        # default model selection:
-        if model_builder._model.get_parents_of(model_builder.selected_node).length > 0
-            model_builder.selected_node_model = $('#model-selector').val()
-        else
-            model_builder.selected_node_model = $('#source-type-selector').val()
-
     node_selection_changed.trigger()
 
 window.node_sparkline_id = (node_id) ->
