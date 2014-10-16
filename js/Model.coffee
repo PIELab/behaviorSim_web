@@ -47,19 +47,29 @@ class Model
         @time_step = 1
 
     add_node: (name, type=undefined, parents=[], children=[], formulation=undefined) ->
-        @nodes.push({
-            "name":name,
-            "type": type,
-            "parents": parents,
-            "children": children,
-            "formulation":formulation})
-        @node_count += 1
+        ###
+        adds a node to the model. returns node if added, undefined if node already exists.
+        ###
+        if @get_node(name) == undefined
+            new_node = {
+                "name":name,
+                "type": type,
+                "parents": parents,
+                "children": children,
+                "formulation":formulation}
+            @nodes.push(new_node)
+            @node_count += 1
+            return new_node
+        else
+            return undefined
 
     add_edge: (from_node, to_node) ->
         fn = @get_node(from_node)
         tn = @get_node(to_node)
-        fn.children.push(tn.name)
-        tn.parents.push(fn.name)
+        if to_node not in fn.children
+            fn.children.push(to_node)
+        if from_node not in tn.parents
+            tn.parents.push(from_node)
 
     get_parents_of: (node_id) ->
         ###
