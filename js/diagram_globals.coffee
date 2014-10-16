@@ -6,7 +6,7 @@
 
 model_is_complete = () ->
     # returns true if model is complete, else false
-    if simulator._model.node_count == simulator._graph.nodeSize  # basic check: completed count == total node count
+    if simulator._model.node_count == simulator._model.node_count  # basic check: completed count == total node count
         return true
     else
         return false
@@ -60,7 +60,7 @@ model_builder.set_selected_node = (node_id) ->
             model_builder.selected_node_model = simulator.get_node_object(model_builder.selected_node).formulation.type
     catch error  # node not found
         # default model selection:
-        if model_builder._graph.getParentsOf(model_builder.selected_node).length > 0
+        if model_builder._model.get_parents_of(model_builder.selected_node).length > 0
             model_builder.selected_node_model = $('#model-selector').val()
         else
             model_builder.selected_node_model = $('#source-type-selector').val()

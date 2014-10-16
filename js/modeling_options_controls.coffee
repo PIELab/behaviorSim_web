@@ -11,7 +11,7 @@ $listen model_selector, 'change', =>
 
 update_modeling_options_form = () ->
     # updates the node spec details widget
-    if model_builder._graph.getParentsOf(model_builder.selected_node).length > 0
+    if model_builder._model.get_parents_of(model_builder.selected_node).length > 0
         $('#modeling-spec').show()
         $('#source-spec').hide()
     else

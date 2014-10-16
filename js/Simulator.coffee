@@ -2,12 +2,11 @@ class Simulator
     ###
     class for maintaining basic simulations
     ###
-    constructor: (model, graph, time_length=20, time_step=1) ->
+    constructor: (model, time_length=20, time_step=1) ->
         ###
         time_step: length of time between samples in minutes
         ###
         @_model = model
-        @_graph = graph
         @_time_length = time_length
         @_time_step = time_step
         

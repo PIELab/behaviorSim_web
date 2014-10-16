@@ -8,7 +8,6 @@ class ModelBuilder
     ###
     constructor: () ->
         @_model = new Model
-        @_graph = new Graph;
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
         @selected_node_model = 'context-var-options'
@@ -39,13 +38,13 @@ class ModelBuilder
 
     get_node_parents: () ->
         _result = []
-        for parent of @_graph.getNode(@selected_node)._inEdges
+        for parent of @_model.get_node(@selected_node)._inEdges
             _result.push(parent)
         return _result
 
     get_node_children: () ->
         _result = []
-        for parent of @_graph.getNode(@selected_node)._outEdges
+        for parent of @_model.get_node(@selected_node)._outEdges
             _result.push(parent)
         return _result
 
@@ -136,11 +135,11 @@ class ModelBuilder
                 n1 = stmt[0].trim()
                 n2 = stmt[1].trim()
                 # console.log(n1, '->', n2)
-                @_graph.addNode(n1)
-                @_graph.addNode(n2)
-                @_graph.addEdge(n1, n2);
+                @_model.add_node(n1)
+                @_model.add_node(n2)
+                @_model.add_edge(n1, n2);
             catch error  # malformed line (no big deal)
-                console.log('dsl parse error @: ' + line)
+                console.log('dsl parse error @: ', line)
 
     get_selected_node_functional_form: () ->
         ###
@@ -151,18 +150,18 @@ class ModelBuilder
 
         switch @selected_node_model
             when 'linear-combination'
-                for parent of @_graph.getNode(@selected_node)._inEdges
+                for parent of @_model.get_node(@selected_node)._inEdges
                     lhs += parent + ', '
                     rhs += 'c_'+parent+'*'+parent+'(t) +'
                 lhs += 't)'
                 rhs = rhs[0..rhs.length-2]  # trim off last plus
             when 'fluid-flow'
                 rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
-                for parent of @_graph.getNode(@selected_node)._inEdges
+                for parent of @_model.get_node(@selected_node)._inEdges
                     rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
                 lhs += 't)'
             when 'other'
-                for parent of @_graph.getNode(@selected_node)._inEdges
+                for parent of @_model.get_node(@selected_node)._inEdges
                     lhs += parent + ', '
                 lhs += 't)'
                 rhs = 'f()'
@@ -187,12 +186,12 @@ class ModelBuilder
         _result = ''
         switch @selected_node_model
             when 'linear-combination'
-                for parent of @_graph.getNode(@selected_node)._inEdges
+                for parent of @_model.get_node(@selected_node)._inEdges
                     _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
             when 'fluid-flow'
                 _result += 'tao_' + @selected_node + ' = <input type="text" name="tao_'
                 _result += @selected_node + '" class="model-option-fluid-flow"> <br>'
-                for parent of @_graph.getNode(@selected_node)._inEdges
+                for parent of @_model.get_node(@selected_node)._inEdges
                     _result += 'c_'+parent+' = <input type="text" '+'name="c_'
                     _result += @selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
                     _result += ' = <input type="text" name="theta_'+@selected_node+'_'+parent
@@ -213,7 +212,7 @@ class ModelBuilder
         ###
         returns a string indicating the type (context, personality, or state) of the selected node
         ###
-        n_parents = @_graph.getParentsOf(@selected_node).length
+        n_parents = @_model.get_parents_of(@selected_node).length
         if n_parents <= 0  # source node
             if @selected_node_model == 'context-var-options'
                 return 'context-var-options'

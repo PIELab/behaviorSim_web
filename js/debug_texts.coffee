@@ -5,7 +5,7 @@ update_debug_texts = () ->
     $('#selected-node-name').html(model_builder.selected_node)
     $('#selected-node-type').html(model_builder.get_selected_node_type())
     $('#selected-node-model').html(model_builder.selected_node_model)
-    $('#selected-node-parents').html(model_builder._graph.getParentsOf(model_builder.selected_node))
+    $('#selected-node-parents').html(model_builder._model.get_parents_of(model_builder.selected_node))
     $('#completed-node-list').html(model_builder.completed_nodes)
     # personality spec details
     try

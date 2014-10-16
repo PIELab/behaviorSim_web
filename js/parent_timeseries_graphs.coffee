@@ -5,7 +5,7 @@ draw_parent_graphs = () ->
     # clear old html
     $('#parent-graphs').html('<div class="box-header">Mini-simulation: '+model_builder.selected_node+"'s parents.</div>")
 
-    parents = model_builder._graph.getParentsOf(model_builder.selected_node)
+    parents = model_builder._model.get_parents_of(model_builder.selected_node)
     if parents.length > 0
         # insert parent graphs
         for parent in parents

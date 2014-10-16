@@ -45,7 +45,8 @@ class Model
         @nodes = []
         @node_count = 0
         @time_step = 1
-    add_node: (name, type, parents, children, formulation) ->
+
+    add_node: (name, type=undefined, parents=[], children=[], formulation=undefined) ->
         @nodes.push({
             "name":name,
             "type": type,
@@ -53,6 +54,27 @@ class Model
             "children": children,
             "formulation":formulation})
         @node_count += 1
+
+    add_edge: (from_node, to_node) ->
+        fn = @get_node(from_node)
+        tn = @get_node(to_node)
+        fn.children.push(tn.name)
+        tn.parents.push(fn.name)
+
+    get_parents_of: (node_id) ->
+        ###
+        _Returns:_ list of parents of given node or empty array if None
+        ###
+        return @get_node(node_id).parents
+
+    get_node: (id) ->
+        ###
+        _Returns:_ the node object.
+        ###
+        for node in @nodes
+            if node.name == id
+                return node
+        return undefined
 
 try
     window.Model = Model
