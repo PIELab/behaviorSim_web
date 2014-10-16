@@ -17,7 +17,6 @@ class ModelBuilder
         ###
         try
             selected_model = simulator.get_node_object(model_builder.selected_node).type
-            console.log('model from simulator', selected_model)
             switch selected_model
                 when "state"
                     selected_model = simulator.get_node_object(model_builder.selected_node).formulation.type
@@ -26,7 +25,6 @@ class ModelBuilder
                 when undefined
                     throw Error('simulator has no node type')
         catch error  # node (or type) not found
-            console.log('model from selectors used.')
             # select a model using the html selector elements
             if model_builder._model.get_parents_of(model_builder.selected_node).length > 0
                 selected_model = $('#model-selector').val()
