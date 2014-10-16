@@ -63,6 +63,26 @@ class Model
         else
             return undefined
 
+    update_node: (name, type, parents, children, formulation) ->
+        ###
+        updates the given node. undefined should be passed for any items that should remain unchanged
+          Example usage: @update_node('my_node_name', undefined, ['node_b', 'node_c'], undefined, undefined)
+          updates only the parents of the 'my_node_name' node.
+        If node is not found, it is added.
+        ###
+        node = @get_node(name)
+        if node
+            node.type = type ? node.type
+            node.parents = parents ? node.parents
+            node.children = children ? node.children
+            node.formulation = formulation ? node.formulation
+        else
+            # add node
+            @add_node(name, type, parents ? [], children ? [], formulation)
+
+    rename_node: (old_name, new_name) ->
+        reutrn @get_node(old_name).name = new_name
+
     add_edge: (from_node, to_node) ->
         fn = @get_node(from_node)
         tn = @get_node(to_node)

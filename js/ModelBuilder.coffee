@@ -38,20 +38,14 @@ class ModelBuilder
         ###
         accepts submission of node & updates or adds node spec if needed
         ###
-        for existing_node in @_model.nodes
-            if nname == existing_node.name
-                console.log('updating existing node')
-                # TODO
-                return
-        # else
-        console.log('adding node to the model')
+        
         return @add_node(nname, type, parents, children, formulation)
 
     add_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         adds a node to the model
         ###
-        @_model.add_node(nname, type, parents, children, formulation)
+        @_model.update_node(nname, type, parents, children, formulation)
 
         complete_a_node(@selected_node)
 
