@@ -63,7 +63,7 @@ class Model
         else
             return undefined
 
-    update_node: (name, type, parents, children, formulation) ->
+    update_node: (name, type, parents, children, formulation, assumption) ->
         ###
         updates the given node. undefined should be passed for any items that should remain unchanged
           Example usage: @update_node('my_node_name', undefined, ['node_b', 'node_c'], undefined, undefined)
@@ -76,6 +76,7 @@ class Model
             node.parents = parents ? node.parents
             node.children = children ? node.children
             node.formulation = formulation ? node.formulation
+            node.assumption = assumption ? node.assumption
         else
             # add node
             @add_node(name, type, parents ? [], children ? [], formulation)

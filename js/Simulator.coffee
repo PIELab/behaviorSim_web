@@ -106,15 +106,6 @@ class Simulator
             else
                 console.log('formulation or assumption not set')
                 return []
-                ## set default assumption
-                #if node.type == 'personality-var-options'
-                #    @set_node_assumption(node_id, @calculator_constant, {value:@get_personality_value(node_id)})
-                #else
-                #    @set_node_assumption(node_id, @calculator_random_walk,{scale: 10, initial_value:5})
-                #return @calculate_from_assumption(node.assumption, node)
-
-    set_node_assumption: (node_id, calculator, args) ->
-        @get_node_object(node_id).assumption = {calculator:calculator, arguments:args}
 
     get_personality_value: (node_id) ->
         ###

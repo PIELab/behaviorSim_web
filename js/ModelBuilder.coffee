@@ -37,6 +37,7 @@ class ModelBuilder
         accepts submission of node & updates or adds node spec if needed
         ###
         node = @add_node(nname, type, parents, children, formulation)
+        @set_node_assumption(nname)
         simulator.recalc(nname)
         return node
 
@@ -241,6 +242,22 @@ class ModelBuilder
             console.log(option.name+':'+option.value)
             target_obj[option.name] = option.value
         return target_obj
+
+    set_node_assumption: (node_id, assumption) ->
+        ###
+        sets the node assumption, if unidentified default for node type is used
+        ###
+        node = @_model.get_node(node_id)
+        if assumption
+            node.assumption = assumption
+        else
+        switch node.type
+            when 'personality-var-options'
+                node.assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
+            when 'context-var-options'
+                node.assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
+            else
+                console.log("WARN: node type not recognized, '"+node.type+"' assumption not set.")
 
 try
     window.ModelBuilder = ModelBuilder
