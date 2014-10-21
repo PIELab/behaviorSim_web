@@ -210,6 +210,7 @@ class ModelBuilder
             when 'linear-combination'
                 for parent in @_model.get_node(@selected_node).parents
                     _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
+                    dust.render("parameter_tweak", {param_name:'c_'+parent}, (err, out) -> console.log('o:',out, 'e:', err))
             when 'fluid-flow'
                 _result += 'tao_' + @selected_node + ' = <input type="text" name="tao_'
                 _result += @selected_node + '" class="model-option-fluid-flow"> <br>'
