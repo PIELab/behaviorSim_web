@@ -1419,6 +1419,8 @@ body > .header .logo .icon {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   border-bottom: 0px solid #f4f4f4;
+  font-size: 16px;
+  font-weight: bold;
   color: #444;
 }
 .box .box-header:before,
