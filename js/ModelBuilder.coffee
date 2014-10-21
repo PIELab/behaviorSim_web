@@ -270,16 +270,15 @@ class ModelBuilder
             type: 'single',
             step: 1,
             prettify: false,
-            hasGrid: true
+            hasGrid: true,
+            onChange: () ->
+                new_val = parseFloat($("#"+coeff+"-slider").val())
+                box = $("#"+coeff+"-box")
+                box.val(new_val)
         })
 
         # add listeners to link the box and the slider
-        # from slider to box
-        slider.change( () ->
-            new_val = parseFloat($("#"+coeff+"-slider").val())
-            box = $("#"+coeff+"-box")
-            box.val(new_val)
-        )
+        # from slider to box (added as onChange callback)
         # from box to slider
         box.change( () ->
             new_val = parseFloat($("#"+coeff+"-box").val())
@@ -287,13 +286,8 @@ class ModelBuilder
             slider.ionRangeSlider("update", {
                 min: new_val-10,
                 max: new_val+10,
-                from: new_val,
-                type: 'single',
-                step: 1,
-                prettify: false,
-                hasGrid: true
+                from: new_val
             })
-            slider.val(new_val)
         )
 
     get_selected_node_type: () ->
