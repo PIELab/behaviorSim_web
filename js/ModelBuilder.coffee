@@ -77,8 +77,8 @@ class ModelBuilder
         else if node_type == 'personality-var-options'
             return {
                 type : "normal_distribution"
-                mu : $("input[name='mu']").val()
-                sigma: $("input[name='sigma']").val()
+                mu : parseFloat($("input[name='mu']").val())
+                sigma: parseFloat($("input[name='sigma']").val())
             }
         else if node_type == 'linear-combination'
             return @_add_modeling_options({type:"linear-combination"}, '.model-option-linear')
@@ -253,6 +253,7 @@ class ModelBuilder
         ###
         inits the drawing of the slider and links the box and slider using jquery events
         ###
+        c_val = parseFloat(c_val)
         slider = $("#"+coeff+"-slider")
         box = $("#"+coeff+"-box")
 
@@ -275,13 +276,13 @@ class ModelBuilder
         # add listeners to link the box and the slider
         # from slider to box
         slider.change( () ->
-            new_val = parseInt($("#"+coeff+"-slider").val())
+            new_val = parseFloat($("#"+coeff+"-slider").val())
             box = $("#"+coeff+"-box")
             box.val(new_val)
         )
         # from box to slider
         box.change( () ->
-            new_val = parseInt($("#"+coeff+"-box").val())
+            new_val = parseFloat($("#"+coeff+"-box").val())
             slider = $("#"+coeff+"-slider")
             slider.ionRangeSlider("update", {
                 min: new_val-10,
@@ -315,7 +316,7 @@ class ModelBuilder
         console.log('adding options '+model_options)
         for option in model_options
             console.log(option.name+':'+option.value)
-            target_obj[option.name] = option.value
+            target_obj[option.name] = parseFloat(option.value)
         return target_obj
 
     set_node_assumption: (node_id, assumption) ->
