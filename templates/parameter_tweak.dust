@@ -1,20 +1,5 @@
-{param_name} = <input type="text" id="{param_name}-box" name="{param_name}" class="model-option-linear">
+{param_name} = <input type="text" id="{param_name}-box" name="{param_name}" class="model-option-linear" placeholder="???" value="{valu}"/>
+
+<input id="{param_name}-slider" type="text" name="{param_name}-slider" value=""/>
 
 <br>
-
-<input id="{param_name}-slider" type="text" name="{param_name}-slider" value="" >value</input>
-
-$("#{param_name}-slider").ionRangeSlider({
-    min: -50,
-    max: 50,
-    from: 0,
-    type: 'single',
-    step: 1,
-    postfix: "°",
-    prettify: false,
-    hasGrid: true
-});
-
-$("#{param_name}-box").click( function(){
-
-});

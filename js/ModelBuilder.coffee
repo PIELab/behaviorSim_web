@@ -201,16 +201,73 @@ class ModelBuilder
 
         return lhs + ' = ' + rhs
 
-    get_selected_node_form: () ->
+    update_selected_node_form: () ->
         ###
         returns an html string for the contents of a form used to specify the selected node
         ###
         _result = ''
+        # clear existing html
+        $('#modeling-options-form').html('')
         switch @get_node_model(@selected_node)
             when 'linear-combination'
                 for parent in @_model.get_node(@selected_node).parents
-                    _result += 'c_' + parent + ' = <input type="text" name="c_' + parent + '" class="model-option-linear"><br>'
-                    dust.render("parameter_tweak", {param_name:'c_'+parent}, (err, out) -> console.log('o:',out, 'e:', err))
+                    coeff = 'c_'+parent
+                    try
+                        c_val = simulator.get_node_spec_parameter(@selected_node, coeff)
+                    catch TypeError
+                        c_val = 1
+
+                    dust.render("parameter_tweak",
+                        {param_name:coeff, valu: c_val},
+                        (err, out) ->
+                            # update the html
+                            $('#modeling-options-form').append(out)
+
+                            slider = $("#"+coeff+"-slider")
+                            box = $("#"+coeff+"-box")
+
+                            # should get exactly 1 box and 1 slider
+                            if slider.length + box.length != 2
+                                console.log('box:', box, '\nslider:', slider)
+                                throw 'malformed box and slider jquery!'
+
+                            # init the new slider
+                            slider.ionRangeSlider({
+                                min: c_val-10,
+                                max: c_val+10,
+                                from: c_val,
+                                type: 'single',
+                                step: 1,
+                                prettify: false,
+                                hasGrid: true
+                            })
+
+                            # add listeners to link the box and the slider
+                            # from slider to box
+                            slider.change( () ->
+                                new_val = parseInt($("#"+coeff+"-slider").val())
+                                box = $("#"+coeff+"-box")
+                                box.val(new_val)
+                            )
+                            # from box to slider
+                            box.change( () ->
+                                new_val = parseInt($("#"+coeff+"-box").val())
+                                slider = $("#"+coeff+"-slider")
+                                slider.ionRangeSlider("update", {
+                                    min: new_val-10,
+                                    max: new_val+10,
+                                    from: new_val,
+                                    type: 'single',
+                                    step: 1,
+                                    prettify: false,
+                                    hasGrid: true
+                                })
+                                slider.val(new_val)
+                            )
+                            if err
+                                console.log(err)
+                    )
+
             when 'fluid-flow'
                 _result += 'tao_' + @selected_node + ' = <input type="text" name="tao_'
                 _result += @selected_node + '" class="model-option-fluid-flow"> <br>'
