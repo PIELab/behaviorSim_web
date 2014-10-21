@@ -221,18 +221,20 @@ class ModelBuilder
                 @_add_parameter_to_form(tao, tao_v, 'fluid-flow')
 
                 for parent in @_model.get_node(@selected_node).parents
-                    _result += 'c_'+parent+' = <input type="text" '+'name="c_'
-                    _result += @selected_node+'_'+parent+'" class="model-option-fluid-flow"><br>theta_'+parent
-                    _result += ' = <input type="text" name="theta_'+@selected_node+'_'+parent
-                    _result += '" class="model-option-fluid-flow"><br>'
+                    coeff = 'c_'+parent
+                    c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
+                    @_add_parameter_to_form(coeff, c_val, 'fluid-flow')
             when 'other'
-                _result += 'define your function in javascript<br>'
+                _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node
-                _result += '_func" style="width:100%" rows="17"></input>'
+                _result += '_func" style="width:100%" rows="17" value="function () {\n\n}"></input>'
+                $('#modeling-options-form').html(_result)
             when 'context-var-options'
-                _result += 'Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">'
+                $('#modeling-options-form').html('Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">')
             when 'personality-var-options'
-                _result += 'Assuming a normal distribution across the population,<br> mu = <input type="text" name="mu" class="model-option-personality"><br>sigma = <input type="text" name="sigma" class="model-option-personality">'
+                $('#modeling-options-form').html('Assuming a normal distribution across the population,<br>')
+                @_add_parameter_to_form('mu', simulator.get_node_spec_parameter(@selected_node, 'mu', true), 'personality')
+                @_add_parameter_to_form('sigma', simulator.get_node_spec_parameter(@selected_node, 'sigma', true), 'personality')
             else
                 throw Error('unknown node form "'+@get_node_model(@selected_node)+'"')
         return _result
