@@ -120,11 +120,20 @@ class Simulator
         # else
         throw Error('node not found! : '+node_id)
         
-    get_node_spec_parameter: (node_id, parameter_name) ->
+    get_node_spec_parameter: (node_id, parameter_name, use_default=false) ->
         ###
         returns the value of the requested parameter for the given node
         ###
-        return @get_node_object(node_id).formulation[parameter_name]
+        try
+            return @get_node_object(node_id).formulation[parameter_name]
+        catch err
+            if use_default
+                return @_get_default_value()
+            else
+                throw err
+
+    _get_default_value: () ->
+        return 1  # TODO: improve default value getter
 try
     window.Simulator = Simulator
 catch error
