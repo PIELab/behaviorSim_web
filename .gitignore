@@ -1,3 +1,9 @@
+# npm nodeunit module (& others?)
+node_modules/*
+
+# jetbrains stuff
+.idea/*
+
 # private keys
 *.pem
 
