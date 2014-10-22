@@ -43,25 +43,11 @@ class Model extends Graph
         @name = ''
         @description = ''
         @time_step = 1
-        super("Model")
+        super()
 
     add_node: (name, type=undefined, parents=[], children=[], formulation=undefined) ->
-        ###
-        !!! Overrides Graph.add_node
-        adds a node to the model. returns node if added, undefined if node already exists.
-        ###
-        if @get_node(name) == undefined
-            new_node = {
-                "name":name,
-                "type": type,
-                "parents": parents,
-                "children": children,
-                "formulation":formulation}
-            @nodes.push(new_node)
-            @node_count += 1
-            return new_node
-        else
-            return undefined
+        ### !!! Overrides Graph.add_node ###
+        return super(name, parents, children, {name:name, type:type, formulation:formulation})
 
     update_node: (name, type, parents, children, formulation, assumption) ->
         ###
