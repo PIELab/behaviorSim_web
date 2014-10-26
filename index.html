@@ -1,613 +1,171 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>BehaviorSim | Dashboard</title>
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>BehaviorSim | Dashboard</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <!-- Ionicons -->
-        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-        <!-- Theme style -->
-        <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
-        <!-- Ion Slider -->
-        <link href="css/ionslider/ion.rangeSlider.css" rel="stylesheet" type="text/css" />
-        <!-- ion slider Nice -->
-        <link href="css/ionslider/ion.rangeSlider.skinNice.css" rel="stylesheet" type="text/css" />
-        <!-- node coloration guide-->
-        <style type='text/css'>
-            .selected_node{
-            font-weight:bold;
-            color:#2488DF;
-            }
-            .complete_node{
-            font-weight:bold;
-            color:#00A900;
-            }
-        </style>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
+    <!-- Ionicons -->
+    <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
-        <!-- jquery -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script type="text/coffeescript">
-        window.$ = jQuery
-        </script>
+    <style>
+        .title{
+            text-align: center;
+            color: dodgerblue;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .left-of-border {
+            border-right: 1px dashed #333;
+        }
+    </style>
+</head>
+<body class="skin-blue">
 
-        <!-- browser-side templating (dust js) using precompiled dust templates -->
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dustjs-linkedin/2.4.0/dust-core.min.js"></script>
-        <script type="text/javascript" src="templates/templates.js"></script>
+    <section class="content-header">
+        <h1>
+            BehaviorSim
+            <small>dynamical modeling toolkit for behavioral science</small>
+        </h1>
+    </section>
 
-        <!-- chosen -->
-        <link rel="stylesheet" href="css/chosen/chosen.css">
-
-        <!-- for diagrammophone -->
-        <!-- things you need to run -->
-        <script src="js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
-        <script src="js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
-
-        <!-- my stuff -->
-        <script src="js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
-        <script src="js/lib/diagramophone/drawer.coffee" type="text/coffeescript"></script>
-        <script src="js/lib/diagramophone/parser.coffee" type="text/coffeescript"></script>
-
-        <!-- fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
-
-        <!-- svg to canvas (so then i can image it) -->
-        <script type="text/javascript" src="js/lib/diagramophone/lib/rgbcolor.js"></script>
-        <script type="text/javascript" src="js/lib/diagramophone/lib/canvg.js"></script>
-
-        <!-- graph data struct -->
-        <script type="text/coffeescript" src="js/Event.coffee"></script>
-        <script type="text/coffeescript" src="js/Graph.coffee"></script>
-        <script type="text/coffeescript" src="js/Model.coffee"></script>
-        <script type="text/coffeescript" src="js/ModelBuilder.coffee"></script>
-        <script type="text/coffeescript" src="js/Simulator.coffee"></script>
-
-        <script type="text/javascript" src="js/diagram_globals.js"></script>
-        <script type="text/coffeescript" src="js/diagram_globals.coffee"></script>
-
-        <script type="text/coffeescript" src="js/text_span_updater.coffee"></script>
-
-    </head>
-    <body class="skin-blue">
-        <!-- header logo: style can be found in header.less -->
-        <header class="header">
-            <a href="index.html" class="logo">
-                <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                BehaviorSim
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <div class="navbar-right">
-                    <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li><!-- start message -->
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="img/avatar3.png" class="img-circle" alt="User Image"/>
-                                                </div>
-                                                <h4>
-                                                    Support Team
-                                                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li><!-- end message -->
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="img/avatar2.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    AdminLTE Design Team
-                                                    <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="img/avatar.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    Developers
-                                                    <small><i class="fa fa-clock-o"></i> Today</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="img/avatar2.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    Sales Department
-                                                    <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="img/avatar.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    Reviewers
-                                                    <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                        <!-- Notifications: style can be found in dropdown.less -->
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-warning"></i>
-                                <span class="label label-warning">10</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="#">
-                                                <i class="ion ion-ios7-people info"></i> 5 new members joined today
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-warning danger"></i> Very long description here that may not fit into the page and may cause design problems
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-users warning"></i> 5 new members joined
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                <i class="ion ion-ios7-cart success"></i> 25 sales made
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="ion ion-ios7-person danger"></i> You changed your username
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">View all</a></li>
-                            </ul>
-                        </li>
-                        <!-- Tasks: style can be found in dropdown.less -->
-                        <li class="dropdown tasks-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-tasks"></i>
-                                <span class="label label-danger">9</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 9 tasks</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Design some buttons
-                                                    <small class="pull-right">20%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">20% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Create a nice theme
-                                                    <small class="pull-right">40%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">40% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Some task I need to do
-                                                    <small class="pull-right">60%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">60% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                            <a href="#">
-                                                <h3>
-                                                    Make beautiful transitions
-                                                    <small class="pull-right">80%</small>
-                                                </h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">80% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li><!-- end task item -->
-                                    </ul>
-                                </li>
-                                <li class="footer">
-                                    <a href="#">View all tasks</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="glyphicon glyphicon-user"></i>
-                                <span>Jane Doe <i class="caret"></i></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header bg-light-blue">
-                                    <img src="img/avatar3.png" class="img-circle" alt="User Image" />
-                                    <p>
-                                        Jane Doe - Web Developer
-                                        <small>Member since Nov. 2012</small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+    <section class="content">
+        <div class="row">
+            <!-- left side (classical approach) -->
+            <div class="col-xs-6 left-of-border">
+                <div class="box box-primary title">
+                    <img src="img/splash/before.png">
                 </div>
-            </nav>
-        </header>
-        <div class="wrapper row-offcanvas row-offcanvas-left">
+            </div>
+            <!-- right side (behaviorSim enhanced!)-->
+            <div class="col-xs-6">
+                <div class="box box-primary title">
+                    <img src="img/splash/after.png">
+                </div>
+            </div>
+        </div>
 
-            <!-- Right side column. Contains the navbar and content of the page -->
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Model Builder
-                        <small>Dashboard</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Model Builder</li>
-                    </ol>
-                </section>
+        <!-- planning -->
+        <div class="row">
+            <div class="title">
+                Planning an Experiment and Modeling your Expectation
+            </div>
+            <!-- left side (classical approach) -->
+            <div class="col-xs-6 left-of-border">
+                <div class="box box-primary">
+                    With a research question in mind, scientists work to choose the right behavioral theory and then
+                    must think through how it applies to the case in question. Predictions from the chosen theory are estimated
+                    qualitatively by the researcher, who must think through the psychological processes of the subject as they go through
+                    the experiment.
+                    <figure>
+                        <img src="img/splash/graph_compare_before.png">
+                        <figcaption>Our best guess for what will happen using a repeated measures design.</figcaption>
+                    </figure>
 
+                </div>
+            </div>
+            <!-- right side (behaviorSim enhanced!)-->
+            <div class="col-xs-6">
+                <div class="box box-primary">
+                    With a research question in mind, scientists work to choose the right behavioral theory and then
+                    must think through how it applies to the case in question. Predictions from the chosen theory are examined
+                    quantitatively by creating simulations based on existing models of the chosen theory.
+                    <figure>
+                        <img src="img/splash/graph_compare_after.png">
+                        <figcaption>
+                            Predicted response to a repeated measures dosage. Note the response delay and
+                            habituation responses.
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="title">
+                Modifying Existing Theory
+            </div>
+            <!-- left side (classical approach) -->
+            <div class="col-xs-6 left-of-border">
+                <div class="box box-primary">
+                    We propose that existing theory is inadequate to explain phenomena observed in our experiment,
+                    and we provide a modification to the theory which explains the data. You have to read through
+                    my whole paper and think through the entire experiment from the subject's perspective in order to
+                    understand how to use it and then you can start on the section discussing it's importance and
+                    relevance outside of this experiment.
+                    <figure>
+                        <img src="img/splash/model_change_before.png">
+                        <figcaption>
+                            Our finding needs to be considered when using this theory.
+                        </figcaption>
+                    </figure>
 
-                <!-- Main content -->
-                <section class="content">
-                    <!-- Main row -->
-                    <div class="row">
-                        <!-- DSL encoding window -->
-                        <div class="col-lg-3 col-md-4 col-sm-12">
-                            <div class="title">
-                                Code your diagram here
-                                <button class="btn btn-primary btn-mini" id="diagramophone" style="float: right">GO</button>
-                            </div>
-                            <textarea style="width:100%" id="textarea" rows="17"></textarea>
-                        </div>
+                </div>
+            </div>
+            <!-- right side (behaviorSim enhanced!)-->
+            <div class="col-xs-6">
+                <div class="box box-primary">
+                    We propose that existing theory is inadequate to explain phenomena observed in our experiment,
+                    and we provide a modification to the theory which explains the data. Here is the new equation.
+                    <figure>
+                        <img src="img/splash/model_change_after.png">
+                        <figcaption>
+                            Here is how you can consider our finding in your work.
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
 
-                        <!-- main diagram display -->
-                        <div class="col-lg-9 col-md-8 col-sm-12">
-                            <div class="title" style="overflow:hidden">
-                                Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
-                                (click to select a node) &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div id="color-key">
-                                color key: | <span class='selected_node'>Selected Node</span> |
-                                <span class='complete_node'>Completed Node</span> |
-                            </div>
-                            <div id="canvas"> </div>
-                            <script type="text/coffeescript" src="js/diagram_controls.coffee"></script>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- large section for users to drop in a box -->
-                        <section class="col-md-12 connectedSortable">
-                            <!-- save your model section -->
-                            <div class="box box-success" id="model-saver">
-                                <div class="box-header">
-                                    Save Your Model
-                                </div>
-                                <div id="download-button">
-                                    loading...
-                                </div>
-                                <script type="text/coffeescript" src="js/model_saver.coffee"></script>
-                            </div>
-                            
-                        </section>
-                    </div>
-                    <div class="row">
-                        <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- program state info -
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Program State Info
-                                </div>
-                                Selected Node:
-                                <div id='selected-node-name'>
-                                    ???
-                                </div>
-                                Node Type:
-                                <div id='selected-node-type'>
-                                    ???
-                                </div>
-                                Node Model:
-                                <div id='selected-node-model'>
-                                    ???
-                                </div>
-                                Node Parents:
-                                <div id='selected-node-parents'>
-                                    ???
-                                </div>
-                                Completed Nodes:
-                                <div id='completed-node-list'>
-                                    ???
-                                </div>
+        <!-- model evaluation -->
+        <div class="row">
+            <div class="title">
+                Model Evaluation
+            </div>
+            <!-- left side (classical approach) -->
+            <div class="col-xs-6 left-of-border">
+                <div class="box box-primary">
+                    Our model is definitely better than the status quo. This paper explains in detail why we think it is
+                    better and how it allows you to make predictive estimates more accurately. The p-value provides
+                    quantifiable evidence that some effect exists.
+                    <figure>
+                        <img src="img/splash/model_eval_before.png">
+                        <figcaption>
+                            The significant difference between two groups in our experiment is best explained by our
+                            theory.
+                        </figcaption>
+                    </figure>
 
-                                <div id='personality-spec-detail'>
-                                    <strong>Personality Spec Detail</strong><br>
-                                    sigma:
-                                    <div id='personality-spec_sigma'>
-                                        ?
-                                    </div>
-                                    mu:
-                                    <div id='personality-spec_mu'>
-                                        ?
-                                    </div>
-                                </div>
-                                <script type="text/coffeescript" src="js/debug_texts.coffee"></script>
-                            </div>
-                            -->
-                            <!-- help -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Diagram Spec. Language Help
-                                </div>
-                                <div class="well">
-                                    <p class="code comment">// lines starting with // are comments</p>
-                                    <p class="code">// say whatever you want in them</p>
-                                    <p class="code comment">// connect nodes together using arrows </p>
-                                    <p class="code">a -&gt; b</p>
-                                </div>
-                                <ul>
-                                    <li>only one arrow (-&gt;) per line</li>
-                                </ul>
-                            </div>
-                            <!-- support -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Support/Contact
-                                </div>
-                                <p>
-                                    Confused? Want to learn more? Don't hesitate to contact us! 
-                                </p>
-                                <ul>
-                                    <li>Report bugs & feature requests using the <a href="https://github.com/PIELab/behaviorSim_web/issues">issue tracker</a></li>
-                                    <li>Contact tylarmurray@mail.usf.edu with any other questions/comments.</li>
-                                </ul>
+                </div>
+            </div>
+            <!-- right side (behaviorSim enhanced!)-->
+            <div class="col-xs-6">
+                <div class="box box-primary">
+                    Our model is 5% more accurate than the status quo in it's estimation of our experimental data.
+                    The improved goodness of fit provides a quantifiable measure of how much the theory is improved
+                    through inclusion of this effect.
+                    <figure>
+                        <img src="img/splash/model_eval_after.png">
+                        <figcaption>
+                            The better fit of our model to the real data is apparent, and measurable using various goodness-of-fit
+                            metrics.
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
 
-                            </div>
-                            <!-- settings -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Settings
-                                </div>
-                                <label class="checkbox">
-                                        <input type="checkbox" id="fontBtn" checked="false">use silly handwritten font
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" id="replBtn" checked="false">live updates -- this will make things slower
-                                </label>
-                            </div>
-                        </section>
-                        <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- model uploader -->
-                            <div class="box box-primary" id="model-loader">
-                                <div class="box-header">
-                                    Load a Model
-                                </div>
-                                Upload:
-                                <form enctype="multipart/form-data">
-                                    <input name="file" type="file" id='file-chooser' />
-                                </form>
-                                <script type="text/javascript" src="js/load_model.js"></script>
-                            </div>
-                            <!-- sub-diagram inserter -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Sub-models
-                                </div>
-                                <p>Use the "add submodel" button to insert existing model linkages in your diagram code. </p>
-                                <select id="submodel_selector" data-placeholder="select submodel..." class="chosen-select" style="width:250px;" tabindex="4">
-                                    <option value="TPB">Theory of Planned Behavior</option>
-                                </select>
-                                <button class="btn btn-primary btn-mini" id="submodel_inserter">Insert Selected Sub-model</button>
-                            </div>
-                        </section>
-                        <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+        <!-- intervention delivery -->
 
-                            <!-- parent graphs -->
-                            <div class='box box-primary'>
-                                <div id="parent-graphs">
-                                    loading parent node(s) detail...
-                                </div>
-                                <script type="text/coffeescript" src="js/parent_timeseries_graphs.coffee"></script>
-                            </div>
-                        </section>
-                        <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- selected node miniSimulation -->
-                            <div class='box box-primary'>
-                                <div class="box-header">
-                                    selected node mini-simulation
-                                </div>
-                                <div id="selected-node-graph">
-                                    loading selected node graph...
-                                </div>
-                                <div id="selected-node-stochastic">
-                                </div>
-                                <script type="text/coffeescript" src="js/selected_timeseries_graph.coffee"></script>
-                            </div>
-                            <!-- selected node specification -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Selected Node Model Specification
-                                </div>
-                                <div id="selected-node-desc">
-                                    <span class='selected_node selected_node_text'>???</span> has
-                                    <span class="node_inflow_count">?</span> inflows.
-                                    <div id='modeling-spec'>
-                                        We must define a formula to describe how information flows into
-                                        <span class='selected_node selected_node_text'>???</span>.
-                                        <select id="model-selector" data-placeholder="default-choice..."
-                                                class="chosen-select" style="width:250px;" tabindex="4">
-                                            <option value="linear-combination">Linear Combination</option>
-                                            <option value="fluid-flow">Fluid-Flow Analogy</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div id='source-spec'>
-                                        So <span class='selected_node selected_node_text'>???</span> must be either a
-                                        context variable, or a personality variable.
-                                        <span class='selected_node selected_node_text'>???</span> is a
-                                        <select id="source-type-selector" class="chosen-select">
-                                            <option value="personality-var-options">personality variable</option>
-                                            <option value="context-var-options">context variable</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="modeling-options">
-                                    <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
-                                    <br>
-                                    <form id="modeling-options-form">
-                                        loading options...
-                                    </form>
-                                    <script type='text/coffeescript' src="js/modeling_options_controls.coffee"></script>
-                                </div>
-                                <button class="btn btn-primary btn-mini" id="submit_node_spec_btn" onclick="submit_node_spec()">
-                                    Submit Node Specification
-                                </button>
-                                <script type='text/coffeescript' src="js/selected_node_mini_sim.coffee"></script>
-                            </div>
-                        </section>
-                    </div>
-                </section><!-- /.content -->
-        </div><!-- ./wrapper -->
+    <div class="row box box-primary title">
+        <a href="model_builder.html">Try the behaviorSim Model Builder</a>
+    </div>
 
-        <!-- jquery -->
-        <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
-        <!-- bootstrap -->
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
-        <!-- Sparkline -->
-        <script src="js/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
-        <!-- FLOT CHARTS -->
-        <script src="js/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
-        <!-- Ion Slider -->
-        <script src="js/plugins/ionslider/ion.rangeSlider.min.js" type="text/javascript"></script>
-        <!-- AdminLTE App -->
-        <script src="js/AdminLTE/app.js" type="text/javascript"></script>
-
-        <script type="text/javascript">
-            //Make the dashboard widgets sortable Using jquery UI
-                $(".connectedSortable").sortable({
-                    placeholder: "sort-highlight",
-                    connectWith: ".connectedSortable",
-                    handle: ".box-header, .nav-tabs",
-                    forcePlaceholderSize: true,
-                    zIndex: 999999
-                }).disableSelection();
-                $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
-
-            // initialize the application
-            retry_count = 0
-            init_node_details = function(){
-                try{
-                    if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
-                        // trigger events to kick things off
-                        model_changed_event.trigger();
-                        node_selection_changed.trigger();
-                    }
-
-                    console.log('application successfully initialized');
-                } catch(e) {
-                    if (e.message == "model_builder is not defined"
-                        || e.message == "undefined is not a function"
-                        || e.message == "Cannot read property 'parents' of undefined"){
-                        if (retry_count > 5){
-                            console.log('max retries on loading selected_node details reached. giving up.');
-                            throw e
-                        }
-                        retry_count += 1;
-                        setTimeout(init_node_details, 1500);
-                        console.log('postponing selected_node detail show b/c graph obj not ready.');
-                    } else {
-                        throw e;
-                    }
-                }
-            }
-            $(document).ready(init_node_details)
-        </script>
-    </body>
+    </section>
+</body>
 </html>
