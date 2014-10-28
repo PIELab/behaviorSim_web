@@ -92,7 +92,7 @@ class Simulator
         returns values for given node
         :param recalculate: forces recalculation even if existing values already saved
         ###
-        node = @get_node_object(node_id)
+        node = @_model.get_node(node_id)
         if node.data_values && !recalculate
             return node.data_values
         else
@@ -112,20 +112,13 @@ class Simulator
         returns a value selected from the given personality node's probability distribution
         ###
         return normal_random(@get_node_spec_parameter(node_id, 'mu'), @get_node_spec_parameter(node_id, 'sigma'))
-
-    get_node_object: (node_id) ->
-        for node in @_model.nodes
-            if node.name == node_id
-                return node
-        # else
-        throw Error('node not found! : '+node_id)
         
     get_node_spec_parameter: (node_id, parameter_name, use_default=false) ->
         ###
         returns the value of the requested parameter for the given node
         ###
         try
-            return @get_node_object(node_id).formulation[parameter_name]
+            return @_model.get_node(node_id).formulation[parameter_name]
         catch err
             if use_default
                 return @_get_default_value()
