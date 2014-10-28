@@ -325,13 +325,13 @@ class ModelBuilder
         if assumption
             node.assumption = assumption
         else
-        switch node.type
-            when 'personality-var-options'
-                node.assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
-            when 'context-var-options'
-                node.assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
-            else
-                console.log("WARN: node type not recognized, '"+node.type+"' assumption not set.")
+            switch node.type
+                when 'personality-var-options'
+                    node.assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
+                when 'context-var-options'
+                    node.assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
+                else
+                    console.log("WARN: node type not recognized, '"+node.type+"' assumption not set.")
 
 try
     window.ModelBuilder = ModelBuilder
