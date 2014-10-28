@@ -45,11 +45,12 @@ draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fo
     # desired color to selected node
     inputText += '\n' + model_builder.selected_node + ' {#2488DF}'  # 0->blue
     # and completed nodes
-    for node in model_builder.completed_nodes
-        if node == model_builder.selected_node # if node is completed and selected
-            inputText = inputText.replace(node+ ' {#2488DF}',  node + ' {#199E7C}')  # blue->teal
-        else
-            inputText += '\n' + node + ' {#00A900}'  # 0->green
+    for nodeId of model_builder._model.nodes
+        if model_builder._model.nodes[nodeId].formulation  # if node is complete
+            if nodeId == model_builder.selected_node # if node is completed and selected
+                inputText = inputText.replace(nodeId+ ' {#2488DF}',  nodeId + ' {#199E7C}')  # blue->teal
+            else
+                inputText += '\n' + nodeId + ' {#00A900}'  # 0->green
 
     # call the main method
     controller.makeItGo(inputText, paper, fontBtn.checked)
