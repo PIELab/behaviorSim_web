@@ -33,11 +33,23 @@ class Simulator
             throw Error('cannot run random walk without scale!')
             
     calculator_step: (t, prev_value, args) ->
-        #start low
-        if t%(2*args.dt) < args.dt
-            return args.low
+        if args.step_time and args.low and args.high
+            if t < args.step_time
+                return args.low
+            else
+                return args.high
         else 
-            return args.high
+            throw Error('step function parameters missing!')
+            
+    calculator_square: (t, prev_value, args) ->
+        if args.dt and args.low and args.high
+            #start low
+            if t%(2*args.dt) < args.dt
+                return args.low
+            else 
+                return args.high
+        else
+            throw Error('square wave function parameters missing!') 
 
     calculator_constant: (t, prev_value, args) ->
         if args.value
