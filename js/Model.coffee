@@ -67,6 +67,16 @@ class Model extends Graph
         else
             # add node
             @add_node(name, type, parents ? [], children ? [], formulation)
+    
+    _recycle_node: (nodeId) -> 
+        ###
+        !!! Overrides Graph._recycle_node
+        removes additional information stored on node which should not be recycled
+        ###
+        nodeObj = @nodes[nodeId]
+        delete nodeObj.assumption
+        delete nodeObj.formulation
+        return super(nodeId)
 
 try
     window.Model = Model
