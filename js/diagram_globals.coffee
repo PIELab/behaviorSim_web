@@ -64,10 +64,3 @@ window.get_node_graph_html = (node_id) ->
     html += ' data-fill-Color="rgba(57, 204, 204, 0.08)"> '
     html += ' </div> '
     return html
-
-window.update_assumption_preset = () ->
-    ###
-    updates the calculation method used on the current node using the value of the 'calculator-preset' element
-    ###
-    # TODO: set model thing?
-    model_builder.submit_node()

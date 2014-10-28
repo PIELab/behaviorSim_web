@@ -323,6 +323,8 @@ class ModelBuilder
         ###
         node = @_model.get_node(node_id)
         node.assumption = assumption
+        simulator.recalc(node_id)
+        model_changed_event.trigger()
         
     get_node_assumption_input: (node_id, assumption) ->
         ###

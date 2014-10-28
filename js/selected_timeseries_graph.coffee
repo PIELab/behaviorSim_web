@@ -23,7 +23,25 @@ draw_selected_graph = () ->
                     insert_dummy_graph(el)
                 else
                     throw error
-            $('#selected-node-graph').append('<select id="calculator-preset" data-placeholder="select preset..." class="chosen-select" style="width:250px;" tabindex="4" onclick="update_assumption_preset()"> <option value="random_walk">random_walk</option> <option value="constant">constant</option></select>')
+            $('#selected-node-graph').append('<select id="calculator-preset" style="width:250px;" tabindex="4"> <option value="random_walk">random_walk</option> <option value="constant">constant</option> <option value="step">step</option> </select>')
+            try
+                $('option[value="'+model_builder._model.get_node(model_builder.selected_node).assumption.type+'"]').attr("selected", "selected")
+            catch err 
+                console.log('assumption not yet set, preset box not filled')
+            $listen(document.getElementById('calculator-preset'), 'change', () ->
+                vvv = $('#calculator-preset').val()
+                console.log('new selection:', vvv)
+                switch vvv
+                    when 'random_walk'
+                        assumption = {type:'random_walk', calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
+                    when 'constant'
+                        assumption = {type:'constant', calculator: simulator.calculator_constant, arguments: {value: 1}}
+                    else
+                        throw Error('unknown calculator-preset value')
+                        
+                model_builder.set_node_assumption(model_builder.selected_node, assumption)
+            )
+            
         when 'personality-var-options'
             try
                 vals = simulator.get_node_values(model_builder.selected_node)
