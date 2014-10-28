@@ -38,12 +38,12 @@ class Model extends Graph
     }
     ```
     ###
-    constructor: ->
+    constructor: (recycling=true)->
         @creator = ''
         @name = ''
         @description = ''
         @time_step = 1
-        super()
+        super(recycling)
 
     add_node: (name, type=undefined, parents=[], children=[], formulation=undefined) ->
         ### !!! Overrides Graph.add_node ###
@@ -73,9 +73,9 @@ class Model extends Graph
         !!! Overrides Graph._recycle_node
         removes additional information stored on node which should not be recycled
         ###
-        nodeObj = @nodes[nodeId]
-        delete nodeObj.assumption
-        delete nodeObj.formulation
+        #nodeObj = @nodes[nodeId]
+        #delete nodeObj.assumption
+        #delete nodeObj.formulation
         return super(nodeId)
 
 try

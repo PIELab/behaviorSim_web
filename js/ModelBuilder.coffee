@@ -7,7 +7,7 @@ class ModelBuilder
     - edgeSize: total number of edges.
     ###
     constructor: (model) ->
-        @_model = new Model(true)
+        @_model = new Model
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 

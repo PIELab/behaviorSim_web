@@ -48,7 +48,6 @@ function plot_personality_var_pdf(sigma, mu, highlight, selector_string){
         console.log(selector_string);
         throw err
     }
-
 }
 `
 
