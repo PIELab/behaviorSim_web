@@ -47,7 +47,7 @@ class ModelBuilder
         accepts submission of node & updates or adds node spec if needed
         ###
         node = @add_node(nname, type, parents, children, formulation)
-        @set_node_assumption(nname)
+        @set_node_assumption(nname, @get_node_assumption_input(nname))
         simulator.recalc(nname)
         return node
 
@@ -319,19 +319,29 @@ class ModelBuilder
 
     set_node_assumption: (node_id, assumption) ->
         ###
-        sets the node assumption, if unidentified default for node type is used
+        sets the node assumption 
         ###
         node = @_model.get_node(node_id)
-        if assumption
-            node.assumption = assumption
-        else
-            switch node.type
-                when 'personality-var-options'
-                    node.assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
-                when 'context-var-options'
-                    node.assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
-                else
-                    console.log("WARN: node type not recognized, '"+node.type+"' assumption not set.")
+        node.assumption = assumption
+        
+    get_node_assumption_input: (node_id, assumption) ->
+        ###
+        gets the node assumption input from the UI
+        ###
+        node = @_model.get_node(node_id)
+        switch node.type
+            when 'personality-var-options'
+                assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
+            when 'context-var-options'
+                type = $('#calculator-preset').val()
+                if type == 'random_walk'
+                    assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
+                else if type == 'constant'
+                    assumption = {calculator: simulator.calculator_constant, arguments: {value: 1}}
+            else
+                assumption = unidentified
+                console.log("WARN: node type not recognized, '"+node.type+"' assumption unidentified.")
+        return assumption
 
 try
     window.ModelBuilder = ModelBuilder
