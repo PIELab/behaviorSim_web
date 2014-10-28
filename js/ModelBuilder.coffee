@@ -220,7 +220,7 @@ class ModelBuilder
                     @_add_parameter_to_form(coeff, c_val, 'linear')
 
             when 'fluid-flow'
-                tao = 'tao_' + @selected_node
+                tao = 'tao'
                 tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true)
                 @_add_parameter_to_form(tao, tao_v, 'fluid-flow')
 
@@ -228,6 +228,10 @@ class ModelBuilder
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
                     @_add_parameter_to_form(coeff, c_val, 'fluid-flow')
+                    
+                    theta = 'theta_'+parent
+                    theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true)
+                    @_add_parameter_to_form(theta, theta_val, 'fluid-flow')
             when 'other'
                 _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node

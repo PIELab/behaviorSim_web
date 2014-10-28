@@ -2,7 +2,7 @@ class Simulator
     ###
     class for maintaining basic simulations
     ###
-    constructor: (model, time_length=20, time_step=1) ->
+    constructor: (model, time_length=100, time_step=1) ->
         ###
         time_step: length of time between samples in minutes
         ###
@@ -57,12 +57,30 @@ class Simulator
         else
             throw Error('value not specified for constant calculator!')
             
-    calculator_linear_combination: (t, prev_value, args) ->
+    calculator_linear_combination: (t, prev_value, prev_dt, args) ->
         value = 0
         for parent in args.parents
             value += simulator.get_node_values(parent)[t] * args['c_'+parent]
         return value
-
+        
+    calculator_fluid_flow: (t, prev_value, prev_dt, args) ->
+        # formulation from p2 of http://csel.asu.edu/downloads/Publications/AdaptivePrevention/2012ACC_Dong_etal_preprint.pdf
+        if args.parents and args.tao and prev_value and prev_dt
+            val = 0
+            for parent in args.parents
+                theta = args['theta_'+parent]  # theta = time delay
+                C = args['c_'+parent]  # C = regression weight
+                if not theta or not C
+                    throw Error('missing parent parameter for fluid flow calculator')
+                val += simulator.get_node_values(parent)[t-theta] * C
+                
+            # TAO = time constant
+            val -= args.tao * prev_dt
+            return val
+        else
+            console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'the rest:',args)
+            throw Error('missing parameter for fluid-flow calculator')
+        
     calculate_from_assumption: (assumption, node=undefined) ->
         ### 
         calculates a set of values using given assumption
@@ -87,19 +105,24 @@ class Simulator
         ###
         data = []
         prev_value = formulation.initial_value ? 0  # TODO: see issue #36
+        prev_dt = formulation.initial_ddt ? 0
         t = 0
         if !formulation.calculator  # if calculator not defined explicitly in formulation
             #set calculator using formulation.type name
-            if formulation.type == "linear-combination"
-                formulation.calculator = @calculator_linear_combination
-            else
-                throw Error("calculator not defined for formulation", formulation)
+            switch formulation.type 
+                when "linear-combination"
+                    formulation.calculator = @calculator_linear_combination
+                when "fluid-flow"
+                    formulation.calculator = @calculator_fluid_flow
+                else
+                    throw Error("calculator not defined for formulation", formulation)
         
         formulation.parents = parents
         
         while t < @_time_length
-            new_value = formulation.calculator(t, prev_value, formulation)
+            new_value = formulation.calculator(t, prev_value, prev_dt, formulation)
             data.push(new_value)
+            prev_dt = new_value - prev_value
             prev_value = new_value
             t += 1
         if node  # save values if node given
