@@ -36,6 +36,8 @@ draw_selected_graph = () ->
                         assumption = {type:'random_walk', calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
                     when 'constant'
                         assumption = {type:'constant', calculator: simulator.calculator_constant, arguments: {value: 1}}
+                    when 'step'
+                        assumption = {type:'step', calculator: simulator.calculator_step, arguments: {low:-1, high:1, dt:5}}
                     else
                         throw Error('unknown calculator-preset value')
                         

@@ -341,8 +341,8 @@ class ModelBuilder
                 else if type == 'constant'
                     assumption = {calculator: simulator.calculator_constant, arguments: {value: 1}}
             else
-                assumption = unidentified
-                console.log("WARN: node type not recognized, '"+node.type+"' assumption unidentified.")
+                assumption = undefined
+                console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
         return assumption
 
 try

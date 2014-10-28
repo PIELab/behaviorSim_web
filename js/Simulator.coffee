@@ -31,6 +31,13 @@ class Simulator
             return prev_value + Math.random()*args.scale - args.scale/2
         else
             throw Error('cannot run random walk without scale!')
+            
+    calculator_step: (t, prev_value, args) ->
+        #start low
+        if t%(2*args.dt) < args.dt
+            return args.low
+        else 
+            return args.high
 
     calculator_constant: (t, prev_value, args) ->
         if args.value
