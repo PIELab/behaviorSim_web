@@ -110,8 +110,8 @@ class ModelBuilder
         
         # update the completed nodes list
         @completed_nodes = []
-        for node in @_model.nodes
-            if node.formulation
+        for node of @_model.nodes
+            if @_model.nodes[node].formulation
                 @completed_nodes.push(node.name)
                 
         # select the first node of the new model
@@ -148,6 +148,7 @@ class ModelBuilder
         return result
 
     build_graph_obj: (dsl_str) ->
+        #@_model.clear_nodes()
         for line in dsl_str.split('\n')
             line = line.split('//')[0]  # this ignores everything after a // (comments)
             if line == '' # ignore blank lines
