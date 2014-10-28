@@ -6,8 +6,8 @@ class ModelBuilder
     - nodeSize: total number of nodes.
     - edgeSize: total number of edges.
     ###
-    constructor: () ->
-        @_model = new Model
+    constructor: (model) ->
+        @_model = new Model(true)
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
@@ -115,7 +115,7 @@ class ModelBuilder
                 @completed_nodes.push(node.name)
                 
         # select the first node of the new model
-        @selected_node = @_model.nodes[0].name
+        @selected_node = @_model.root_node.children[0]
 
         # update the dsl display
         $('#textarea').val(@get_model_dsl())
@@ -148,7 +148,7 @@ class ModelBuilder
         return result
 
     build_graph_obj: (dsl_str) ->
-        #@_model.clear_nodes()
+        @_model.clear()
         for line in dsl_str.split('\n')
             line = line.split('//')[0]  # this ignores everything after a // (comments)
             if line == '' # ignore blank lines
@@ -163,7 +163,10 @@ class ModelBuilder
                 @_model.add_edge(n1, n2);
             catch error  # malformed line (no big deal)
                 console.log('dsl parse error @: ', line)
-
+        if ! @_model.nodes[@selected_node] and @_model.root_node.children.length > 0  # if selected node has been deleted
+            @set_selected_node(@_model.root_node.children[0])
+        return
+                
     get_selected_node_functional_form: () ->
         ###
         returns a string showing the functional form of the selected node

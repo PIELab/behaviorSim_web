@@ -30,11 +30,17 @@ class Event
         ###
         fires the event, launching all listeners
         ###
+        ERR = undefined
         for act in @actions
             if @count > act.times || act.times == 'inf'
-                act.action()
-
+                try
+                    act.action()
+                catch err
+                    console.log('ERR in triggered action:',err)
+                    ERR = err
             # TODO: if number of times run out, delete from functions list
+        if ERR
+            throw ERR
         return
 
 try
