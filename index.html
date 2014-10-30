@@ -80,7 +80,7 @@
                         <a class="page-scroll" href="#stories">User Stories</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#tools">Tools</a>
+                        <a class="page-scroll" href="#portfolio">Tools</a>  <!-- note: id must be portfolio for agency.js -->
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -105,272 +105,319 @@
     
     <!-- really short overview -->
     <section id="overview">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Overview</h2>
-                <h3 class="section-subheading text-muted">The big picture.</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Overview</h2>
+                    <h3 class="section-subheading text-muted">The big picture.</h3>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                BehaviorSim tools help researchers formulate and test models using simulations, guide experimental design and theory development. 
-                <br>
-                <figure>
-                    <img src="img/splash/overview/UMLuseCaseDiagram.png" alt="User Interactions with behaviorSim Tools">
-                </figure>
+            <div class="row box box-primary">
+                <div class="col-lg-12 text-center">
+                    BehaviorSim tools help researchers formulate and test models using simulations, guide experimental design and theory development. 
+                    <br>
+                    <figure>
+                        <img src="img/splash/overview/UMLuseCaseDiagram.png" alt="User Interactions with behaviorSim Tools">
+                    </figure>
+                </div>
             </div>
-        </div>
+        </div> <!-- container -->
     </section>
 
     <!-- side-by-side compare section -->
     <section class="content" id="compare">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Comparison</h2>
-                <h3 class="section-subheading text-muted">Methodologies before and after behaviorSim.</h3>
-            </div>
-        </div>
-        <div class="row">
-            <!-- left side (classical approach) -->
-            <div class="col-xs-6 left-of-border">
-                <div class="box box-primary title">
-                    <img src="img/splash/before.png">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Comparison</h2>
+                    <h3 class="section-subheading text-muted">Methodologies before and after behaviorSim.</h3>
                 </div>
             </div>
-            <!-- right side (behaviorSim enhanced!)-->
-            <div class="col-xs-6">
-                <div class="box box-primary title">
-                    <img src="img/splash/after.png">
+            <div class="row box box-primary">
+                <div class="row ">
+                    <!-- left side (classical approach) -->
+                    <div class="col-xs-6 left-of-border">
+                        <div class="box box-primary title">
+                            <img src="img/splash/before.png">
+                        </div>
+                    </div>
+                    <!-- right side (behaviorSim enhanced!)-->
+                    <div class="col-xs-6">
+                        <div class="box box-primary title">
+                            <img src="img/splash/after.png">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- planning -->
-        <div class="row">
-            <div class="title">
-                Planning an Experiment and Generating a Hypothesis
-            </div>
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    With a research question in mind, scientists work to choose the right behavioral theory
-                    and then must think through how it applies to the case in question.
-                    <!-- TODO: add something like https://explorable.com/images/within-subject-design.jpg -->
-                </div>
-            </div>
-            <!-- left side (classical approach) -->
-            <div class="col-xs-6 left-of-border">
-                <div class="box box-primary">
-                    Predictions from the chosen theory are estimated
-                    qualitatively by the researcher, who must think through the psychological processes of the subject as they go through
-                    the experiment.
-                    <figure>
-                        <img src="img/splash/graph_compare_before.png">
-                        <figcaption>Our best guess for what will happen using a repeated measures design.</figcaption>
-                    </figure>
+                <!-- planning -->
+                <div class="row">
+                    <div class="title">
+                        Planning an Experiment and Generating a Hypothesis
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="box box-primary">
+                            With a research question in mind, scientists work to choose the right behavioral theory
+                            and then must think through how it applies to the case in question.
+                            <!-- TODO: add something like https://explorable.com/images/within-subject-design.jpg -->
+                        </div>
+                    </div>
+                    <!-- left side (classical approach) -->
+                    <div class="col-xs-6 left-of-border">
+                        <div class="box box-primary">
+                            Predictions from the chosen theory are estimated
+                            qualitatively by the researcher, who must think through the psychological processes of the subject as they go through
+                            the experiment.
+                            <figure>
+                                <img src="img/splash/graph_compare_before.png">
+                                <figcaption>Our best guess for what will happen using a repeated measures design.</figcaption>
+                            </figure>
 
+                        </div>
+                    </div>
+                    <!-- right side (behaviorSim enhanced!)-->
+                    <div class="col-xs-6">
+                        <div class="box box-primary">
+                            Predictions from the chosen theory are examined
+                            quantitatively by creating simulations based on existing models of the chosen theory.
+                            <figure>
+                                <img src="img/splash/graph_compare_after.png">
+                                <figcaption>
+                                    Predicted response to a repeated measures dosage. Note the response delay and
+                                    habituation responses.
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- right side (behaviorSim enhanced!)-->
-            <div class="col-xs-6">
-                <div class="box box-primary">
-                    Predictions from the chosen theory are examined
-                    quantitatively by creating simulations based on existing models of the chosen theory.
-                    <figure>
-                        <img src="img/splash/graph_compare_after.png">
-                        <figcaption>
-                            Predicted response to a repeated measures dosage. Note the response delay and
-                            habituation responses.
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="title">
-                Modifying Existing Theory
-            </div>
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    We propose that existing theory is inadequate to explain phenomena observed in our experiment,
-                    and we provide a modification to the theory which explains the data.
-                </div>
-            </div>
-            <!-- left side (classical approach) -->
-            <div class="col-xs-6 left-of-border">
-                <div class="box box-primary">
-                    You must read through my paper and think through the experiment from the subject's perspective in
-                    order to understand how to use it.
-                    <figure>
-                        <img src="img/splash/model_change_before.png">
-                        <figcaption>
-                            Our finding needs to be considered when using this theory.
-                        </figcaption>
-                    </figure>
+                <div class="row">
+                    <div class="title">
+                        Modifying Existing Theory
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="box box-primary">
+                            We propose that existing theory is inadequate to explain phenomena observed in our experiment,
+                            and we provide a modification to the theory which explains the data.
+                        </div>
+                    </div>
+                    <!-- left side (classical approach) -->
+                    <div class="col-xs-6 left-of-border">
+                        <div class="box box-primary">
+                            You must read through my paper and think through the experiment from the subject's perspective in
+                            order to understand how to use it.
+                            <figure>
+                                <img src="img/splash/model_change_before.png">
+                                <figcaption>
+                                    Our finding needs to be considered when using this theory.
+                                </figcaption>
+                            </figure>
 
+                        </div>
+                    </div>
+                    <!-- right side (behaviorSim enhanced!)-->
+                    <div class="col-xs-6">
+                        <div class="box box-primary">
+                            Here is the new equation.
+                            <figure>
+                                <img src="img/splash/model_change_after.png">
+                                <figcaption>
+                                    Here is how you can consider our finding in your work.
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- right side (behaviorSim enhanced!)-->
-            <div class="col-xs-6">
-                <div class="box box-primary">
-                    Here is the new equation.
-                    <figure>
-                        <img src="img/splash/model_change_after.png">
-                        <figcaption>
-                            Here is how you can consider our finding in your work.
-                        </figcaption>
-                    </figure>
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        I must make a compelling argument for this contribution's importance and
+                        relevance outside of this experiment.
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="box box-primary">
-                I must make a compelling argument for this contribution's importance and
-                relevance outside of this experiment.
-            </div>
-        </div>
 
-        <!-- model evaluation -->
-        <div class="row">
-            <div class="title">
-                Model Evaluation Using Experimental Data
-            </div>
-            <!-- left side (classical approach) -->
-            <div class="col-xs-6 left-of-border">
-                <div class="box box-primary">
-                    Our model is better than the status quo. This paper explains in detail why we think it is
-                    better and how it allows you to make predictive estimates more accurately. The p-value provides
-                    quantifiable evidence that some effect exists.
-                    <br>
-                    <br>
-                    <figure>
-                        <img src="img/splash/model_eval_before.png">
-                        <figcaption>
-                            The significant difference between two groups in our experiment is best explained by our
-                            theory.
-                        </figcaption>
-                    </figure>
+                <!-- model evaluation -->
+                <div class="row">
+                    <div class="title">
+                        Model Evaluation Using Experimental Data
+                    </div>
+                    <!-- left side (classical approach) -->
+                    <div class="col-xs-6 left-of-border">
+                        <div class="box box-primary">
+                            Our model is better than the status quo. This paper explains in detail why we think it is
+                            better and how it allows you to make predictive estimates more accurately. The p-value provides
+                            quantifiable evidence that some effect exists.
+                            <br>
+                            <br>
+                            <figure>
+                                <img src="img/splash/model_eval_before.png">
+                                <figcaption>
+                                    The significant difference between two groups in our experiment is best explained by our
+                                    theory.
+                                </figcaption>
+                            </figure>
 
+                        </div>
+                    </div>
+                    <!-- right side (behaviorSim enhanced!)-->
+                    <div class="col-xs-6">
+                        <div class="box box-primary">
+                            Our model is 5% more accurate than the status quo in it's estimation of our experimental data.
+                            The improved goodness of fit provides a quantifiable measure of how much the theory is improved
+                            through inclusion of this effect.
+                            <figure>
+                                <img src="img/splash/model_eval_after.png">
+                                <figcaption>
+                                    The better fit of our model to the real data is apparent, and measurable using various goodness-of-fit
+                                    metrics.
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
+                <!-- intervention delivery? -->
             </div>
-            <!-- right side (behaviorSim enhanced!)-->
-            <div class="col-xs-6">
-                <div class="box box-primary">
-                    Our model is 5% more accurate than the status quo in it's estimation of our experimental data.
-                    The improved goodness of fit provides a quantifiable measure of how much the theory is improved
-                    through inclusion of this effect.
-                    <figure>
-                        <img src="img/splash/model_eval_after.png">
-                        <figcaption>
-                            The better fit of our model to the real data is apparent, and measurable using various goodness-of-fit
-                            metrics.
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </div>
-        <!-- intervention delivery? -->
+        </div> <!-- container -->
     </section> <!-- /compare -->
     
     <!-- user stories -->
     <section id="stories">
-        <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Stories</h2>
-                    <h3 class="section-subheading text-muted">Detailed User Stories</h3>
-                </div>
-            </div>
+        <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <figure>
-                        <iframe src="https://docs.google.com/presentation/embed?id=1eFa68B-K-GXwCJvM-Ku6NV8MZFmuWftZV92-pmp7x6Y&amp;start=true&amp;loop=true&amp; frameborder="0" width="780" height="607"></iframe>
-                    </figure>
-                    <!-- TODO: this timeline may work nicely for this
-                    <ul class="timeline">
-                        <li>
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/agency_demo/about/1.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>2009-2011</h4>
-                                    <h4 class="subheading">Our Humble Beginnings</h4>
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Stories</h2>
+                        <h3 class="section-subheading text-muted">Detailed User Stories</h3>
+                    </div>
+                </div>
+                <div class="row box box-primary">
+                    <div class="col-lg-12">
+                        <figure>
+                            <iframe src="https://docs.google.com/presentation/embed?id=1eFa68B-K-GXwCJvM-Ku6NV8MZFmuWftZV92-pmp7x6Y&amp;start=true&amp;loop=true&amp; frameborder="0" width="780" height="607"></iframe>
+                        </figure>
+                        <!-- TODO: this timeline may work nicely for this
+                        <ul class="timeline">
+                            <li>
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="img/agency_demo/about/1.jpg" alt="">
                                 </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>2009-2011</h4>
+                                        <h4 class="subheading">Our Humble Beginnings</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/agency_demo/about/2.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>March 2011</h4>
-                                    <h4 class="subheading">An Agency is Born</h4>
+                            </li>
+                            <li class="timeline-inverted">
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="img/agency_demo/about/2.jpg" alt="">
                                 </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>March 2011</h4>
+                                        <h4 class="subheading">An Agency is Born</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/agency_demo/about/3.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>December 2012</h4>
-                                    <h4 class="subheading">Transition to Full Service</h4>
+                            </li>
+                            <li>
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="img/agency_demo/about/3.jpg" alt="">
                                 </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>December 2012</h4>
+                                        <h4 class="subheading">Transition to Full Service</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="img/agency_demo/about/4.jpg" alt="">
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>July 2014</h4>
-                                    <h4 class="subheading">Phase Two Expansion</h4>
+                            </li>
+                            <li class="timeline-inverted">
+                                <div class="timeline-image">
+                                    <img class="img-circle img-responsive" src="img/agency_demo/about/4.jpg" alt="">
                                 </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>July 2014</h4>
+                                        <h4 class="subheading">Phase Two Expansion</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-image">
-                                <h4>Be Part
-                                    <br>Of Our
-                                    <br>Story!</h4>
-                            </div>
-                        </li>
-                    </ul>
-                    -->
+                            </li>
+                            <li class="timeline-inverted">
+                                <div class="timeline-image">
+                                    <h4>Be Part
+                                        <br>Of Our
+                                        <br>Story!</h4>
+                                </div>
+                            </li>
+                        </ul>
+                        -->
+                    </div>
                 </div>
             </div>
-        </div>
+        </div> <!-- /container -->
     </section> <!-- /story -->
     
     <!-- tool list -->
-    <section id="tools">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Tools</h2>
-                <h3 class="section-subheading text-muted">The behaviorSim core toolkit is still under development, but you can already:</h3>
+    <section id="portfolio">  <!-- note: id must be portfolio for agency.js -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Tools</h2>
+                    <h3 class="section-subheading text-muted">The behaviorSim core toolkit is still under development, but you can already:</h3>
+                </div>
             </div>
-        </div>
-        <div class="row box box-primary">
-            <ol>
-                <li><a href="pages/usability_study_intro.html">Participate in our Model Builder Usability Study</a></li>
-                <li><a href="pages/model_builder.html">Try the behaviorSim Model Builder</a></li>
-                <li>Get an email when new tools are ready.</li>
-            </ol>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#model-builder-study" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-flask fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/splash/tools/model_builder_screenshot.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Participate in our Model Builder Usability Study</h4>
+                        <p class="text-muted">Try the Online Model Builder</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#model-builder-study" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-line-chart fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/splash/tools/brain_cogs_small.jpg" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Sneak Peek at the Agent Simulator</h4>
+                        <p class="text-muted">Development Postponed</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 portfolio-item">
+                    <a href="#model-builder-study" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-bar-chart fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="img/splash/model_eval_after.png" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Sneak Peek at the Data Reconsiliation Tool</h4>
+                        <p class="text-muted">Development Not Started</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section> <!-- /tool list -->
     
@@ -396,10 +443,6 @@
                                     <input type="email" class="form-control" placeholder="Your Email *" id="email" required data-validation-required-message="Please enter your email address.">
                                     <p class="help-block text-danger"></p>
                                 </div>
-                                <div class="form-group">
-                                    <input type="tel" class="form-control" placeholder="Your Phone *" id="phone" required data-validation-required-message="Please enter your phone number.">
-                                    <p class="help-block text-danger"></p>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -410,7 +453,7 @@
                             <div class="clearfix"></div>
                             <div class="col-lg-12 text-center">
                                 <div id="success"></div>
-                                <button type="submit" class="btn btn-xl">Send Message</button>
+                                <button type="submit" class="btn btn-xl" onclick="alert('sorry, that does not work yet. Please email tylarmurray@mail.usf.edu')">Send Message</button>
                             </div>
                         </div>
                     </form>
@@ -418,6 +461,39 @@
             </div>
         </div>
     </section> <!-- /contact -->
+    
+    <!-- ============================================================================================= -->
+    <!--                                 Tool list Modals                                              -->
+    <!--                     Use the modals below to display details about tools/projects!             -->
+    <!-- ============================================================================================= -->
+     <!-- Model Builder Usability Study modal -->
+    <div class="portfolio-modal modal fade" id="model-builder-study" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Model Builder Usablity Study</h2>
+                            <p class="item-intro text-muted">Help Shape our Tools</p>
+                            <img class="img-responsive" src="img/splash/tools/model_builder_screenshot.png" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-times"></i>Participate!</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>Close Project</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- / model builder usability study modal -->
+    
     
 <!-- ============================================================================================= -->
 <!-- |                                       JS                                                  | -->
