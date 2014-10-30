@@ -104,7 +104,7 @@
     </header>
     
     <!-- really short overview -->
-    <section id="overview">
+    <section id="overview" class="bg-lightest-gray">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -112,7 +112,7 @@
                     <h3 class="section-subheading text-muted">The big picture.</h3>
                 </div>
             </div>
-            <div class="row box box-primary">
+            <div class="row">
                 <div class="col-lg-12 text-center">
                     BehaviorSim tools help researchers formulate and test models using simulations, guide experimental design and theory development. 
                     <br>
@@ -125,7 +125,7 @@
     </section>
 
     <!-- side-by-side compare section -->
-    <section class="content" id="compare">
+    <section id="compare" class="bg-light-gray">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -133,7 +133,7 @@
                     <h3 class="section-subheading text-muted">Methodologies before and after behaviorSim.</h3>
                 </div>
             </div>
-            <div class="row box box-primary">
+            <div class="row">
                 <div class="row ">
                     <!-- left side (classical approach) -->
                     <div class="col-xs-6 left-of-border">
@@ -279,7 +279,7 @@
     </section> <!-- /compare -->
     
     <!-- user stories -->
-    <section id="stories">
+    <section id="stories" class="bg-lightest-gray">
         <div class="container">
             <div class="row">
                     <div class="col-lg-12 text-center">
@@ -287,7 +287,7 @@
                         <h3 class="section-subheading text-muted">Detailed User Stories</h3>
                     </div>
                 </div>
-                <div class="row box box-primary">
+                <div class="row">
                     <div class="col-lg-12">
                         <figure>
                             <iframe src="https://docs.google.com/presentation/embed?id=1eFa68B-K-GXwCJvM-Ku6NV8MZFmuWftZV92-pmp7x6Y&amp;start=true&amp;loop=true&amp; frameborder="0" width="780" height="607"></iframe>
@@ -366,12 +366,12 @@
     </section> <!-- /story -->
     
     <!-- tool list -->
-    <section id="portfolio">  <!-- note: id must be portfolio for agency.js -->
+    <section id="portfolio" class="bg-light-gray">  <!-- note: id must be portfolio for agency.js -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Tools</h2>
-                    <h3 class="section-subheading text-muted">The behaviorSim core toolkit is still under development, but you can already:</h3>
+                    <h3 class="section-subheading text-muted">Free and easy tools to modernize your research.</h3>
                 </div>
             </div>
             <div class="row">
@@ -379,42 +379,42 @@
                     <a href="#model-builder-study" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
-                                <i class="fa fa-flask fa-3x"></i>
+                                <i class="fa fa-code-fork fa-3x"></i>
                             </div>
                         </div>
                         <img src="img/splash/tools/model_builder_screenshot.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Participate in our Model Builder Usability Study</h4>
-                        <p class="text-muted">Try the Online Model Builder</p>
+                        <h4>Model Builder</h4>
+                        <p class="text-muted">Participate in our Online Usability Study</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 portfolio-item">
-                    <a href="#model-builder-study" class="portfolio-link" data-toggle="modal">
+                    <a href="#agent-simulator" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
-                                <i class="fa fa-line-chart fa-3x"></i>
+                                <i class="fa fa-cogs fa-3x"></i>
                             </div>
                         </div>
                         <img src="img/splash/tools/brain_cogs_small.jpg" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Sneak Peek at the Agent Simulator</h4>
-                        <p class="text-muted">Development Postponed</p>
+                        <h4>Agent Simulator</h4>
+                        <p class="text-muted">Sneak Peak; Development Postponed</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 portfolio-item">
-                    <a href="#model-builder-study" class="portfolio-link" data-toggle="modal">
+                    <a href="#data-reconsiliation-tool" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
-                                <i class="fa fa-bar-chart fa-3x"></i>
+                                <i class="fa fa-flask fa-3x"></i>
                             </div>
                         </div>
                         <img src="img/splash/model_eval_after.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Sneak Peek at the Data Reconsiliation Tool</h4>
-                        <p class="text-muted">Development Not Started</p>
+                        <h4>Data Reconsiliation Tool</h4>
+                        <p class="text-muted">Development Not Yet Started</p>
                     </div>
                 </div>
             </div>
@@ -466,7 +466,7 @@
     <!--                                 Tool list Modals                                              -->
     <!--                     Use the modals below to display details about tools/projects!             -->
     <!-- ============================================================================================= -->
-     <!-- Model Builder Usability Study modal -->
+     <!-- Model Builder modal -->
     <div class="portfolio-modal modal fade" id="model-builder-study" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -482,6 +482,62 @@
                             <!-- Project Details Go Here -->
                             <h2>Model Builder Usablity Study</h2>
                             <p class="item-intro text-muted">Help Shape our Tools</p>
+                            <img class="img-responsive" src="img/splash/tools/model_builder_screenshot.png" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-times"></i>Participate!</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>Close Project</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- / model builder modal -->
+    
+     <!-- Agent Simulator modal -->
+    <div class="portfolio-modal modal fade" id="agent-simulator" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Agent Simulator</h2>
+                            <p class="item-intro text-muted">Simulate Experiments Using Your Models</p>
+                            <img class="img-responsive" src="img/splash/tools/model_builder_screenshot.png" alt="">
+                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-times"></i>Participate!</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>Close Project</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- / Agent Simulator modal -->
+    
+     <!-- Data Reconsiliation Tool modal -->
+    <div class="portfolio-modal modal fade" id="data-reconsiliation-tool" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>Data Reconsiliation Tool</h2>
+                            <p class="item-intro text-muted">Evaluate Your Models Using Data</p>
                             <img class="img-responsive" src="img/splash/tools/model_builder_screenshot.png" alt="">
                             <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
                             <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-times"></i>Participate!</button>
