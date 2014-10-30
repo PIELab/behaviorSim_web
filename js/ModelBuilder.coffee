@@ -81,9 +81,9 @@ class ModelBuilder
                 sigma: parseFloat($("input[name='sigma']").val())
             }
         else if node_type == 'linear-combination'
-            return @_add_modeling_options({type:"linear-combination"}, '.model-option-linear')
+            return @_add_modeling_options({type:"linear-combination", calculator:simulator.calculator_linear_combination}, '.model-option-linear-combination')
         else if node_type == 'fluid-flow'
-            return @_add_modeling_options({type:"fluid-flow"}, '.model-option-fluid-flow')
+            return @_add_modeling_options({type:"fluid-flow", calculator:simulator.calculator_fluid_flow}, '.model-option-fluid-flow')
         else if node_type == 'other'
             return {
                 type : "general_formulation"
@@ -217,7 +217,7 @@ class ModelBuilder
                 for parent in @_model.get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
-                    @_add_parameter_to_form(coeff, c_val, 'linear')
+                    @_add_parameter_to_form(coeff, c_val, 'linear-combination')
 
             when 'fluid-flow'
                 tao = 'tao'
@@ -348,7 +348,7 @@ class ModelBuilder
                 assumption = undefined
                 console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
         return assumption
-
+       
 try
     window.ModelBuilder = ModelBuilder
 catch error

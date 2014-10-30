@@ -42,7 +42,7 @@ class Simulator
             throw Error('step function parameters missing!')
             
     calculator_square: (t, prev_value, args) ->
-        if args.dt and args.low and args.high
+        if args.dt != undefined and args.low != undefined and args.high != undefined
             #start low
             if t%(2*args.dt) < args.dt
                 return args.low
@@ -52,7 +52,7 @@ class Simulator
             throw Error('square wave function parameters missing!') 
 
     calculator_constant: (t, prev_value, args) ->
-        if args.value
+        if args.value != undefined
             return +args.value
         else
             throw Error('value not specified for constant calculator!')
@@ -65,12 +65,12 @@ class Simulator
         
     calculator_fluid_flow: (t, prev_value, prev_dt, args) ->
         # formulation from p2 of http://csel.asu.edu/downloads/Publications/AdaptivePrevention/2012ACC_Dong_etal_preprint.pdf
-        if args.parents and args.tao and prev_value and prev_dt
+        if args.parents!=undefined and args.tao!=undefined and prev_value!=undefined and prev_dt!=undefined
             val = 0
             for parent in args.parents
                 theta = args['theta_'+parent]  # theta = time delay
                 C = args['c_'+parent]  # C = regression weight
-                if not theta or not C
+                if theta==undefined or C==undefined
                     throw Error('missing parent parameter for fluid flow calculator')
                 val += simulator.get_node_values(parent)[t-theta] * C
                 
@@ -78,7 +78,7 @@ class Simulator
             val -= args.tao * prev_dt
             return val
         else
-            console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'the rest:',args)
+            console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'args:',args)
             throw Error('missing parameter for fluid-flow calculator')
         
     calculate_from_assumption: (assumption, node=undefined) ->
@@ -108,6 +108,8 @@ class Simulator
         prev_dt = formulation.initial_ddt ? 0
         t = 0
         if !formulation.calculator  # if calculator not defined explicitly in formulation
+            throw Error('calculator not defined for node!')
+        ###
             #set calculator using formulation.type name
             switch formulation.type 
                 when "linear-combination"
@@ -116,6 +118,7 @@ class Simulator
                     formulation.calculator = @calculator_fluid_flow
                 else
                     throw Error("calculator not defined for formulation", formulation)
+        ###
         
         formulation.parents = parents
         
