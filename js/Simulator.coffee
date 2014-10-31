@@ -65,17 +65,38 @@ class Simulator
         
     calculator_fluid_flow: (t, prev_value, prev_dt, args) ->
         # formulation from p2 of http://csel.asu.edu/downloads/Publications/AdaptivePrevention/2012ACC_Dong_etal_preprint.pdf
-        if args.parents!=undefined and args.tao!=undefined and prev_value!=undefined and prev_dt!=undefined
+        if args.parents? and args.tao? and prev_value? and prev_dt?
             val = 0
+            #console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'args:',args)
             for parent in args.parents
-                theta = args['theta_'+parent]  # theta = time delay
-                C = args['c_'+parent]  # C = regression weight
-                if theta==undefined or C==undefined
+                theta = parseFloat(args['theta_'+parent])  # theta = time delay
+                C = parseFloat(args['c_'+parent])  # C = regression weight
+                if not theta? or not C?
+
                     throw Error('missing parent parameter for fluid flow calculator')
-                val += simulator.get_node_values(parent)[t-theta] * C
-                
+
+                if t-theta <= 0
+                    p = simulator.get_node_values(parent)[0]
+                else if t-theta >= @_time_length
+                    p = simulator.get_node_values(parent)[@_time_length-1]
+                else # t is within bounds
+                    p = simulator.get_node_values(parent)[t-theta]
+
+                if theta==NaN or C==NaN or p==NaN
+                    console.log('ERR DEBUG INFO:: theta:',theta,'C:',C,'p:',p)
+                    throw Error('calculation error in fluid flow calculator')
+
+                val = val + p*C
+                if val==NaN
+                    console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
+
+            #console.log('v:', val)
+            if val==NaN
+                console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
+                throw Error('wat?')
             # TAO = time constant
-            val -= args.tao * prev_dt
+            val = val - parseFloat(args.tao) * parseFloat(prev_dt)
+            #console.log('V:',val)
             return val
         else
             console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'args:',args)
