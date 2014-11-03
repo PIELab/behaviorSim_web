@@ -72,7 +72,7 @@ draw_stochastic_graph = () ->
         $('#selected-node-stochastic').height(0)
 
 model_changed_event.add_action(draw_stochastic_graph)
-node_selection_changed.add_action(draw_stochastic_graph)
+$(document).on('selectNode', (evt) -> draw_stochastic_graph())
 
 $listen document.getElementById('personality-spec_sigma'), 'change', =>
     stochastic_graph()

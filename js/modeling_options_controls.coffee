@@ -80,4 +80,4 @@ update_modeling_options_form = () ->
     model_builder.update_selected_node_form()
 
 model_changed_event.add_action(update_modeling_options_form)
-node_selection_changed.add_action(update_modeling_options_form)
+$(document).on('selectNode', (evt) -> update_modeling_options_form())

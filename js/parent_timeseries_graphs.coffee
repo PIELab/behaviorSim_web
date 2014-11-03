@@ -22,4 +22,4 @@ draw_parent_graphs = () ->
     return
 
 model_changed_event.add_action(draw_parent_graphs)
-node_selection_changed.add_action(draw_parent_graphs)
+$(document).on('selectNode', (evt) -> draw_parent_graphs())

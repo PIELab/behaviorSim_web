@@ -9,4 +9,4 @@ function update_selected_node_texts(){
 `
 
 model_changed_event.add_action(update_selected_node_texts)
-node_selection_changed.add_action(update_selected_node_texts)
+$(document).on('selectNode', () -> update_selected_node_texts())

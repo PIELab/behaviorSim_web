@@ -36,10 +36,11 @@ window.click_node = (node_id) ->
     # TODO remove this & use listener below instead
     model_builder.set_selected_node(node_id)
 
-    node_selection_changed.trigger()
+    $(document).trigger('selectNode')
 
 draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fontBtn.checked) ->
     # update the js graph object
+    console.log('inp_txt:',inputText)
     model_builder.build_graph_obj(inputText )
 
     # desired color to selected node
@@ -56,7 +57,7 @@ draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fo
     controller.makeItGo(inputText, paper, fontBtn.checked)
 
 model_changed_event.add_action(draw_colored_graph)
-node_selection_changed.add_action(draw_colored_graph)
+$(document).on('selectNode', (evt) -> draw_colored_graph())
 graph_display_settings_changed_event.add_action(draw_colored_graph)
 
 # initialize the view

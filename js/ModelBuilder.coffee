@@ -94,7 +94,7 @@ class ModelBuilder
 
     set_selected_node: (node_id) ->
         model_builder.selected_node = node_id
-        node_selection_changed.trigger()
+        $(document).trigger('selectNode')
 
     set_model: (new_model) ->
         ###

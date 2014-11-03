@@ -1,6 +1,5 @@
 # interaction events:
 @model_changed_event = new Event  # fires whenever model changes
-@node_selection_changed = new Event  # fires when different node is selected
 @graph_display_settings_changed_event = new Event  # fires when settings for the infoFlow graph changes
 @model_complete_event = new Event  # fires whenever the model is completed (re-fires when model changes and is complete)
 

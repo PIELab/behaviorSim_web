@@ -565,7 +565,7 @@
                     if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
                         // trigger events to kick things off
                         model_changed_event.trigger();
-                        node_selection_changed.trigger();
+                        $(document).trigger('selectNode');
                         model_builder.submit_node();
                     } else {
                         throw Error('not yet ready...')
