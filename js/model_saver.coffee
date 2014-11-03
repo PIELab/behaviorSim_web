@@ -13,4 +13,4 @@ make_save_model_box = () ->
     # TODO: show this box when model is completed
     $("#model-saver").show()
 
-model_complete_event.add_action(make_save_model_box)
+$(document).on("modelComplete", (evt) -> make_save_model_box())

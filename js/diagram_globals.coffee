@@ -1,12 +1,10 @@
 # interaction events:
 @model_changed_event = new Event  # fires whenever model changes
-@graph_display_settings_changed_event = new Event  # fires when settings for the infoFlow graph changes
-@model_complete_event = new Event  # fires whenever the model is completed (re-fires when model changes and is complete)
 
 check_for_complete_model = () ->
     # checks if the model is complete and fires the model_complete_event if needed
     if model_builder.model_is_complete()
-        model_complete_event.trigger()
+        $(document).trigger("modelComplete")
         return
     else
         return

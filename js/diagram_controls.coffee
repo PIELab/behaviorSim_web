@@ -19,7 +19,7 @@ $listen textarea, 'keyup', =>
         model_changed_event.trigger()
 
 $listen fontBtn, 'change', =>
-    graph_display_settings_changed_event.trigger()
+    draw_colored_graph()
 
 ### this is the model inserter button ###
 insertbutton = document.getElementById("submodel_inserter")
@@ -56,7 +56,6 @@ draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fo
 
 model_changed_event.add_action(draw_colored_graph)
 $(document).on('selectNode', (evt) -> draw_colored_graph())
-graph_display_settings_changed_event.add_action(draw_colored_graph)
 
 # initialize the view
 textarea.value = sampleText
