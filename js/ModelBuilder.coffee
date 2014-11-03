@@ -348,7 +348,19 @@ class ModelBuilder
                 assumption = undefined
                 console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
         return assumption
-       
+
+    model_is_complete: () ->
+        # returns true if all nodes in model are specified
+        for nodeID of @_model.nodes
+            if not @_model.nodes[nodeID].formulation?
+                return false
+        # else all nodes are specified
+        if @_model.node_count <= 0
+            return false  # empty graphs don't count
+        else
+            return true
+
+
 try
     window.ModelBuilder = ModelBuilder
 catch error

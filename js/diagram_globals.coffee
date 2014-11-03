@@ -4,17 +4,9 @@
 @graph_display_settings_changed_event = new Event  # fires when settings for the infoFlow graph changes
 @model_complete_event = new Event  # fires whenever the model is completed (re-fires when model changes and is complete)
 
-model_is_complete = () ->
-    # returns true if model is complete, else false
-    # TODO: this is broken now; fix it.
-    if simulator._model.node_count == simulator._model.node_count  # basic check: completed count == total node count
-        return true
-    else
-        return false
-
 check_for_complete_model = () ->
     # checks if the model is complete and fires the model_complete_event if needed
-    if model_is_complete()
+    if model_builder.model_is_complete()
         model_complete_event.trigger()
         return
     else
