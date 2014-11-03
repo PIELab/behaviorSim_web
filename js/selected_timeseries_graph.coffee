@@ -23,7 +23,7 @@ draw_selected_graph = () ->
                     insert_dummy_graph(el)
                 else
                     throw error
-            $('#selected-node-graph').append('<select id="calculator-preset" style="width:250px;" tabindex="4"> <option value="random_walk">random walk</option> <option value="constant">constant value</option> <option value="step">step function</option> <option value="square">square wave</option> </select>')
+            $('#assumption-options-selector').html('<select id="calculator-preset" style="width:250px;" tabindex="4"> <option value="random_walk">random walk</option> <option value="constant">constant value</option> <option value="step">step function</option> <option value="square">square wave</option> </select>')
             try
                 $('option[value="'+model_builder._model.get_node(model_builder.selected_node).assumption.type+'"]').attr("selected", "selected")
             catch err 

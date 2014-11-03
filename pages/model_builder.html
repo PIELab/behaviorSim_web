@@ -528,15 +528,15 @@
                                             <option value="other">Other</option>
                                         </select>
                                     </div>
-                                    <div id='source-spec'>
-                                        So <span class='selected_node selected_node_text'>???</span> must be either a
-                                        context variable, or a personality variable.
-                                        <span class='selected_node selected_node_text'>???</span> is a
-                                        <select id="source-type-selector" class="chosen-select">
-                                            <option value="personality-var-options">personality variable</option>
-                                            <option value="context-var-options">context variable</option>
-                                        </select>
-                                    </div>
+                                </div>
+                                <div id='source-spec'>
+                                    So <span class='selected_node selected_node_text'>???</span> must be either a
+                                    context variable, or a personality variable.
+                                    <span class='selected_node selected_node_text'>???</span> is a
+                                    <select id="source-type-selector" class="chosen-select">
+                                        <option value="personality-var-options">personality variable</option>
+                                        <option value="context-var-options">context variable</option>
+                                    </select>
                                 </div>
                                 <div id="modeling-options">
                                     <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
@@ -545,6 +545,15 @@
                                         loading options...
                                     </form>
                                     <script type='text/coffeescript' src="../js/modeling_options_controls.coffee"></script>
+                                </div>
+                                <div id="assumption-options">
+                                    Since we cannot know the value of this exogenous inflow from the agent's context without simulating the enviroment, set here a temporary function for the mini-simulation:
+                                    <div id="assumption-options-selector">
+                                        loading selector...
+                                    </div>
+                                    <form id="assumption-options-form">
+                                        loading inflow assumption options...
+                                    </form>
                                 </div>
                                 <button class="btn btn-primary btn-mini" id="submit_node_spec_btn" onclick="submit_node_spec()">
                                     Submit Node Specification

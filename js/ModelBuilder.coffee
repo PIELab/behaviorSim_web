@@ -207,7 +207,7 @@ class ModelBuilder
 
     update_selected_node_form: () ->
         ###
-        returns an html string for the contents of a form used to specify the selected node
+        updates the modeling options form with a form used to specify the selected node
         ###
         _result = ''
         # clear existing html
