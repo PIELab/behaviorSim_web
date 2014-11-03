@@ -7,6 +7,6 @@ function update_selected_node_texts(){
     $('.selected_node_functional_form').text(model_builder.get_selected_node_functional_form())
 }
 `
-
-model_changed_event.add_action(update_selected_node_texts)
-$(document).on('selectNode', () -> update_selected_node_texts())
+$(document).on("graphChange", (evt) -> update_selected_node_texts())
+$(document).on("selectNodeChange", (evt) -> update_selected_node_texts())
+$(document).on('selectNode', (evt) -> update_selected_node_texts())

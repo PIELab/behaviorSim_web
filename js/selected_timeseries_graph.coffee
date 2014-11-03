@@ -71,5 +71,5 @@ draw_selected_graph = () ->
         else
             throw Error('node type unrecognized: '+node_type)
 
-model_changed_event.add_action(draw_selected_graph)
+$(document).on("selectNodeChange", (evt) -> draw_selected_graph())
 $(document).on('selectNode', (evt) -> draw_selected_graph())

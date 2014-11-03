@@ -12,11 +12,11 @@ textarea = document.getElementById("textarea")
 repl = document.getElementById("replBtn")
 fontBtn = document.getElementById("fontBtn")
 
-$listen goBtn, 'click', => model_changed_event.trigger()
+$listen goBtn, 'click', => $(document).trigger("graphChange")
 
 $listen textarea, 'keyup', =>
     if (repl.checked)
-        model_changed_event.trigger()
+        $(document).trigger("graphChange")
 
 $listen fontBtn, 'change', =>
     draw_colored_graph()
@@ -28,7 +28,7 @@ modelselector= document.getElementById("submodel_selector")
 $listen submodel_inserter, 'click', =>
     if submodel_selector.value == 'TPB'
         textarea.value+='\n behavioral attitude -> intention \n subjective norms -> intention \n perceived behavioral control -> intention \n perceived behavioral control -> behavior \n intention -> behavior \n'
-        model_changed_event.trigger()
+        $(document).trigger("graphChange")
     else
         console.log('unrecognized submodel value "'+submodel_selector.value+'"')
 
@@ -54,7 +54,7 @@ draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fo
     # call the main method
     controller.makeItGo(inputText, paper, fontBtn.checked)
 
-model_changed_event.add_action(draw_colored_graph)
+$(document).on("graphChange", (evt) -> draw_colored_graph())
 $(document).on('selectNode', (evt) -> draw_colored_graph())
 
 # initialize the view

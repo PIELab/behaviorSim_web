@@ -11,16 +11,6 @@ class ModelBuilder
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
-    complete_a_node: (node_id) ->
-        if node_id in @completed_nodes  # if node already in list
-            return undefined
-        else
-            @completed_nodes.push(node_id)
-            $('#completed-node-list').html(model_builder.completed_nodes)
-            return @completed_nodes
-
-        model_changed_event.trigger()
-
     get_node_model: (node_id) ->
         ###
         returns a string indicating the given node's model
@@ -49,13 +39,13 @@ class ModelBuilder
         node = @add_node(nname, type, parents, children, formulation)
         @set_node_assumption(nname, @get_node_assumption_input(nname))
         simulator.recalc(nname)
+        $(document).trigger("selectNodeChange")
         return node
 
     add_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
         ###
         adds a node to the model
         ###
-        @complete_a_node(@selected_node)
         return @_model.update_node(nname, type, parents, children, formulation)
 
     get_node_name: () ->
@@ -121,7 +111,7 @@ class ModelBuilder
         $('#textarea').val(@get_model_dsl())
         
         console.log('model set to:', @_model)
-        model_changed_event.trigger()
+        $(document).trigger("graphChange")
 
     load_model: (file_loc) ->
         ###
@@ -328,7 +318,7 @@ class ModelBuilder
         node = @_model.get_node(node_id)
         node.assumption = assumption
         simulator.recalc(node_id)
-        model_changed_event.trigger()
+        $(document).trigger("graphChange")
         
     get_node_assumption_input: (node_id, assumption) ->
         ###

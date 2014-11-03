@@ -2,10 +2,10 @@ model_selector = document.getElementById("model-selector")
 source_type_selector = document.getElementById('source-type-selector')
 
 $listen source_type_selector, 'change', =>
-    model_changed_event.trigger()
+    $(document).trigger("selectNodeChange")
 
 $listen model_selector, 'change', =>
-    model_changed_event.trigger()
+    $(document).trigger("selectNodeChange")
 
 update_inflow_assertion_form = () ->
     # updates the inflow assertion part of the inflow spec
@@ -79,5 +79,5 @@ update_modeling_options_form = () ->
 
     model_builder.update_selected_node_form()
 
-model_changed_event.add_action(update_modeling_options_form)
+$(document).on("graphChange", (evt) -> update_modeling_options_form())
 $(document).on('selectNode', (evt) -> update_modeling_options_form())

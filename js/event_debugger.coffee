@@ -1,6 +1,9 @@
 
 evts = [
-    'selectNode'
+    'selectNode',
+    'modelComplete',
+    'graphChange',
+    'selectNodeChange'
 ]
 addEvt = (name) ->
     console.log('adding', name, 'event')

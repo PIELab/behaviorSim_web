@@ -8,8 +8,8 @@ check_for_complete_model = () ->
         return
     else
         return
-model_changed_event.add_action(check_for_complete_model) 
-        
+$(document).on("selectNodeChange", (evt) -> check_for_complete_model())
+
 @model_builder = new ModelBuilder
 @simulator = new Simulator(model_builder._model, model_builder._graph)
 
@@ -25,16 +25,11 @@ window.$listen = (target, name, callback) ->
     else
         console.log('cannot listen for '+name+' on '+target+' with '+callback)
 
-window.submit_node_spec = () ->
+window.submit_node_spec = () -> # TODO: replace this with calls directly to model_builder.submit_node()
     ###
     submits node specification from web form
     ###
     model_builder.submit_node()
-
-    model_changed_event.trigger()
-
-    # TODO: replace this call with event listeners elsewhere
-    model_builder.set_selected_node(model_builder.selected_node)
 
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
