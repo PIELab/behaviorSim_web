@@ -11,6 +11,9 @@ class ModelBuilder
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
+    get_node: (node_id) ->
+        return @_model.get_node(node_id)
+
     get_node_model: (node_id) ->
         ###
         returns a string indicating the given node's model
@@ -39,7 +42,6 @@ class ModelBuilder
         node = @add_node(nname, type, parents, children, formulation)
         @set_node_assumption(nname, @get_node_assumption_input(nname))
         simulator.recalc(nname)
-        $(document).trigger("selectNodeChange")
         return node
 
     add_node: (nname=@get_node_name(), type=@get_selected_node_type(), parents=@get_node_parents(), children=@get_node_children(), formulation=@get_node_formulation()) ->
@@ -52,10 +54,10 @@ class ModelBuilder
         return @selected_node
 
     get_node_parents: () ->
-        return @_model.get_node(@selected_node).parents ? []
+        return @get_node(@selected_node).parents ? []
 
     get_node_children: () ->
-        return @_model.get_node(@selected_node).children ? []
+        return @get_node(@selected_node).children ? []
 
     get_node_formulation: () ->
         node_type = @get_node_model(@selected_node)
@@ -84,7 +86,6 @@ class ModelBuilder
 
     set_selected_node: (node_id) ->
         model_builder.selected_node = node_id
-        $(document).trigger('selectNode')
 
     set_model: (new_model) ->
         ###
@@ -111,7 +112,6 @@ class ModelBuilder
         $('#textarea').val(@get_model_dsl())
         
         console.log('model set to:', @_model)
-        $(document).trigger("graphChange")
 
     load_model: (file_loc) ->
         ###
@@ -166,18 +166,18 @@ class ModelBuilder
 
         switch @get_node_model(@selected_node)
             when 'linear-combination'
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     lhs += parent + ', '
                     rhs += 'c_'+parent+'*'+parent+'(t) +'
                 lhs += 't)'
                 rhs = rhs[0..rhs.length-2]  # trim off last plus
             when 'fluid-flow'
                 rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
                 lhs += 't)'
             when 'other'
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     lhs += parent + ', '
                 lhs += 't)'
                 rhs = 'f()'
@@ -195,6 +195,15 @@ class ModelBuilder
 
         return lhs + ' = ' + rhs
 
+    node_is_complete: (node) ->
+        ###
+        returns true if the given node is considered fully specified
+        ###
+        if node.formulation? or node.assumption?
+            return true
+        else
+            return false
+
     update_selected_node_form: () ->
         ###
         updates the modeling options form with a form used to specify the selected node
@@ -204,7 +213,7 @@ class ModelBuilder
         $('#modeling-options-form').html('')
         switch @get_node_model(@selected_node)
             when 'linear-combination'
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
                     @_add_parameter_to_form(coeff, c_val, 'linear-combination')
@@ -214,7 +223,7 @@ class ModelBuilder
                 tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true)
                 @_add_parameter_to_form(tao, tao_v, 'fluid-flow')
 
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
                     @_add_parameter_to_form(coeff, c_val, 'fluid-flow')
@@ -315,16 +324,14 @@ class ModelBuilder
         ###
         sets the node assumption 
         ###
-        node = @_model.get_node(node_id)
+        node = @get_node(node_id)
         node.assumption = assumption
-        simulator.recalc(node_id)
-        $(document).trigger("graphChange")
-        
+
     get_node_assumption_input: (node_id, assumption) ->
         ###
         gets the node assumption input from the UI
         ###
-        node = @_model.get_node(node_id)
+        node = @get_node(node_id)
         switch node.type
             when 'personality-var-options'
                 assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
@@ -342,7 +349,7 @@ class ModelBuilder
     model_is_complete: () ->
         # returns true if all nodes in model are specified
         for nodeID of @_model.nodes
-            if not @_model.nodes[nodeID].formulation?
+            if not @node_is_complete(@get_node(nodeID))
                 return false
         # else all nodes are specified
         if @_model.node_count <= 0

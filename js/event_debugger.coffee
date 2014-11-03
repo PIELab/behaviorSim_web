@@ -6,7 +6,7 @@ evts = [
     'selectNodeChange'
 ]
 addEvt = (name) ->
-    console.log('adding', name, 'event')
+    console.log('watching', name, 'event')
     $( document ).on(
         name,
         (event) ->

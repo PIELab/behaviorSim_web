@@ -52,7 +52,7 @@ function plot_personality_var_pdf(sigma, mu, highlight, selector_string){
 `
 
 draw_stochastic_graph = () ->
-    selected_value = .7
+    selected_value = .7  # TODO: this should come from the real data
     if model_builder.get_selected_node_type() == 'personality-var-options'
         try
             sigma = parseInt(simulator.get_node_spec_parameter(model_builder.selected_node, 'sigma'))

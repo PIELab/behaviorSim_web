@@ -33,12 +33,11 @@ $listen submodel_inserter, 'click', =>
         console.log('unrecognized submodel value "'+submodel_selector.value+'"')
 
 window.click_node = (node_id) ->
-    # TODO remove this & use listener below instead
     model_builder.set_selected_node(node_id)
+    $(document).trigger('selectNode')
 
 draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fontBtn.checked) ->
     # update the js graph object
-    console.log('inp_txt:',inputText)
     model_builder.build_graph_obj(inputText )
 
     # desired color to selected node
@@ -59,4 +58,21 @@ $(document).on('selectNode', (evt) -> draw_colored_graph())
 
 # initialize the view
 textarea.value = sampleText
-draw_colored_graph(textarea.value, the_paper, fontBtn.checked)  # TODO: remove this?
+draw_colored_graph()
+
+# submit the node automatically when selected unless already set
+$(document).on('selectNode', (evt) ->
+    try
+        node = model_builder.get_node(model_builder.selected_node)
+        if model_builder.node_is_complete(node)
+            console.log('it is done')
+            return
+        else
+            console.log('submitting')
+            model_builder.submit_node()
+    catch err
+        if err.message == 'node not found'
+            console.log('err submitting on select; selected node not found:', model_builder.selected_node)
+        else
+            throw err
+)
