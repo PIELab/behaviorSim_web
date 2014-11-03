@@ -36,8 +36,6 @@ window.click_node = (node_id) ->
     # TODO remove this & use listener below instead
     model_builder.set_selected_node(node_id)
 
-    $(document).trigger('selectNode')
-
 draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fontBtn.checked) ->
     # update the js graph object
     console.log('inp_txt:',inputText)
