@@ -597,13 +597,17 @@
                         // trigger events to kick things off
                         model_changed_event.trigger();
                         node_selection_changed.trigger();
+                        model_builder.submit_node();
+                    } else {
+                        throw Error('not yet ready...')
                     }
 
                     console.log('application successfully initialized');
                 } catch(e) {
                     if (e.message == "model_builder is not defined"
                         || e.message == "undefined is not a function"
-                        || e.message == "Cannot read property 'parents' of undefined"){
+                        || e.message == "Cannot read property 'parents' of undefined"
+                        || e.message == "not yet ready..."){
                         if (retry_count > 5){
                             console.log('max retries on loading selected_node details reached. giving up.');
                             throw e
