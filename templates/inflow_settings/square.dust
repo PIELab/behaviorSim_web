@@ -2,4 +2,4 @@
 
 {>parameter_tweak param_name="high" option_type="inflow-assertion" valu=10/}
 
-{>parameter_tweak param_name="frequency" option_type="inflow-assertion" valu=7/}
+{>parameter_tweak param_name="dt" option_type="inflow-assertion" valu=7/}

@@ -204,6 +204,22 @@ class ModelBuilder
         else
             return false
 
+    get_node_assumption_argument: (node_id, parameter_name, use_default=false) ->
+        ###
+        returns the value of the requested parameter for the given node
+        ###
+        try
+            val = @_model.get_node(node_id).assumption.arguments[parameter_name]
+            if val?
+                return val
+            else
+                throw Error('bad val')
+        catch err
+            if use_default
+                return simulator._get_default_value()
+            else
+                throw err
+
     update_selected_node_form: () ->
         ###
         updates the modeling options form with a form used to specify the selected node
@@ -256,7 +272,7 @@ class ModelBuilder
                 if err
                     console.log(err))
 
-    _init_slider_and_box: (coeff, c_val) ->
+    _init_slider_and_box: (coeff, c_val) ->  #TODO: this should be someplace that makes more sense
         ###
         inits the drawing of the slider and links the box and slider using jquery events
         ###
@@ -282,20 +298,28 @@ class ModelBuilder
                 new_val = parseFloat($("#"+coeff+"-slider").val())
                 box = $("#"+coeff+"-box")
                 box.val(new_val)
+                box.trigger('change')
         })
 
+        # TODO: this should only link slider-> box??? since onModelChange.trigger on box val change
         # add listeners to link the box and the slider
         # from slider to box (added as onChange callback)
         # from box to slider
         box.change( () ->
-            new_val = parseFloat($("#"+coeff+"-box").val())
-            slider = $("#"+coeff+"-slider")
-            slider.ionRangeSlider("update", {
-                min: new_val-10,
-                max: new_val+10,
-                from: new_val
-            })
+#            new_val = parseFloat($("#"+coeff+"-box").val())
+#            slider = $("#"+coeff+"-slider")
+#            slider.ionRangeSlider("update", {
+#                min: new_val-10,
+#                max: new_val+10,
+#                from: new_val
+#                }
+#            )
+
+            # add onModelChange trigger to box
+            model_builder.submit_node()
+            $(document).trigger("selectNodeChange")
         )
+
 
     get_selected_node_type: () ->
         ###
@@ -327,7 +351,7 @@ class ModelBuilder
         node = @get_node(node_id)
         node.assumption = assumption
 
-    get_node_assumption_input: (node_id, assumption) ->
+    get_node_assumption_input: (node_id, assumption) ->  # TODO: this is duplicate of modeling_options_controls.update_node_assumption ?
         ###
         gets the node assumption input from the UI
         ###
@@ -363,7 +387,7 @@ class ModelBuilder
                         assumption = {
                             calculator: simulator.calculator_square,
                             arguments: {
-                                dt: $('#frequency-box').val(),
+                                dt: $('#dt-box').val(),
                                 low: $('#low-box').val(),
                                 high: $('#high-box').val()
                             }
