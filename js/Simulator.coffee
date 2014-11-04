@@ -13,10 +13,21 @@ class Simulator
     recalc: (node_id) ->
         ###
         ensures that the last calculations for the node are thrown out and new calculations are done.
+        :returns: true if recalc is set, false if no data values exist anyway
         ###
         # clear out data_values so that get_values recalcs next time
-        delete @_model.get_node(node_id).data_values
-        
+        console.log('clearing data for node:', node_id)
+        node = @_model.get_node(node_id)
+        if node.data_values
+            delete node.data_values
+
+            # must recalc all children too...
+            for childId in node.children
+                @recalc(childId)
+            return true
+        else
+            return false
+
     set_model: (new_model) ->
         # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
         #   causes reference of global model to be unaltered... we want to modify that (so model_builder can see new model)
@@ -93,7 +104,7 @@ class Simulator
             if val==NaN
                 console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
                 throw Error('wat?')
-            # TAO = time constant 
+            # TAO = time constant
             val = val - parseFloat(args.tao) * parseFloat(prev_dt)
             #console.log('V:',val)
             return val

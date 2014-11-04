@@ -75,9 +75,21 @@ class ModelBuilder
                 sigma: parseFloat($("input[name='sigma']").val())
             }
         else if node_type == 'linear-combination'
-            return @_add_modeling_options({type:"linear-combination", calculator:simulator.calculator_linear_combination}, '.model-option-linear-combination')
+            return @_add_modeling_options(
+                {
+                    type:"linear-combination",
+                    calculator:simulator.calculator_linear_combination
+                },
+                '.model-option-linear-combination'
+            )
         else if node_type == 'fluid-flow'
-            return @_add_modeling_options({type:"fluid-flow", calculator:simulator.calculator_fluid_flow}, '.model-option-fluid-flow')
+            return @_add_modeling_options(
+                {
+                    type:"fluid-flow",
+                    calculator:simulator.calculator_fluid_flow
+                },
+                '.model-option-fluid-flow'
+            )
         else if node_type == 'other'
             return {
                 type : "general_formulation"
@@ -279,7 +291,6 @@ class ModelBuilder
         inits the drawing of the slider and links the box and slider using jquery events
         ###
         @IRS_COUNTER += 1
-        console.log('counter:',@IRS_COUNTER)
         c_val = parseFloat(c_val)
         slider = $("#"+coeff+"-slider")
         box = $("#"+coeff+"-box")
@@ -346,10 +357,11 @@ class ModelBuilder
             return 'state'
 
     _add_modeling_options: (target_obj, selector_string) ->
+        # adds attributes retrieved using selector_string to target_object
         model_options = $(selector_string)
-        console.log('adding options '+model_options)
+        console.log('adding options:', model_options)
         for option in model_options
-            console.log(option.name+':'+option.value)
+            console.log(option.name,':',option.value)
             target_obj[option.name] = parseFloat(option.value)
         return target_obj
 
