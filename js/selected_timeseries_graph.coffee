@@ -10,6 +10,7 @@ draw_selected_graph = () ->
     $('#selected-node-graph').html(get_node_graph_html(model_builder.selected_node))
     el = $('#'+node_sparkline_id(model_builder.selected_node))
     vals = simulator.get_node_values(model_builder.selected_node)
+    console.log('v:',vals)
     try
         if vals.length < 1
             throw Error('empty value list')
