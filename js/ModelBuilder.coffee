@@ -338,13 +338,36 @@ class ModelBuilder
             when 'context-var-options'
                 switch $('#calculator-preset').val()
                     when 'random_walk'
-                        assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
+                        assumption = {
+                            calculator: simulator.calculator_random_walk,
+                            arguments: {
+                                scale: $('#scale-box').val(),
+                                initial_value: 5  # TODO: add init val box
+                            }
+                        }
                     when 'constant'
-                        assumption = {calculator: simulator.calculator_constant, arguments: {value: 1}}
+                        assumption = {
+                            calculator: simulator.calculator_constant,
+                            arguments: {value: $('#value-box').val()}
+                        }
                     when 'step'
-                        assumption = {calculator: simulator.calculator_step, arguments: {step_time: 7, low:1, high:10}}
+                        assumption = {
+                            calculator: simulator.calculator_step,
+                            arguments: {
+                                step_time: $('#step_time-box').val(),
+                                low: $('#low-box').val(),
+                                high: $('#high-box').val()
+                            }
+                        }
                     when 'square'
-                        assumption = {calculator: simulator.calculator_square, arguments: {dt: 7, low:1, high:10}}
+                        assumption = {
+                            calculator: simulator.calculator_square,
+                            arguments: {
+                                dt: $('#frequency-box').val(),
+                                low: $('#low-box').val(),
+                                high: $('#high-box').val()
+                            }
+                        }
                     else
                         assumption = undefined
                         console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")

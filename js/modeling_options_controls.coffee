@@ -126,7 +126,7 @@ update_modeling_options_form = () ->
 
     model_builder.update_selected_node_form()
 
-$(document).on("selectNodeChange", (evt) -> update_modeling_options_form())
+$(document).on("selectNodeChange_highestP", (evt) -> update_modeling_options_form())
 $(document).on("graphChange", (evt) -> update_modeling_options_form())
 $(document).on('selectNode', (evt) -> update_modeling_options_form())
 
