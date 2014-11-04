@@ -3,7 +3,8 @@ evts = [
     'selectNode',
     'modelComplete',
     'graphChange',
-    'selectNodeChange'
+    'selectNodeChange',
+    'selectNodeChange_highP'
 ]
 addEvt = (name) ->
     console.log('watching', name, 'event')

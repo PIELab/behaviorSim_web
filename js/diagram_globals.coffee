@@ -1,6 +1,3 @@
-# interaction events:
-@model_changed_event = new Event  # fires whenever model changes
-
 check_for_complete_model = () ->
     # checks if the model is complete and fires the model_complete_event if needed
     if model_builder.model_is_complete()
@@ -12,6 +9,12 @@ $(document).on("selectNodeChange", (evt) -> check_for_complete_model())
 
 @model_builder = new ModelBuilder
 @simulator = new Simulator(model_builder._model, model_builder._graph)
+
+# set up priority chain for selectNodeChange
+$(document).on("selectNodeChange", (evt) -> $(document).trigger("selectNodeChange_highP"))
+
+# recalc simulator values when changes to node model are made
+$(document).on("selectNodeChange_highP", (evt) -> simulator.recalc(model_builder.selected_node))
 
 window.$listen = (target, name, callback) ->
     ###
@@ -35,7 +38,7 @@ window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
    return ''+node_id+'_sparkline'
 
-window.get_node_graph_html = (node_id) ->
+window.get_node_graph_html = (node_id) ->  # TODO: use a template for this...
     ###
     returns html for a given node id
     ###

@@ -75,7 +75,7 @@ $(document).on("selectNodeChange", (evt) -> draw_stochastic_graph())
 $(document).on('selectNode', (evt) -> draw_stochastic_graph())
 
 $listen document.getElementById('personality-spec_sigma'), 'change', =>
-    stochastic_graph()
+    $(document).trigger("selectNodeChange")
     
 $listen document.getElementById('personality-spec_mu'), 'change', =>
-    stochastic_graph()
+    $(document).trigger("selectNodeChange")

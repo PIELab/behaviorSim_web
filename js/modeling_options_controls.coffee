@@ -1,10 +1,10 @@
-model_selector = document.getElementById("model-selector")
-source_type_selector = document.getElementById('source-type-selector')
-
-$listen source_type_selector, 'change', =>
+$listen document.getElementById('source-type-selector'), 'change', =>
     $(document).trigger("selectNodeChange")
 
-$listen model_selector, 'change', =>
+$listen document.getElementById("model-selector"), 'change', =>
+    $(document).trigger("selectNodeChange")
+
+$listen document.getElementById("calculator-preset"), 'change', =>
     $(document).trigger("selectNodeChange")
 
 update_inflow_assertion_form = () ->
@@ -129,3 +129,12 @@ update_modeling_options_form = () ->
 $(document).on("selectNodeChange", (evt) -> update_modeling_options_form())
 $(document).on("graphChange", (evt) -> update_modeling_options_form())
 $(document).on('selectNode', (evt) -> update_modeling_options_form())
+
+init_node_function_value = (eventObj) ->
+    # sets the value of the calculator when new node has been selected
+    $('#calculator-preset').html('<option value="random_walk">random walk</option> <option value="constant">constant value</option> <option value="step">step function</option> <option value="square">square wave</option>')
+    try
+        $('option[value="'+model_builder._model.get_node(model_builder.selected_node).assumption.type+'"]').attr("selected", "selected")
+    catch err
+        console.log('assumption not yet set, preset box not filled')
+$(document).on("selectNode", init_node_function_value)
