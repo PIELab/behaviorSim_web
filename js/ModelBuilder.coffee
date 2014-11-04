@@ -11,6 +11,8 @@ class ModelBuilder
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
+        @IRS_COUNTER = 0  # counter for ion range slider (why is this here?)
+
     get_node: (node_id) ->
         return @_model.get_node(node_id)
 
@@ -276,6 +278,8 @@ class ModelBuilder
         ###
         inits the drawing of the slider and links the box and slider using jquery events
         ###
+        @IRS_COUNTER += 1
+        console.log('counter:',@IRS_COUNTER)
         c_val = parseFloat(c_val)
         slider = $("#"+coeff+"-slider")
         box = $("#"+coeff+"-box")
@@ -298,8 +302,13 @@ class ModelBuilder
                 new_val = parseFloat($("#"+coeff+"-slider").val())
                 box = $("#"+coeff+"-box")
                 box.val(new_val)
-                box.trigger('change')
         })
+
+        trig = () ->
+            box.trigger('change')
+
+        # slider.on('mouseup', box.trigger('change'))
+        $('#irs-'+@IRS_COUNTER).on('mouseup', trig )
 
         # TODO: this should only link slider-> box??? since onModelChange.trigger on box val change
         # add listeners to link the box and the slider

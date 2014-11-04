@@ -90,11 +90,10 @@ class Simulator
                 if val==NaN
                     console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
 
-            #console.log('v:', val)
             if val==NaN
                 console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
                 throw Error('wat?')
-            # TAO = time constant
+            # TAO = time constant 
             val = val - parseFloat(args.tao) * parseFloat(prev_dt)
             #console.log('V:',val)
             return val
@@ -179,21 +178,28 @@ class Simulator
         returns a value selected from the given personality node's probability distribution
         ###
         return normal_random(@get_node_spec_parameter(node_id, 'mu'), @get_node_spec_parameter(node_id, 'sigma'))
-        
+
     get_node_spec_parameter: (node_id, parameter_name, use_default=false) ->
         ###
         returns the value of the requested parameter for the given node
         ###
         try
-            return @_model.get_node(node_id).formulation[parameter_name]
+            val =  @_model.get_node(node_id).formulation[parameter_name]
+            if val?
+                return val
+            else
+                throw Error('bad val')
         catch err
             if use_default
                 return @_get_default_value()
             else
                 throw err
 
-    _get_default_value: () ->
-        return 1  # TODO: improve default value getter
+    _get_default_value: () ->   # TODO: improve default value getter
+        max = 10
+        min = 0
+        return Math.floor(Math.random() * (max - min) + min)
+
 try
     window.Simulator = Simulator
 catch error
