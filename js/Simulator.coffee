@@ -159,7 +159,6 @@ class Simulator
         :param recalculate: forces recalculation even if existing values already saved
         ###
         node = @_model.get_node(node_id)
-        console.log('n:',node)
         if node.data_values && !recalculate
             return node.data_values
         else
@@ -167,13 +166,11 @@ class Simulator
                 # calculate from formulation & parents (if possible)
                 return @calculate_from_formulation(node.formulation, node.parents, node)
 
-            else if node.assumption?  # if node assumption has been set for context/personality nodes
+            else if node.assumption != undefined  # if node assumption has been set for context/personality nodes
                 return @calculate_from_assumption(node.assumption, node)
 
             else
                 window.myNode = node
-                console.log('a:', node.assumption)
-                console.log('b:', node.assumption?)
                 console.log('formulation or assumption not set for node:',node)
                 return []
 

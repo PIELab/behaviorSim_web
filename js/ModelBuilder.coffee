@@ -336,14 +336,19 @@ class ModelBuilder
             when 'personality-var-options'
                 assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
             when 'context-var-options'
-                type = $('#calculator-preset').val()
-                if type == 'random_walk'
-                    assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
-                else if type == 'constant'
-                    assumption = {calculator: simulator.calculator_constant, arguments: {value: 1}}
-            else
-                assumption = undefined
-                console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
+                switch $('#calculator-preset').val()
+                    when 'random_walk'
+                        assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
+                    when 'constant'
+                        assumption = {calculator: simulator.calculator_constant, arguments: {value: 1}}
+                    when 'step'
+                        assumption = {calculator: simulator.calculator_step, arguments: {step_time: 7, low:1, high:10}}
+                    when 'square'
+                        assumption = {calculator: simulator.calculator_square, arguments: {dt: 7, low:1, high:10}}
+                    else
+                        assumption = undefined
+                        console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
+                        throw Error('bad node type')
         return assumption
 
     model_is_complete: () ->
