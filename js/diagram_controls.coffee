@@ -76,3 +76,6 @@ $(document).on('selectNode', (evt) ->
         else
             throw err
 )
+
+# resubmit node when changes are made
+$(document).on("selectNodeChange_highP", (evt) -> model_builder.submit_node())

@@ -15,7 +15,7 @@ class Simulator
         ensures that the last calculations for the node are thrown out and new calculations are done.
         ###
         # clear out data_values so that get_values recalcs next time
-        @_model.get_node(node_id).data_values = undefined
+        delete @_model.get_node(node_id).data_values
         
     set_model: (new_model) ->
         # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
