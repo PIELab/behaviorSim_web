@@ -88,6 +88,9 @@
 
         <script type="text/coffeescript" src="../js/text_span_updater.coffee"></script>
 
+        <!-- jquery event debugger -->
+        <script type="text/coffeescript" src="../js/event_debugger.coffee"></script>
+
     </head>
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
@@ -515,7 +518,12 @@
                                 <div id="assumption-options">
                                     Since we cannot know the value of this exogenous inflow from the agent's context without simulating the enviroment, set here a temporary function for the mini-simulation:
                                     <div id="assumption-options-selector">
-                                        loading selector...
+                                        <select id="calculator-preset" style="width:250px;" tabindex="4">
+                                            <option value="random_walk">random walk</option>
+                                            <option value="constant">constant value</option>
+                                            <option value="step">step function</option>
+                                            <option value="square">square wave</option>
+                                        </select>
                                     </div>
                                     <form id="assumption-options-form">
                                         loading inflow assumption options...
@@ -561,9 +569,8 @@
                 try{
                     if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
                         // trigger events to kick things off
-                        model_changed_event.trigger();
-                        node_selection_changed.trigger();
-                        model_builder.submit_node();
+                        $(document).trigger("graphChange")
+                        $(document).trigger('selectNode');
                     } else {
                         throw Error('not yet ready...')
                     }
@@ -573,7 +580,8 @@
                     if (e.message == "model_builder is not defined"
                         || e.message == "undefined is not a function"
                         || e.message == "Cannot read property 'parents' of undefined"
-                        || e.message == "not yet ready..."){
+                        || e.message == "not yet ready..."
+                        || e.message == "node not found"){
                         if (retry_count > 5){
                             console.log('max retries on loading selected_node details reached. giving up.');
                             throw e

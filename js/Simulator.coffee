@@ -15,7 +15,7 @@ class Simulator
         ensures that the last calculations for the node are thrown out and new calculations are done.
         ###
         # clear out data_values so that get_values recalcs next time
-        @_model.get_node(node_id).data_values = undefined
+        delete @_model.get_node(node_id).data_values
         
     set_model: (new_model) ->
         # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
@@ -159,18 +159,22 @@ class Simulator
         :param recalculate: forces recalculation even if existing values already saved
         ###
         node = @_model.get_node(node_id)
+        console.log('n:',node)
         if node.data_values && !recalculate
             return node.data_values
         else
             if node.type == 'state'
                 # calculate from formulation & parents (if possible)
-                calc_type = node.formulation
                 return @calculate_from_formulation(node.formulation, node.parents, node)
-            # if node assumption has been set
-            else if node.assumption
+
+            else if node.assumption?  # if node assumption has been set for context/personality nodes
                 return @calculate_from_assumption(node.assumption, node)
+
             else
-                console.log('formulation or assumption not set')
+                window.myNode = node
+                console.log('a:', node.assumption)
+                console.log('b:', node.assumption?)
+                console.log('formulation or assumption not set for node:',node)
                 return []
 
     get_personality_value: (node_id) ->

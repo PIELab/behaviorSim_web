@@ -1,11 +1,30 @@
 {
-  "name": "behaviorSim",
-  "version": "0.0.1",
-  "scripts": {
-    "test": "./node_modules/.bin/nodeunit ./js/tests"
-  },
-  "dependencies": {
-    "coffee-script": "~1.4.0",
-    "nodeunit": "~0.7.4"
-  }
+    "name": "behaviorSim",
+    "version": "0.2.0",
+    "description": "the behaviorSim frontend helps behavioral scientists build, simulate, and evaluate models.",
+    "homepage": "https://pielab.github.io/behaviorSim_web",
+    "bugs": {
+        "url": "https://github.com/PIELab/behaviorSim_web/issues",
+        "email": "tylarmurray@mail.usf.edu"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/nodeunit ./js/tests"
+    },
+    "contributors": [
+        "Tylar Murray <murray.tylar@gmail.com>",
+        "Andrew Raij",
+        "Eric Hekler",
+        "Daniel Rivera",
+        "Donna Spuijt-Metz"
+    ],
+    "repository" : {
+        "type" : "git",
+        "url" : "http://github.com/PIELab/behaviorSim_web.git"
+    },
+    "dependencies": {
+        "coffee-script": "~1.4.0",
+        "nodeunit": "~0.7.4",
+        "dusterjs": "~0.3.2",
+        "less": "~1.7.5"
+    }
 }

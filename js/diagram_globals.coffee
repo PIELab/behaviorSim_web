@@ -1,20 +1,20 @@
-# interaction events:
-@model_changed_event = new Event  # fires whenever model changes
-@node_selection_changed = new Event  # fires when different node is selected
-@graph_display_settings_changed_event = new Event  # fires when settings for the infoFlow graph changes
-@model_complete_event = new Event  # fires whenever the model is completed (re-fires when model changes and is complete)
-
 check_for_complete_model = () ->
     # checks if the model is complete and fires the model_complete_event if needed
     if model_builder.model_is_complete()
-        model_complete_event.trigger()
+        $(document).trigger("modelComplete")
         return
     else
         return
-model_changed_event.add_action(check_for_complete_model) 
-        
+$(document).on("selectNodeChange", (evt) -> check_for_complete_model())
+
 @model_builder = new ModelBuilder
 @simulator = new Simulator(model_builder._model, model_builder._graph)
+
+# set up priority chain for selectNodeChange
+$(document).on("selectNodeChange", (evt) -> $(document).trigger("selectNodeChange_highP"))
+
+# recalc simulator values when changes to node model are made
+$(document).on("selectNodeChange_highP", (evt) -> simulator.recalc(model_builder.selected_node))
 
 window.$listen = (target, name, callback) ->
     ###
@@ -28,22 +28,17 @@ window.$listen = (target, name, callback) ->
     else
         console.log('cannot listen for '+name+' on '+target+' with '+callback)
 
-window.submit_node_spec = () ->
+window.submit_node_spec = () -> # TODO: replace this with calls directly to model_builder.submit_node()
     ###
     submits node specification from web form
     ###
     model_builder.submit_node()
 
-    model_changed_event.trigger()
-
-    # TODO: replace this call with event listeners elsewhere
-    model_builder.set_selected_node(model_builder.selected_node)
-
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
    return ''+node_id+'_sparkline'
 
-window.get_node_graph_html = (node_id) ->
+window.get_node_graph_html = (node_id) ->  # TODO: use a template for this...
     ###
     returns html for a given node id
     ###
