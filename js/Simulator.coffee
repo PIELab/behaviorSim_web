@@ -13,10 +13,21 @@ class Simulator
     recalc: (node_id) ->
         ###
         ensures that the last calculations for the node are thrown out and new calculations are done.
+        :returns: true if recalc is set, false if no data values exist anyway
         ###
         # clear out data_values so that get_values recalcs next time
-        delete @_model.get_node(node_id).data_values
-        
+        console.log('clearing data for node:', node_id)
+        node = @_model.get_node(node_id)
+        if node.data_values
+            delete node.data_values
+
+            # must recalc all children too...
+            for childId in node.children
+                @recalc(childId)
+            return true
+        else
+            return false
+
     set_model: (new_model) ->
         # @_model = new_model_obj   # doesn't work here b/c of js "copy of a reference" behaviour
         #   causes reference of global model to be unaltered... we want to modify that (so model_builder can see new model)
@@ -90,7 +101,6 @@ class Simulator
                 if val==NaN
                     console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
 
-            #console.log('v:', val)
             if val==NaN
                 console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
                 throw Error('wat?')
@@ -159,7 +169,6 @@ class Simulator
         :param recalculate: forces recalculation even if existing values already saved
         ###
         node = @_model.get_node(node_id)
-        console.log('n:',node)
         if node.data_values && !recalculate
             return node.data_values
         else
@@ -167,13 +176,11 @@ class Simulator
                 # calculate from formulation & parents (if possible)
                 return @calculate_from_formulation(node.formulation, node.parents, node)
 
-            else if node.assumption?  # if node assumption has been set for context/personality nodes
+            else if node.assumption != undefined  # if node assumption has been set for context/personality nodes
                 return @calculate_from_assumption(node.assumption, node)
 
             else
                 window.myNode = node
-                console.log('a:', node.assumption)
-                console.log('b:', node.assumption?)
                 console.log('formulation or assumption not set for node:',node)
                 return []
 
@@ -182,21 +189,28 @@ class Simulator
         returns a value selected from the given personality node's probability distribution
         ###
         return normal_random(@get_node_spec_parameter(node_id, 'mu'), @get_node_spec_parameter(node_id, 'sigma'))
-        
+
     get_node_spec_parameter: (node_id, parameter_name, use_default=false) ->
         ###
         returns the value of the requested parameter for the given node
         ###
         try
-            return @_model.get_node(node_id).formulation[parameter_name]
+            val =  @_model.get_node(node_id).formulation[parameter_name]
+            if val?
+                return val
+            else
+                throw Error('bad val')
         catch err
             if use_default
                 return @_get_default_value()
             else
                 throw err
 
-    _get_default_value: () ->
-        return 1  # TODO: improve default value getter
+    _get_default_value: () ->   # TODO: improve default value getter
+        max = 10
+        min = 0
+        return Math.floor(Math.random() * (max - min) + min)
+
 try
     window.Simulator = Simulator
 catch error

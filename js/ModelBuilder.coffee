@@ -11,6 +11,8 @@ class ModelBuilder
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
+        @IRS_COUNTER = 0  # counter for ion range slider (why is this here?)
+
     get_node: (node_id) ->
         return @_model.get_node(node_id)
 
@@ -73,9 +75,21 @@ class ModelBuilder
                 sigma: parseFloat($("input[name='sigma']").val())
             }
         else if node_type == 'linear-combination'
-            return @_add_modeling_options({type:"linear-combination", calculator:simulator.calculator_linear_combination}, '.model-option-linear-combination')
+            return @_add_modeling_options(
+                {
+                    type:"linear-combination",
+                    calculator:simulator.calculator_linear_combination
+                },
+                '.model-option-linear-combination'
+            )
         else if node_type == 'fluid-flow'
-            return @_add_modeling_options({type:"fluid-flow", calculator:simulator.calculator_fluid_flow}, '.model-option-fluid-flow')
+            return @_add_modeling_options(
+                {
+                    type:"fluid-flow",
+                    calculator:simulator.calculator_fluid_flow
+                },
+                '.model-option-fluid-flow'
+            )
         else if node_type == 'other'
             return {
                 type : "general_formulation"
@@ -204,6 +218,22 @@ class ModelBuilder
         else
             return false
 
+    get_node_assumption_argument: (node_id, parameter_name, use_default=false) ->
+        ###
+        returns the value of the requested parameter for the given node
+        ###
+        try
+            val = @_model.get_node(node_id).assumption.arguments[parameter_name]
+            if val?
+                return val
+            else
+                throw Error('bad val')
+        catch err
+            if use_default
+                return simulator._get_default_value()
+            else
+                throw err
+
     update_selected_node_form: () ->
         ###
         updates the modeling options form with a form used to specify the selected node
@@ -256,10 +286,11 @@ class ModelBuilder
                 if err
                     console.log(err))
 
-    _init_slider_and_box: (coeff, c_val) ->
+    _init_slider_and_box: (coeff, c_val) ->  #TODO: this should be someplace that makes more sense
         ###
         inits the drawing of the slider and links the box and slider using jquery events
         ###
+        @IRS_COUNTER += 1
         c_val = parseFloat(c_val)
         slider = $("#"+coeff+"-slider")
         box = $("#"+coeff+"-box")
@@ -284,18 +315,31 @@ class ModelBuilder
                 box.val(new_val)
         })
 
+        trig = () ->
+            box.trigger('change')
+
+        # slider.on('mouseup', box.trigger('change'))
+        $('#irs-'+@IRS_COUNTER).on('mouseup', trig )
+
+        # TODO: this should only link slider-> box??? since onModelChange.trigger on box val change
         # add listeners to link the box and the slider
         # from slider to box (added as onChange callback)
         # from box to slider
         box.change( () ->
-            new_val = parseFloat($("#"+coeff+"-box").val())
-            slider = $("#"+coeff+"-slider")
-            slider.ionRangeSlider("update", {
-                min: new_val-10,
-                max: new_val+10,
-                from: new_val
-            })
+#            new_val = parseFloat($("#"+coeff+"-box").val())
+#            slider = $("#"+coeff+"-slider")
+#            slider.ionRangeSlider("update", {
+#                min: new_val-10,
+#                max: new_val+10,
+#                from: new_val
+#                }
+#            )
+
+            # add onModelChange trigger to box
+            model_builder.submit_node()
+            $(document).trigger("selectNodeChange")
         )
+
 
     get_selected_node_type: () ->
         ###
@@ -313,10 +357,11 @@ class ModelBuilder
             return 'state'
 
     _add_modeling_options: (target_obj, selector_string) ->
+        # adds attributes retrieved using selector_string to target_object
         model_options = $(selector_string)
-        console.log('adding options '+model_options)
+        console.log('adding options:', model_options)
         for option in model_options
-            console.log(option.name+':'+option.value)
+            console.log(option.name,':',option.value)
             target_obj[option.name] = parseFloat(option.value)
         return target_obj
 
@@ -327,7 +372,7 @@ class ModelBuilder
         node = @get_node(node_id)
         node.assumption = assumption
 
-    get_node_assumption_input: (node_id, assumption) ->
+    get_node_assumption_input: (node_id, assumption) ->  # TODO: this is duplicate of modeling_options_controls.update_node_assumption ?
         ###
         gets the node assumption input from the UI
         ###
@@ -336,14 +381,42 @@ class ModelBuilder
             when 'personality-var-options'
                 assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
             when 'context-var-options'
-                type = $('#calculator-preset').val()
-                if type == 'random_walk'
-                    assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
-                else if type == 'constant'
-                    assumption = {calculator: simulator.calculator_constant, arguments: {value: 1}}
-            else
-                assumption = undefined
-                console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
+                switch $('#calculator-preset').val()
+                    when 'random_walk'
+                        assumption = {
+                            calculator: simulator.calculator_random_walk,
+                            arguments: {
+                                scale: $('#scale-box').val(),
+                                initial_value: 5  # TODO: add init val box
+                            }
+                        }
+                    when 'constant'
+                        assumption = {
+                            calculator: simulator.calculator_constant,
+                            arguments: {value: $('#value-box').val()}
+                        }
+                    when 'step'
+                        assumption = {
+                            calculator: simulator.calculator_step,
+                            arguments: {
+                                step_time: $('#step_time-box').val(),
+                                low: $('#low-box').val(),
+                                high: $('#high-box').val()
+                            }
+                        }
+                    when 'square'
+                        assumption = {
+                            calculator: simulator.calculator_square,
+                            arguments: {
+                                dt: $('#dt-box').val(),
+                                low: $('#low-box').val(),
+                                high: $('#high-box').val()
+                            }
+                        }
+                    else
+                        assumption = undefined
+                        console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
+                        throw Error('bad node type')
         return assumption
 
     model_is_complete: () ->

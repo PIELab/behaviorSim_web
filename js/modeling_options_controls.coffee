@@ -17,9 +17,15 @@ update_inflow_assertion_form = () ->
                 (err, out) =>
                     # update the html
                     form.html(out)
-                    model_builder._init_slider_and_box("low", 1)
-                    model_builder._init_slider_and_box("high", 10)
-                    model_builder._init_slider_and_box("step_time", 20)
+                    model_builder._init_slider_and_box("low",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "low", true)
+                    )
+                    model_builder._init_slider_and_box("high",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "high", true)
+                    )
+                    model_builder._init_slider_and_box("step_time",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node,"step_time", true)
+                    )
                     if err
                         console.log(err))
         when 'random_walk'
@@ -28,7 +34,9 @@ update_inflow_assertion_form = () ->
                 (err, out) =>
                     # update the html
                     form.html(out)
-                    model_builder._init_slider_and_box("scale", 2)
+                    model_builder._init_slider_and_box("scale",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "scale", true)
+                    )
                     if err
                         console.log(err))
         when 'constant'
@@ -37,7 +45,9 @@ update_inflow_assertion_form = () ->
                 (err, out) =>
                     # update the html
                     form.html(out)
-                    model_builder._init_slider_and_box("value", 1)
+                    model_builder._init_slider_and_box("value",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "value", true)
+                    )
                     if err
                         console.log(err))
         when 'square'
@@ -46,9 +56,15 @@ update_inflow_assertion_form = () ->
                 (err, out) =>
                     # update the html
                     form.html(out)
-                    model_builder._init_slider_and_box("low", 1)
-                    model_builder._init_slider_and_box("high", 10)
-                    model_builder._init_slider_and_box("frequency", 20)
+                    model_builder._init_slider_and_box("low",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "low", true)
+                    )
+                    model_builder._init_slider_and_box("high",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "high", true)
+                    )
+                    model_builder._init_slider_and_box("dt",
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "dt", true)
+                    )
                     if err
                         console.log(err))
         else
@@ -57,7 +73,7 @@ update_inflow_assertion_form = () ->
             throw Error('unkown calculator preset')
 
 
-update_node_assumption = () ->
+update_node_assumption = () -> # TODO: this is duplicate of ModelBulder.get_node_assumption_input ?
     switch $('#calculator-preset').val()
         when 'random_walk'
             assumption = {
@@ -93,7 +109,7 @@ update_node_assumption = () ->
                 arguments: {
                     low: $('#low-box').val(),
                     high: $('#high-box').val(),
-                    dt: $('#frequency-box').val()
+                    dt: $('#dt-box').val()
                 }
             }
         else
@@ -126,7 +142,7 @@ update_modeling_options_form = () ->
 
     model_builder.update_selected_node_form()
 
-$(document).on("selectNodeChange", (evt) -> update_modeling_options_form())
+$(document).on("selectNodeChange_highestP", (evt) -> update_modeling_options_form())
 $(document).on("graphChange", (evt) -> update_modeling_options_form())
 $(document).on('selectNode', (evt) -> update_modeling_options_form())
 

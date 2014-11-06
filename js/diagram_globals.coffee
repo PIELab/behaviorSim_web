@@ -12,9 +12,11 @@ $(document).on("selectNodeChange", (evt) -> check_for_complete_model())
 
 # set up priority chain for selectNodeChange
 $(document).on("selectNodeChange", (evt) -> $(document).trigger("selectNodeChange_highP"))
+$(document).on("selectNodeChange_highP", (evt) -> $(document).trigger("selectNodeChange_higherP"))
+$(document).on("selectNodeChange_higherP", (evt) -> $(document).trigger("selectNodeChange_highestP"))
 
-# recalc simulator values when changes to node model are made
-$(document).on("selectNodeChange_highP", (evt) -> simulator.recalc(model_builder.selected_node))
+# set simulator values to recalc when changes to node model are made (note: doesn't actually recalc, that comes later)
+$(document).on("selectNodeChange_highestP", (evt) -> simulator.recalc(model_builder.selected_node))
 
 window.$listen = (target, name, callback) ->
     ###

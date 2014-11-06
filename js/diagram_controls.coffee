@@ -78,4 +78,4 @@ $(document).on('selectNode', (evt) ->
 )
 
 # resubmit node when changes are made
-$(document).on("selectNodeChange_highP", (evt) -> model_builder.submit_node())
+$(document).on("selectNodeChange_higherP", (evt) -> model_builder.submit_node())
