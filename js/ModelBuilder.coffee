@@ -302,16 +302,15 @@ class ModelBuilder
 
         # init the new slider
         slider.ionRangeSlider({
-            min: c_val-10,
-            max: c_val+10,
+            min: c_val-10.0,
+            max: c_val+10.0,
             from: c_val,
             type: 'single',
-            step: 1,
+            step: 0.1,
             prettify: false,
             hasGrid: true,
             onChange: () ->
                 new_val = parseFloat($("#"+coeff+"-slider").val())
-                box = $("#"+coeff+"-box")
                 box.val(new_val)
         })
 

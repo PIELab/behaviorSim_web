@@ -86,13 +86,13 @@ class Simulator
 
                     throw Error('missing parent parameter for fluid flow calculator')
 
-                if t-theta <= 0
+                if t-theta <= 0  # use 1st value as steady state before(TODO: improve this)
                     p = simulator.get_node_values(parent)[0]
-                else if t-theta >= @_time_length
+                else if t-theta >= @_time_length  # use last value as steady state after (TODO: improve this)
                     p = simulator.get_node_values(parent)[@_time_length-1]
                 else # t is within bounds
                     p = simulator.get_node_values(parent)[t-theta]
-
+                    
                 if theta==NaN or C==NaN or p==NaN
                     console.log('ERR DEBUG INFO:: theta:',theta,'C:',C,'p:',p)
                     throw Error('calculation error in fluid flow calculator')
@@ -101,10 +101,8 @@ class Simulator
                 if val==NaN
                     console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
 
-            if val==NaN
-                console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
-                throw Error('wat?')
             # TAO = time constant
+            #console.log('tao:',args.tao, 'p_dt:', prev_dt)
             val = val - parseFloat(args.tao) * parseFloat(prev_dt)
             #console.log('V:',val)
             return val
@@ -140,16 +138,6 @@ class Simulator
         t = 0
         if !formulation.calculator  # if calculator not defined explicitly in formulation
             throw Error('calculator not defined for node!')
-        ###
-            #set calculator using formulation.type name
-            switch formulation.type 
-                when "linear-combination"
-                    formulation.calculator = @calculator_linear_combination
-                when "fluid-flow"
-                    formulation.calculator = @calculator_fluid_flow
-                else
-                    throw Error("calculator not defined for formulation", formulation)
-        ###
         
         formulation.parents = parents
         
