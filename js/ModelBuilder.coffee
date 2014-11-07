@@ -160,13 +160,22 @@ class ModelBuilder
             try
                 stmt = line.split('->')  # split by arrow
                 n1 = stmt[0].trim()
-                n2 = stmt[1].trim()
-                # console.log(n1, '->', n2)
                 @_model.add_node(n1)
+
+                n2 = stmt[1].trim()
                 @_model.add_node(n2)
+
+                # console.log(n1, '->', n2)
                 @_model.add_edge(n1, n2);
             catch error  # malformed line (no big deal)
                 console.log('dsl parse error @: ', line)
+
+        if @_model.node_count <= 0 # no nodes
+            @_model.add_node('infoflow_graph_nodes_show_up_here...')
+        else if @_model.node_count > 1 and @_model.nodes['infoflow_graph_nodes_here...']?
+            delete @_model.nodes['infoflow_graph_nodes_here...']
+            @_model.node_count -= 1  # TODO: where is the delete_node method???
+
         if ! @_model.nodes[@selected_node] and @_model.root_node.children.length > 0  # if selected node has been deleted
             @set_selected_node(@_model.root_node.children[0])
         return
