@@ -303,6 +303,7 @@ class ModelBuilder
         c_val = parseFloat(c_val)
         slider = $("#"+coeff+"-slider")
         box = $("#"+coeff+"-box")
+        box.val(c_val)
 
         # should get exactly 1 box and 1 slider
         if slider.length + box.length != 2
