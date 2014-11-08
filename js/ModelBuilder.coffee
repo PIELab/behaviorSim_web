@@ -82,13 +82,13 @@ class ModelBuilder
                 },
                 '.model-option-linear-combination'
             )
-        else if node_type == 'fluid-flow'
+        else if node_type == 'differential-equation'
             return @_add_modeling_options(
                 {
-                    type:"fluid-flow",
-                    calculator:simulator.calculator_fluid_flow
+                    type:"differential-equation",
+                    calculator:simulator.calculator_differential_equation
                 },
-                '.model-option-fluid-flow'
+                '.model-option-differential-equation'
             )
         else if node_type == 'other'
             return {
@@ -194,7 +194,7 @@ class ModelBuilder
                     rhs += 'c_'+parent+'*'+parent+'(t) +'
                 lhs += 't)'
                 rhs = rhs[0..rhs.length-2]  # trim off last plus
-            when 'fluid-flow'
+            when 'differential-equation'
                 rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
                 for parent in @get_node(@selected_node).parents
                     rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
@@ -257,19 +257,19 @@ class ModelBuilder
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
                     @_add_parameter_to_form(coeff, c_val, 'linear-combination')
 
-            when 'fluid-flow'
+            when 'differential-equation'
                 tao = 'tao'
                 tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true)
-                @_add_parameter_to_form(tao, tao_v, 'fluid-flow')
+                @_add_parameter_to_form(tao, tao_v, 'differential-equation')
 
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
-                    @_add_parameter_to_form(coeff, c_val, 'fluid-flow')
+                    @_add_parameter_to_form(coeff, c_val, 'differential-equation')
                     
                     theta = 'theta_'+parent
                     theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true)
-                    @_add_parameter_to_form(theta, theta_val, 'fluid-flow')
+                    @_add_parameter_to_form(theta, theta_val, 'differential-equation')
             when 'other'
                 _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node
