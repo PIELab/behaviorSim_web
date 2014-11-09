@@ -86,15 +86,19 @@ class Simulator
             C = parseFloat(@args['c_'+parent])  # C = regression weight
             if not theta? or not C?
                 throw Error('missing parent parameter for fluid flow calculator')
-
-            parent_v = @get_node_values(parent)[t - theta]
+            if t-theta <= 0  # use 1st value as steady state before(TODO: improve this)
+                parent_v = @get_node_values(parent)[0]
+            else if t-theta >= @_time_length  # use last value as steady state after (TODO: improve this)
+                parent_v = @get_node_values(parent)[@_time_length-1]
+            else # t is within bounds
+                parent_v = @get_node_values(parent)[t - theta]
 
             val += C * parent_v
-            if val==NaN
-                console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
+            if isNaN(val)
+                console.log('ERR INFO:: theta:',theta,'C:',C,'p:',parent_v )
 
         val = (val - y) / parseFloat(@args.tao)
-        if val==NaN
+        if isNaN(val)
             console.log('ERR INFO:: y:',y,'tao:',@args.tao )
         return val
         
