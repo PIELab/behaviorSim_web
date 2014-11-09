@@ -58,7 +58,9 @@
         <!-- chosen -->
         <link rel="stylesheet" href="../css/chosen/chosen.css">
 
-        <!-- for diagrammophone -->
+        <!-- ===================================================================== -->
+        <!--                          for diagrammophone                           -->
+        <!-- ===================================================================== -->
         <!-- things you need to run -->
         <script src="../js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
         <script src="../js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
@@ -75,16 +77,23 @@
         <!-- svg to canvas (so then i can image it) -->
         <script type="text/javascript" src="../js/lib/diagramophone/lib/rgbcolor.js"></script>
         <script type="text/javascript" src="../js/lib/diagramophone/lib/canvg.js"></script>
+        <!-- ===================================================================== -->
 
-        <!-- graph data struct -->
+        <!-- graph data & model struct -->
         <script type="text/coffeescript" src="../js/lib/diagramophone/Graph.coffee"></script>
         <script type="text/coffeescript" src="../js/Model.coffee"></script>
+
+        <!-- model builder for managing model building-->
         <script type="text/coffeescript" src="../js/ModelBuilder.coffee"></script>
+
+        <!-- integrator & simulator for computing/plotting -->
+        <script type="text/javascript" src="../js/Integrator.js"></script>
         <script type="text/coffeescript" src="../js/Simulator.coffee"></script>
 
         <script type="text/javascript" src="../js/diagram_globals.js"></script>
         <script type="text/coffeescript" src="../js/diagram_globals.coffee"></script>
 
+        <!-- widget text span updater -->
         <script type="text/coffeescript" src="../js/text_span_updater.coffee"></script>
 
         <!-- jquery event debugger -->

@@ -10,6 +10,10 @@ class Simulator
         @_time_length = time_length
         @_time_step = time_step
 
+        # set up integration calculator
+        @fluid_flow = Integrator(@ODE_fluid_flow)
+        @step = .25
+
     recalc: (node_id) ->
         ###
         ensures that the last calculations for the node are thrown out and new calculations are done.
@@ -73,10 +77,32 @@ class Simulator
         for parent in args.parents
             value += simulator.get_node_values(parent)[t] * args['c_'+parent]
         return value
+
+    ODE_fluid_flow: (t, y) ->
+        val = 0
+        c_1 = 1
+        th_1 = 0
+        tao = 1
+
+        parent_1 = (t) ->
+            if t < 10
+                return 1
+            else
+                return 5
+
+        #for parent in @args.parents
+        val = c_1 * parent_1(t-th_1)
+
+        val = (val - y)/tao
+        return val
         
-    calculator_differential_equation: (t, prev_value, prev_dt, args) ->
+    calculator_differential_equation: (t, prev_value, prev_dt, args) =>
+        # requires Integrator from /js/Integrator
         # formulation from p2 of http://csel.asu.edu/downloads/Publications/AdaptivePrevention/2012ACC_Dong_etal_preprint.pdf
         if args.parents? and args.tao? and prev_value? and prev_dt?
+            @args = args  # bind arguments to object for temporary storage (rather than passing to the integrator)
+            return @fluid_flow.euler(prev_value, t, @step);
+
             val = 0
             #console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'args:',args)
             for parent in args.parents
