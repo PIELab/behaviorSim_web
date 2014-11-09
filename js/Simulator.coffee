@@ -78,22 +78,24 @@ class Simulator
             value += simulator.get_node_values(parent)[t] * args['c_'+parent]
         return value
 
-    ODE_fluid_flow: (t, y) ->
+    ODE_fluid_flow: (t, y) =>
         val = 0
-        c_1 = 1
-        th_1 = 0
-        tao = 1
 
-        parent_1 = (t) ->
-            if t < 10
-                return 1
-            else
-                return 5
+        for parent in @args.parents
+            theta = parseFloat(@args['theta_'+parent])  # theta = time delay
+            C = parseFloat(@args['c_'+parent])  # C = regression weight
+            if not theta? or not C?
+                throw Error('missing parent parameter for fluid flow calculator')
 
-        #for parent in @args.parents
-        val = c_1 * parent_1(t-th_1)
+            parent_v = @get_node_values(parent)[t - theta]
 
-        val = (val - y)/tao
+            val += C * parent_v
+            if val==NaN
+                console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
+
+        val = (val - y) / parseFloat(@args.tao)
+        if val==NaN
+            console.log('ERR INFO:: y:',y,'tao:',@args.tao )
         return val
         
     calculator_differential_equation: (t, prev_value, prev_dt, args) =>
@@ -102,36 +104,6 @@ class Simulator
         if args.parents? and args.tao? and prev_value? and prev_dt?
             @args = args  # bind arguments to object for temporary storage (rather than passing to the integrator)
             return @fluid_flow.euler(prev_value, t, @step);
-
-            val = 0
-            #console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'args:',args)
-            for parent in args.parents
-                theta = parseFloat(args['theta_'+parent])  # theta = time delay
-                C = parseFloat(args['c_'+parent])  # C = regression weight
-                if not theta? or not C?
-
-                    throw Error('missing parent parameter for fluid flow calculator')
-
-                if t-theta <= 0  # use 1st value as steady state before(TODO: improve this)
-                    p = simulator.get_node_values(parent)[0]
-                else if t-theta >= @_time_length  # use last value as steady state after (TODO: improve this)
-                    p = simulator.get_node_values(parent)[@_time_length-1]
-                else # t is within bounds
-                    p = simulator.get_node_values(parent)[t-theta]
-                    
-                if theta==NaN or C==NaN or p==NaN
-                    console.log('ERR DEBUG INFO:: theta:',theta,'C:',C,'p:',p)
-                    throw Error('calculation error in fluid flow calculator')
-
-                val = val + p*C
-                if val==NaN
-                    console.log('ERR INFO:: theta:',theta,'C:',C,'p:',p )
-
-            # TAO = time constant
-            #console.log('tao:',args.tao, 'p_dt:', prev_dt)
-            val = val - parseFloat(args.tao) * parseFloat(prev_dt)
-            #console.log('V:',val)
-            return val
         else
             console.log('args given:','t:',t,'prev_value:',prev_value,'prev_dt:',prev_dt,'args:',args)
             throw Error('missing parameter for differential-equation calculator')
