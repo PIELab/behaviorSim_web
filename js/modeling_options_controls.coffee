@@ -71,7 +71,7 @@ update_inflow_assertion_form = () ->
             dust.render("upload",
                 {},
                 (err, out) =>
-                    #update the html
+                    # update the html
                     form.html(out)
                     if err
                         console.log(err)

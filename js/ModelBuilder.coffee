@@ -422,12 +422,22 @@ class ModelBuilder
                                 high: $('#high-box').val()
                             }
                         }
+                    when 'upload'
+                        assumption = {
+                            calculator: simulator.calculator_linear_interpolate,
+                            arguments: {
+                                times:  [0,1,2,3,4,5,6 ,7 ,8 ,9 ,10, 11],  # TODO: get these values from the uploaded file
+                                values: [1,1,2,3,5,8,13,21,34,55,89,144],
+                                before: 0,  # TODO: set these values more intelligently
+                                after: 0
+                            }
+                        }
                     else
                         assumption = undefined
                         console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
                         throw Error('bad node type')
         return assumption
-
+        
     model_is_complete: () ->
         # returns true if all nodes in model are specified
         for nodeID of @_model.nodes

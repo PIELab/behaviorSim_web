@@ -39,13 +39,54 @@ class Simulator
         for prop in @_model
             delete @_model[prop]
         # Insert the new ones
-        $.extend(@_model, new_model)    
+        $.extend(@_model, new_model)   
+
+    # ===============================================================================
+    #                                 calculators
+    #                     (TODO: prev_value should be included in args)
+    # ===============================================================================
         
     calculator_random_walk: (t, prev_value, args) ->
         if args.scale
             return prev_value + Math.random()*args.scale - args.scale/2
         else
             throw Error('cannot run random walk without scale!')
+            
+    calculator_linear_interpolate: (t, prev_value, args, chill=true) ->
+        # linearly interpolates value from a set of time & value pairs in args
+        # :param args.times: array of times constrained by assumptions below
+        # :param args.values: array of values corresponding to time values
+        # :param chill: throws errors when accessing outside array if true, else uses before & after (see below)
+        # :param args.before: value to return when t < earliest_sample_time
+        # :param args.after: value to reutn when t > latest_sample_time
+        #
+        # assumes:
+        # * args.times and args.values are arrays with matching indicies 
+        # * time is ordered sequentially (eg: [0,1,2], [1.5,2.5,3.5], or  [3,4,5,7,19])
+        # * time values are positive
+        # * time values are spaced by at least 1.0 units (NOT [0.1,0.2,0,3] or [1,2,2.5,3])
+        if t < args.times[0]
+            if chill
+                return args.before
+            else
+                throw Error('cannot get time before earliest sample')
+        else if t > args.times[args.times.length-1]
+            if chill
+                return args.after
+            else 
+                throw Error('cannot get time after latest sample')
+        else # we are in between samples
+            # find samples which are closest (assuming ordered time list)
+            i = 0
+            while args.times[i] < t
+                i += 1
+                if args.times[i] == t  # if exact time sample found
+                    return args.values[i]
+            
+            m = (args.values[i] - args.values[i-1]) / (args.times[i] - args.times[i-1])
+            b = args.values[i-1]
+            x = t - args.times[i-1]
+            return m*x + b
             
     calculator_step: (t, prev_value, args) ->
         if args.step_time and args.low and args.high
