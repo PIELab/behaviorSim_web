@@ -67,6 +67,16 @@ update_inflow_assertion_form = () ->
                     )
                     if err
                         console.log(err))
+        when 'upload'
+            dust.render("upload",
+                {},
+                (err, out) =>
+                    #update the html
+                    form.html(out)
+                    if err
+                        console.log(err)
+            )
+
         else
             form.html('ERR')
             console.log('unknown preset: ', $('#calculator-preset').val())
@@ -147,8 +157,6 @@ $(document).on("graphChange", (evt) -> update_modeling_options_form())
 $(document).on('selectNode', (evt) -> update_modeling_options_form())
 
 init_node_function_value = (eventObj) ->
-    # sets the value of the calculator-preset box when new node has been selected
-    $('#calculator-preset').html('<option value="random_walk">random walk</option> <option value="constant">constant value</option> <option value="step">step function</option> <option value="square">square wave</option>')
     try
         $('option[value="'+model_builder._model.get_node(model_builder.selected_node).assumption.type+'"]').attr("selected", "selected")
     catch err
