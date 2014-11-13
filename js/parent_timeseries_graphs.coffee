@@ -16,7 +16,9 @@ draw_parent_graphs = () ->
                     {type: 'line', height: '2em', width: '100%'})
             catch error
                 console.log('parent graphs not drawn :', error)
-                $('#parent-graphs').append('!!! ~ node not yet defined ~ !!!<br>')
+                graph_id = parent+'_time_series'
+                $('#parent-graphs').append('<div class="box" id="'+graph_id+'"></div>')
+                insert_dummy_graph($('#'+graph_id))
     else
         $('#parent-graphs').append(model_builder.selected_node+' has no inflow nodes.')
     return

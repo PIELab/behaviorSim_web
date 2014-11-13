@@ -44,6 +44,7 @@ window.get_node_graph_html = (node_id) ->  # TODO: use a template for this...
     ###
     returns html for a given node id
     ###
+    # TODO: replace this with dust template
     html = node_id+'<br><div class="sparkline" id="'+node_sparkline_id(node_id)+'"'
     html += ' data-type="line" data-spot-Radius="3" '
     html += ' data-highlight-Spot-Color="#f39c12" data-highlight-Line-Color="#222" '
@@ -53,3 +54,11 @@ window.get_node_graph_html = (node_id) ->  # TODO: use a template for this...
     html += ' data-fill-Color="rgba(57, 204, 204, 0.08)"> '
     html += ' </div> '
     return html
+
+window.sparkline_options = {type: 'line', height: '4em', width: '100%'}
+    
+window.insert_dummy_graph = (el) ->
+    # inserts sample sparkgraph into the given jquery element
+    dummy_data = [1,2,3,4,6,8,2,5,8,3,4,9,1,2,5,4,6,8,9,0,1,2,4,7,2,4]
+    el.sparkline(dummy_data, sparkline_options)
+    el.append('<div style="top:10%; left:0; height:90%; width:100%; background:white; opacity:.8; position:absolute; z-index:9;"></div><div style="top:40%; left:10%; z-index:10; position:absolute">sample only.<br>specify node and inflows to simulate.</div>')
