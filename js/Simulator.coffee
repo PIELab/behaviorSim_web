@@ -212,8 +212,8 @@ class Simulator
 
             else
                 window.myNode = node
-                console.log('formulation or assumption not set for node:',node)
-                return []
+                console.log('node in error:', node)
+                throw Error('formulation or assumption not set for node')
 
     get_personality_value: (node_id) ->
         ###
