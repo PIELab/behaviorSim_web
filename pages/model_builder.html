@@ -367,6 +367,16 @@
                                 <button class="btn btn-primary btn-mini" id="diagramophone" style="float: right">GO</button>
                             </div>
                             <textarea style="width:100%" id="textarea" rows="17"></textarea>
+                            <!-- help -->
+                            <div class="well">
+                                <ul>
+                                    <li>connect nodes together using arrows</li>
+                                    <li>lines starting with // are comments</li>
+                                    <li>only one arrow (-&gt;) per line</li>
+                                    <li>no spaces in variable names</li>
+                                </ul>
+                            </div>
+                            <!-- /help -->
                         </div>
 
                         <!-- main diagram display -->
@@ -462,21 +472,6 @@
                                 </div>
                                 <script type="text/coffeescript" src="../js/parent_timeseries_graphs.coffee"></script>
                             </div>
-                            <!-- help -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Diagram Spec. Language Help
-                                </div>
-                                <div class="well">
-                                    <p class="code comment">// lines starting with // are comments</p>
-                                    <p class="code">// say whatever you want in them</p>
-                                    <p class="code comment">// connect nodes together using arrows </p>
-                                    <p class="code">a -&gt; b</p>
-                                </div>
-                                <ul>
-                                    <li>only one arrow (-&gt;) per line</li>
-                                </ul>
-                            </div>
                             <!-- support -->
                             <div class="box box-primary">
                                 <div class="box-header">
@@ -517,6 +512,15 @@
                                 </div>
                                 <script type="text/coffeescript" src="../js/selected_timeseries_graph.coffee"></script>
                             </div>
+                            <!-- customization -->
+                            <div class='box box-primary'>
+                                <div class="box-header">
+                                    Customization
+                                </div>
+                                <div>
+                                    Drag and drop widgets to rearrange however you like. Registered users can save their  configuration and access additional widgets.
+                                </div>
+                            </div> <!-- /customization -->
                             <!-- model uploader -->
                             <div class="box box-primary" id="model-loader">
                                 <div class="box-header">
