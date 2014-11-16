@@ -577,49 +577,97 @@
         <script src="../js/showVersionNumber.js" type="text/javascript"></script>
 
         <script type="text/javascript">
+            //TODO: show loading animation...
+
+            // default user_data to fall back on
+            user_data = {
+                name: "demo_user",
+                visits: 0
+            };
+
             //Make the dashboard widgets sortable Using jquery UI
-                $(".connectedSortable").sortable({
-                    placeholder: "sort-highlight",
-                    connectWith: ".connectedSortable",
-                    handle: ".box-header, .nav-tabs",
-                    forcePlaceholderSize: true,
-                    zIndex: 999999
-                }).disableSelection();
-                $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
+            $(".connectedSortable").sortable({
+                placeholder: "sort-highlight",
+                connectWith: ".connectedSortable",
+                handle: ".box-header, .nav-tabs",
+                forcePlaceholderSize: true,
+                zIndex: 999999
+            }).disableSelection();
+            $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
 
-            // initialize the application
-            retry_count = 0
-            init_node_details = function(){
+            // TODO: set up connection to user data db
+            //init_user_data_loader();
+
+            // ==========================================================
+            //                  really stubborn app inits
+            // ==========================================================
+            timeout_len = 2;  // initial setTimeout (increases after each fail)
+
+            function init_app() {
                 try{
-                    if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
-                        // trigger events to kick things off
-                        $(document).trigger("graphChange");
-                        $(document).trigger('selectNode');
-                        $(document).trigger('selectNodeChange');
-                    } else {
-                        throw Error('not yet ready...')
-                    }
-
+                    get_user_data();
+                    init_ui();
                     console.log('application successfully initialized');
-                } catch(e) {
-                    if (e.message == "model_builder is not defined"
+                } catch (e) {
+                    if (e.message == "db not ready"  // TODO: catch actual db error here
+                        || e.message == "model_builder is not defined"
                         || e.message == "undefined is not a function"
                         || e.message == "Cannot read property 'parents' of undefined"
                         || e.message == "not yet ready..."
-                        || e.message == "node not found"){
-                        if (retry_count > 5){
-                            console.log('max retries on loading selected_node details reached. giving up.');
-                            throw e
-                        }
-                        retry_count += 1;
-                        setTimeout(init_node_details, 1500);
-                        console.log('postponing selected_node detail show b/c graph obj not ready.');
+                        || e.message == "node not found"
+                    ){
+                        console.log('app not ready, rescheduling init...');
+                        setTimeout(init_app, timeout_len*1000);
+                        timeout_len *= 2;
                     } else {
                         throw e;
                     }
                 }
             }
-            $(document).ready(init_node_details)
+
+            function get_user_data(){
+                // === LOAD USER DATA FROM DB ===
+                try {  // try to load UID from the URI
+                    // load URI search into global uri_search var
+                    uri_search = {};
+                    var search = window.location.search.split('?')[1];
+                    var keyValPairs = search.split('&');
+                    for (i in keyValPairs){
+                        var key = keyValPairs[i].split('=')[0];
+                        var val = keyValPairs[i].split('=')[1];
+                        uri_search[key] = val;
+                    }
+
+                    // TODO: get user_data using uid
+                    //load_user_data(uri_search.uid);
+                    //user_data.visits += 1;  // TODO: track visit count
+                } catch (err) {  // use default UID
+                    if (err.message == "user not found"  // TODO: use actual user not found error(s)
+                        || err.message == "Cannot read property 'split' of undefined"){
+                        console.log('cannot load user from db, using default');
+                    } else {
+                        throw err;
+                    }
+                }
+            }
+
+            function init_ui() {
+                if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
+                    // trigger events to kick things off
+                    $(document).trigger("graphChange");
+                    $(document).trigger('selectNode');
+                    $(document).trigger('selectNodeChange');
+                } else {
+                    throw Error('not yet ready...')
+                }
+            }
+
+            $(window).on("load", init_app);
+
+            $(window).on("beforeunload", function() {
+                    // save_user_data(user_data);
+                }
+            );
         </script>
     </body>
 </html>
