@@ -159,7 +159,6 @@ function init_user_data_loader(){
      * Set required API keys and check authentication status.
      */
     gapi.client.setApiKey(apiKey);
-    window.setTimeout(checkAuth, 1);
     gapi.client.load('storage', API_VERSION);
     authorize();
 }
@@ -185,7 +184,22 @@ function load_user_data(uid){
         for (i in resp.items) {
             if (resp.items[i].name == uid){
                 // user data found
-                user_data = resp.items[i];
+                resp_data = resp.items[i];
+                $.ajax({
+                    type: "GET",
+                    url: resp_data.mediaLink,
+                    async: false,
+                    beforeSend: function(x) {
+                        if(x && x.overrideMimeType) {
+                            x.overrideMimeType("application/j-son;charset=UTF-8");
+                        }
+                    },
+                    dataType: 'json',
+                    success: function(data){
+                        // put package info into browser for debug n stuff
+                        user_data = data;
+                    }
+                });
                 return;
             }
         }
