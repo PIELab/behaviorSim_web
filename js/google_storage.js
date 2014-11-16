@@ -20,7 +20,7 @@ var clientId = '1032201134970-v6drnqilq0ca700pg8igcbdoeqet01c1.apps.googleuserco
 * Enter the API key from the Google Developers Console, by following these
 * steps:
 * 1) Visit https://cloud.google.com/console and select your project
-* 2) Click on "APIs & auth" in the left column and then click “Credentials”
+* 2) Click on "APIs & auth" in the left column and then click ï¿½Credentialsï¿½
 * 3) Find section "Public API Access" and use the "API key." If sample is
 * being run on localhost then delete all "Referers" and save. Setting
 * should display "Any referer allowed." For more info see:
@@ -54,9 +54,9 @@ var object = "";
 
 /**
  * Get this value from the Developers Console. Click on the 
- * “Cloud Storage” service in the Left column and then select 
- * “Project Dashboard”. Use one of the Google Cloud Storage group IDs 
- * listed and combine with the prefix “group-” to get a string 
+ * ï¿½Cloud Storageï¿½ service in the Left column and then select 
+ * ï¿½Project Dashboardï¿½. Use one of the Google Cloud Storage group IDs 
+ * listed and combine with the prefix ï¿½group-ï¿½ to get a string 
  * like the example below. 
  */
 var GROUP = 
@@ -86,8 +86,10 @@ var ROLE_OBJECT = 'READER';
  * Google Cloud Storage API request to insert a json object into
  * your Google Cloud Storage bucket.
  */
-function insertJSONObject(objName) {
-    var fileData = {"name":objName+"_name"};
+function insertJSONObject(fileData) {
+    if (!fileData.name){
+        throw Error("required property 'name' not found");
+    }
 
     //Note: gapi.client.storage.objects.insert() can only insert
     //small objects (under 64k) so to support larger file sizes
@@ -95,7 +97,7 @@ function insertJSONObject(objName) {
     var request = gapi.client.request({
         'path': '/upload/storage/' + API_VERSION + '/b/' + BUCKET + '/o',
         'method': 'POST',
-        'params': {'uploadType': 'media', 'name': objName},
+        'params': {'uploadType': 'media', 'name': fileData.name},
         'body': fileData
     });
     
@@ -138,9 +140,6 @@ function initializeApi() {
   gapi.client.load('storage', API_VERSION);
 }
 
-/* ======================================================================
-*                      easy API functions
-* ======================================================================= */
 function authorize(){
     // authorizes client
     gapi.auth.authorize({
@@ -150,6 +149,10 @@ function authorize(){
         }, handleAuthResult);
     return false;
 }
+
+/* ======================================================================
+*                      easy API functions
+* ======================================================================= */
 
 function init_user_data_loader(){
     /**
@@ -161,21 +164,41 @@ function init_user_data_loader(){
     authorize();
 }
 
-function load_user_data(){
+function load_user_data(uid){
     // loads user data (preferences, customizations, saved things) into DOM for javascript access
     /**
      * Google Cloud Storage API request to retrieve the list of objects in
      * your Google Cloud Storage project.
      */
-    var request = gapi.client.storage.objects.list({
-        'bucket': BUCKET
-    });
+    try {
+        var request = gapi.client.storage.objects.list({
+            'bucket': BUCKET
+        });
+    } catch (err) {
+        if (err.message == "Cannot read property 'objects' of undefined"){
+            throw Error("cannot load user data before authorized");
+        } else {
+            throw err;
+        }
+    }
     request.execute(function(resp) {
-        user_data = resp;  // add user_data to global namespace
-        console.log(resp);
+        for (i in resp.items) {
+            if (resp.items[i].name == uid){
+                // user data found
+                user_data = resp.items[i];
+                return;
+            }
+        }
+        // else user data not found
+        console.log('Unfound UID:', uid, '\nreq. resp.:', resp)
+        throw Error("user id not found");
     });
 }
 
-function save_user_data(username){
-    insertJSONObject(username);
+function save_user_data(user_data){
+    // saves user data
+    // :param user_data: data object to save.
+    //      required properties:
+    //          * name - this should be the user's UID which will be used to look up their data.
+    insertJSONObject(user_data);
 }
