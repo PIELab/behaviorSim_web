@@ -169,44 +169,55 @@ function load_user_data(uid){
      * Google Cloud Storage API request to retrieve the list of objects in
      * your Google Cloud Storage project.
      */
-    try {
-        var request = gapi.client.storage.objects.list({
-            'bucket': BUCKET
-        });
-    } catch (err) {
-        if (err.message == "Cannot read property 'objects' of undefined"){
-            throw Error("cannot load user data before authorized");
-        } else {
-            throw err;
-        }
+
+     // Create the XHR object.
+    function createCORSRequest(method, url) {
+      var xhr = new XMLHttpRequest();
+      if ("withCredentials" in xhr) {
+        // XHR for Chrome/Firefox/Opera/Safari.
+        xhr.open(method, url, true);
+      } else if (typeof XDomainRequest != "undefined") {
+        // XDomainRequest for IE.
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+      } else {
+        // CORS not supported.
+        xhr = null;
+      }
+      return xhr;
     }
-    request.execute(function(resp) {
-        for (i in resp.items) {
-            if (resp.items[i].name == uid){
-                // user data found
-                resp_data = resp.items[i];
-                $.ajax({
-                    type: "GET",
-                    url: resp_data.mediaLink,
-                    async: false,
-                    beforeSend: function(x) {
-                        if(x && x.overrideMimeType) {
-                            x.overrideMimeType("application/j-son;charset=UTF-8");
-                        }
-                    },
-                    dataType: 'json',
-                    success: function(data){
-                        // put package info into browser for debug n stuff
-                        user_data = data;
-                    }
-                });
-                return;
-            }
-        }
-        // else user data not found
-        console.log('Unfound UID:', uid, '\nreq. resp.:', resp)
-        throw Error("user id not found");
-    });
+
+    // Helper method to parse the title tag from the response.
+    function getTitle(text) {
+      return text.match('<title>(.*)?</title>')[1];
+    }
+
+    // Make the actual CORS request.
+    function makeCorsRequest(url) {
+      var xhr = createCORSRequest('GET', url);
+      if (!xhr) {
+        alert('CORS not supported');
+        return;
+      }
+
+      // Response handlers.
+      xhr.onload = function() {
+        var text = xhr.responseText;
+        var title = getTitle(text);
+        alert('Response from CORS request to ' + url + ': ' + title);
+        // put package info into browser for debug n stuff
+        user_data = data;
+      };
+
+      xhr.onerror = function() {
+        alert('Woops, there was an error making the request.');
+      };
+
+      xhr.send();
+    }
+
+    makeCorsRequest("http://storage.googleapis.com/user-account-info/"+uid)
+
 }
 
 function save_user_data(user_data){
