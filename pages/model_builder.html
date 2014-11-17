@@ -58,6 +58,44 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 
+        <!-- user data -->
+        <script type="text/javascript">
+            //TODO: show loading animation...
+
+            // default user_data to fall back on
+            user_data = {
+                name: "demo_user",
+                uid: "DEMOxUID",
+                visits: 0
+            };
+            
+            // load URI search into global uri_search var
+            uri_search = {};
+            if (window.location.search){
+                try{
+                    var search = window.location.search.split('?')[1];
+                    var keyValPairs = search.split('&');
+                    for (i in keyValPairs){
+                        var key = keyValPairs[i].split('=')[0];
+                        var val = keyValPairs[i].split('=')[1];
+                        uri_search[key] = val;
+                    }
+                } catch (err) {
+                     if (err.message == "Cannot read property 'split' of undefined"){
+                        console.log("ERR in URI search: ", window.location.search);
+                        throw Error("error parsing uri search string");
+                     } else {
+                        throw err;
+                    }
+                }
+            }  // else no search string.
+            
+            // set user_data information which was passed in the URI search
+            if (uri_search.uid){
+                user_data.uid = uri_search.uid;
+            }
+        </script>
+        
         <!-- jquery -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/coffeescript">
@@ -355,210 +393,212 @@
             </nav>
         </header>
         <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Model Builder
+                    <small>v<span class="version-number">?.?.?</span></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Model Builder</li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- study instructions row -->
+                <div class="row" id="study-instructions">
 
-            <!-- Right side column. Contains the navbar and content of the page -->
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Model Builder
-                        <small>v<span class="version-number">?.?.?</span></small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Model Builder</li>
-                    </ol>
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-                    <!-- Main row -->
-                    <div class="row">
-                        <!-- DSL encoding window -->
-                        <div class="col-lg-3 col-md-4 col-sm-12">
-                            <div class="title">
-                                Code your diagram here
-                                <button class="btn btn-primary btn-mini" id="diagramophone" style="float: right">GO</button>
-                            </div>
-                            <textarea style="width:100%" id="textarea" rows="17"></textarea>
-                            <!-- help -->
-                            <div class="well">
-                                <ul>
-                                    <li>connect nodes together using arrows</li>
-                                    <li>lines starting with // are comments</li>
-                                    <li>only one arrow (-&gt;) per line</li>
-                                    <li>no spaces in variable names</li>
-                                </ul>
-                            </div>
-                            <!-- /help -->
+                </div>
+                <!-- DSL encode & graphView row -->
+                <div class="row">
+                    <!-- DSL encoding window -->
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="title">
+                            Code your diagram here
+                            <button class="btn btn-primary btn-mini" id="diagramophone" style="float: right">GO</button>
                         </div>
-
-                        <!-- main diagram display -->
-                        <div class="col-lg-9 col-md-8 col-sm-12">
-                            <div class="title" style="overflow:hidden">
-                                Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
-                                (click to select a node) &nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                            <div id="color-key">
-                                color key: | <span class='selected_node'>Selected Node</span> |
-                                <span class='complete_node'>Completed Node</span> |
-                            </div>
-                            <div id="canvas"> </div>
-                            <script type="text/coffeescript" src="../js/diagram_controls.coffee"></script>
+                        <textarea style="width:100%" id="textarea" rows="17"></textarea>
+                        <!-- help -->
+                        <div class="well">
+                            <ul>
+                                <li>connect nodes together using arrows</li>
+                                <li>lines starting with // are comments</li>
+                                <li>only one arrow (-&gt;) per line</li>
+                                <li>no spaces in variable names</li>
+                            </ul>
                         </div>
+                        <!-- /help -->
                     </div>
-                    <div class="row">
-                        <!-- large section for users to drop in a box -->
-                        <section class="col-md-12 connectedSortable">
-                            <!-- save your model section -->
-                            <div class="box box-success" id="model-saver">
-                                <div class="box-header">
-                                    Save Your Model
-                                </div>
-                                <div id="download-button">
-                                    loading...
-                                </div>
-                                <script type="text/coffeescript" src="../js/model_saver.coffee"></script>
+
+                    <!-- main diagram display -->
+                    <div class="col-lg-9 col-md-8 col-sm-12">
+                        <div class="title" style="overflow:hidden">
+                            Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
+                            (click to select a node) &nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div id="color-key">
+                            color key: | <span class='selected_node'>Selected Node</span> |
+                            <span class='complete_node'>Completed Node</span> |
+                        </div>
+                        <div id="canvas"> </div>
+                        <script type="text/coffeescript" src="../js/diagram_controls.coffee"></script>
+                    </div>
+                </div>
+                <!-- widget rows -->
+                <div class="row">
+                    <!-- large section for users to drop in a box -->
+                    <section class="col-md-12 connectedSortable">
+                        <!-- save your model section -->
+                        <div class="box box-success" id="model-saver">
+                            <div class="box-header">
+                                Save Your Model
                             </div>
-                            
-                        </section>
-                    </div>
-                    <div class="row">
-                        <section class="col-lg-6 col-md-4 col-sm-12 connectedSortable">
-                            <!-- selected node specification -->
-                            <div class="box box-primary" id="node-spec-box">
-                                <div class="box-header">
-                                    Selected Node Model Specification
-                                </div>
-                                <div id="selected-node-desc">
-                                    <span class='selected_node selected_node_text'>???</span> has
-                                    <span class="node_inflow_count">?</span> inflows.
-                                    <div id='modeling-spec'>
-                                        We must define a formula to describe how information flows into
-                                        <span class='selected_node selected_node_text'>???</span>.
-                                        <select id="model-selector" data-placeholder="default-choice..."
-                                                class="chosen-select" style="width:250px;" tabindex="4">
-                                            <option value="linear-combination">Linear Combination</option>
-                                            <option value="differential-equation">Differential Equation</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id='source-spec'>
-                                    So <span class='selected_node selected_node_text'>???</span> must be either a
-                                    context variable, or a personality variable.
-                                    <span class='selected_node selected_node_text'>???</span> is a
-                                    <select id="source-type-selector" class="chosen-select">
-                                        <!--<option value="personality-var-options">personality variable</option>-->
-                                        <option value="context-var-options">context variable</option>
+                            <div id="download-button">
+                                loading...
+                            </div>
+                            <script type="text/coffeescript" src="../js/model_saver.coffee"></script>
+                        </div>
+                        
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col-lg-6 col-md-4 col-sm-12 connectedSortable">
+                        <!-- selected node specification -->
+                        <div class="box box-primary" id="node-spec-box">
+                            <div class="box-header">
+                                Selected Node Model Specification
+                            </div>
+                            <div id="selected-node-desc">
+                                <span class='selected_node selected_node_text'>???</span> has
+                                <span class="node_inflow_count">?</span> inflows.
+                                <div id='modeling-spec'>
+                                    We must define a formula to describe how information flows into
+                                    <span class='selected_node selected_node_text'>???</span>.
+                                    <select id="model-selector" data-placeholder="default-choice..."
+                                            class="chosen-select" style="width:250px;" tabindex="4">
+                                        <option value="linear-combination">Linear Combination</option>
+                                        <option value="differential-equation">Differential Equation</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </div>
-                                <div id="modeling-options">
-                                    <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
-                                    <br>
-                                    <form id="modeling-options-form">
-                                        loading options...
-                                    </form>
-                                    <script type='text/coffeescript' src="../js/modeling_options_controls.coffee"></script>
-                                </div>
-                                <div id="assumption-options">
-                                    Since we cannot know the value of this exogenous inflow from the agent's context without simulating the enviroment, set here a temporary function for the mini-simulation:
-                                    <div id="assumption-options-selector">
-                                        <select id="calculator-preset" style="width:250px;" tabindex="4">
-                                            <option value="random_walk">random walk</option>
-                                            <option value="constant">constant value</option>
-                                            <option value="step">step function</option>
-                                            <option value="square">square wave</option>
-                                        </select>
-                                    </div>
-                                    <form id="assumption-options-form">
-                                        loading inflow assumption options...
-                                    </form>
-                                </div>
-                                <script type='text/coffeescript' src="../js/selected_node_mini_sim.coffee"></script>
                             </div>
-                        </section>
-                        <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- parent graphs -->
-                            <div class='box box-primary'>
-                                <div id="parent-graphs">
-                                    loading parent node(s) detail...
-                                </div>
-                                <script type="text/coffeescript" src="../js/parent_timeseries_graphs.coffee"></script>
-                            </div>
-                            <!-- support -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Support/Contact
-                                </div>
-                                <p>
-                                    Confused? Want to learn more? Don't hesitate to contact us! 
-                                </p>
-                                <ul>
-                                    <li>Report bugs & feature requests using the <a href="https://github.com/PIELab/behaviorSim_web/issues">issue tracker</a></li>
-                                    <li>Contact tylarmurray@mail.usf.edu with any other questions/comments.</li>
-                                </ul>
-
-                            </div>
-                            <!-- settings -->
-                            <div class="box box-primary" style="display: none;">
-                                <div class="box-header">
-                                    Settings
-                                </div>
-                                <label class="checkbox">
-                                        <input type="checkbox" id="fontBtn" checked="false">use silly handwritten font
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" id="replBtn" checked="false">live updates -- this will make things slower
-                                </label>
-                            </div>
-                        </section>
-                        <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
-                            <!-- selected node miniSimulation -->
-                            <div class='box box-primary'>
-                                <div class="box-header">
-                                    selected node mini-simulation
-                                </div>
-                                <div id="selected-node-graph">
-                                    loading selected node graph...
-                                </div>
-                                <div id="selected-node-stochastic">
-                                </div>
-                                <script type="text/coffeescript" src="../js/selected_timeseries_graph.coffee"></script>
-                            </div>
-                            <!-- customization -->
-                            <div class='box box-primary'>
-                                <div class="box-header">
-                                    Customization
-                                </div>
-                                <div>
-                                    Drag and drop widgets to rearrange however you like. Registered users can save their  configuration and access additional widgets.
-                                </div>
-                            </div> <!-- /customization -->
-                            <!-- model uploader -->
-                            <div class="box box-primary" id="model-loader">
-                                <div class="box-header">
-                                    Load a Model
-                                </div>
-                                Upload:
-                                <form enctype="multipart/form-data">
-                                    <input name="file" type="file" id='file-chooser' />
-                                </form>
-                                <script type="text/javascript" src="../js/load_model.js"></script>
-                            </div>
-                            <!-- sub-diagram inserter -->
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    Sub-models
-                                </div>
-                                <p>Use the "add submodel" button to insert existing model linkages in your diagram code. </p>
-                                <select id="submodel_selector" data-placeholder="select submodel..." class="chosen-select" style="width:250px;" tabindex="4">
-                                    <option value="TPB">Theory of Planned Behavior</option>
+                            <div id='source-spec'>
+                                So <span class='selected_node selected_node_text'>???</span> must be either a
+                                context variable, or a personality variable.
+                                <span class='selected_node selected_node_text'>???</span> is a
+                                <select id="source-type-selector" class="chosen-select">
+                                    <!--<option value="personality-var-options">personality variable</option>-->
+                                    <option value="context-var-options">context variable</option>
                                 </select>
-                                <button class="btn btn-primary btn-mini" id="submodel_inserter">Insert Selected Sub-model</button>
                             </div>
-                        </section>
-                    </div>
-                </section><!-- /.content -->
+                            <div id="modeling-options">
+                                <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
+                                <br>
+                                <form id="modeling-options-form">
+                                    loading options...
+                                </form>
+                                <script type='text/coffeescript' src="../js/modeling_options_controls.coffee"></script>
+                            </div>
+                            <div id="assumption-options">
+                                Since we cannot know the value of this exogenous inflow from the agent's context without simulating the enviroment, set here a temporary function for the mini-simulation:
+                                <div id="assumption-options-selector">
+                                    <select id="calculator-preset" style="width:250px;" tabindex="4">
+                                        <option value="random_walk">random walk</option>
+                                        <option value="constant">constant value</option>
+                                        <option value="step">step function</option>
+                                        <option value="square">square wave</option>
+                                    </select>
+                                </div>
+                                <form id="assumption-options-form">
+                                    loading inflow assumption options...
+                                </form>
+                            </div>
+                            <script type='text/coffeescript' src="../js/selected_node_mini_sim.coffee"></script>
+                        </div>
+                    </section>
+                    <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                        <!-- parent graphs -->
+                        <div class='box box-primary'>
+                            <div id="parent-graphs">
+                                loading parent node(s) detail...
+                            </div>
+                            <script type="text/coffeescript" src="../js/parent_timeseries_graphs.coffee"></script>
+                        </div>
+                        <!-- support -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                Support/Contact
+                            </div>
+                            <p>
+                                Confused? Want to learn more? Don't hesitate to contact us! 
+                            </p>
+                            <ul>
+                                <li>Report bugs & feature requests using the <a href="https://github.com/PIELab/behaviorSim_web/issues">issue tracker</a></li>
+                                <li>Contact tylarmurray@mail.usf.edu with any other questions/comments.</li>
+                            </ul>
+
+                        </div>
+                        <!-- settings -->
+                        <div class="box box-primary" style="display: none;">
+                            <div class="box-header">
+                                Settings
+                            </div>
+                            <label class="checkbox">
+                                    <input type="checkbox" id="fontBtn" checked="false">use silly handwritten font
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="replBtn" checked="false">live updates -- this will make things slower
+                            </label>
+                        </div>
+                    </section>
+                    <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                        <!-- selected node miniSimulation -->
+                        <div class='box box-primary'>
+                            <div class="box-header">
+                                selected node mini-simulation
+                            </div>
+                            <div id="selected-node-graph">
+                                loading selected node graph...
+                            </div>
+                            <div id="selected-node-stochastic">
+                            </div>
+                            <script type="text/coffeescript" src="../js/selected_timeseries_graph.coffee"></script>
+                        </div>
+                        <!-- customization -->
+                        <div class='box box-primary'>
+                            <div class="box-header">
+                                Customization
+                            </div>
+                            <div>
+                                Drag and drop widgets to rearrange however you like. Registered users can save their  configuration and access additional widgets.
+                            </div>
+                        </div> <!-- /customization -->
+                        <!-- model uploader -->
+                        <div class="box box-primary" id="model-loader">
+                            <div class="box-header">
+                                Load a Model
+                            </div>
+                            Upload:
+                            <form enctype="multipart/form-data">
+                                <input name="file" type="file" id='file-chooser' />
+                            </form>
+                            <script type="text/javascript" src="../js/load_model.js"></script>
+                        </div>
+                        <!-- sub-diagram inserter -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                Sub-models
+                            </div>
+                            <p>Use the "add submodel" button to insert existing model linkages in your diagram code. </p>
+                            <select id="submodel_selector" data-placeholder="select submodel..." class="chosen-select" style="width:250px;" tabindex="4">
+                                <option value="TPB">Theory of Planned Behavior</option>
+                            </select>
+                            <button class="btn btn-primary btn-mini" id="submodel_inserter">Insert Selected Sub-model</button>
+                        </div>
+                    </section>
+                </div>
+            </section><!-- /.content -->
         </div><!-- ./wrapper -->
 
         <!-- jquery -->
@@ -575,16 +615,11 @@
         <script src="../js/AdminLTE/app.js" type="text/javascript"></script>
         <!-- show the version number from package.json in ".version-number" spans -->
         <script src="../js/showVersionNumber.js" type="text/javascript"></script>
+        
+        <!-- setup for the reasearch study -->
+        <!-- TODO -->
 
         <script type="text/javascript">
-            //TODO: show loading animation...
-
-            // default user_data to fall back on
-            user_data = {
-                name: "demo_user",
-                visits: 0
-            };
-
             //Make the dashboard widgets sortable Using jquery UI
             $(".connectedSortable").sortable({
                 placeholder: "sort-highlight",
@@ -628,16 +663,7 @@
             function get_user_data(){
                 // === LOAD USER DATA FROM DB ===
                 try {  // try to load UID from the URI
-                    // load URI search into global uri_search var
-                    uri_search = {};
-                    var search = window.location.search.split('?')[1];
-                    var keyValPairs = search.split('&');
-                    for (i in keyValPairs){
-                        var key = keyValPairs[i].split('=')[0];
-                        var val = keyValPairs[i].split('=')[1];
-                        uri_search[key] = val;
-                    }
-
+                    Error("user not found");  // b/c there is no db yet...
                     // TODO: get user_data using uid
                     //load_user_data(uri_search.uid);
                     //user_data.visits += 1;  // TODO: track visit count
