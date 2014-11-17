@@ -50,6 +50,8 @@
                 min-height: 5px !important;
             }
         </style>
+        
+        <script type="text/javascript" src="../js/uri_search.js"></script>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -68,27 +70,6 @@
                 uid: "DEMOxUID",
                 visits: 0
             };
-            
-            // load URI search into global uri_search var
-            uri_search = {};
-            if (window.location.search){
-                try{
-                    var search = window.location.search.split('?')[1];
-                    var keyValPairs = search.split('&');
-                    for (i in keyValPairs){
-                        var key = keyValPairs[i].split('=')[0];
-                        var val = keyValPairs[i].split('=')[1];
-                        uri_search[key] = val;
-                    }
-                } catch (err) {
-                     if (err.message == "Cannot read property 'split' of undefined"){
-                        console.log("ERR in URI search: ", window.location.search);
-                        throw Error("error parsing uri search string");
-                     } else {
-                        throw err;
-                    }
-                }
-            }  // else no search string.
             
             // set user_data information which was passed in the URI search
             if (uri_search.uid){
