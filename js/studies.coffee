@@ -10,7 +10,10 @@ minimal_example = {
     introHTML: "Welcome to the study!",
     studyCompleteEvent: "modelComplete",
     finishedHTML: "Complete the study by clicking here",
-    studyId: "DEMO"
+    studyId: "DEMO",
+    getFormTemplateValues: () ->   # params to pass into form
+        return {}
+    formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
 }
 
 model_builder_usability_study = {
@@ -18,7 +21,12 @@ model_builder_usability_study = {
     introHTML: "Welcome to the study!",  # TODO: use a dust template
     studyCompleteEvent: "modelComplete",
     finishedHTML: "Complete the study by clicking here",  # TODO: use a dust template
-    studyId: "U1"
+    studyId: "U1",
+    getFormTemplateValues: () ->
+        vals = {PID: uri_search.PID}
+        vals.DSL = $("#textarea").val()
+        vals.Model = simulator._model  # TODO: need to add Model.toJSON or similar
+    formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
 }
 
 setupStudy = ()->
