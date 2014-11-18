@@ -48,14 +48,13 @@ function plot_personality_var_pdf(sigma, mu, highlight, selector_string){
         console.log(selector_string);
         throw err
     }
-
 }
 `
 
 draw_stochastic_graph = () ->
-    selected_value = .7
+    selected_value = .7  # TODO: this should come from the real data
     if model_builder.get_selected_node_type() == 'personality-var-options'
-        try
+        try  # TODO: these should be parseFloat, not parseInt ?
             sigma = parseInt(simulator.get_node_spec_parameter(model_builder.selected_node, 'sigma'))
             mu = parseInt(simulator.get_node_spec_parameter(model_builder.selected_node, 'mu'))
         catch error
@@ -72,11 +71,11 @@ draw_stochastic_graph = () ->
         $('#selected-node-stochastic').html('')
         $('#selected-node-stochastic').height(0)
 
-model_changed_event.add_action(draw_stochastic_graph)
-node_selection_changed.add_action(draw_stochastic_graph)
+$(document).on("selectNodeChange", (evt) -> draw_stochastic_graph())
+$(document).on('selectNode', (evt) -> draw_stochastic_graph())
 
 $listen document.getElementById('personality-spec_sigma'), 'change', =>
-    stochastic_graph()
+    $(document).trigger("selectNodeChange")
     
 $listen document.getElementById('personality-spec_mu'), 'change', =>
-    stochastic_graph()
+    $(document).trigger("selectNodeChange")

@@ -1,28 +1,22 @@
-# interaction events:
-@model_changed_event = new Event  # fires whenever model changes
-@node_selection_changed = new Event  # fires when different node is selected
-@graph_display_settings_changed_event = new Event  # fires when settings for the infoFlow graph changes
-@model_complete_event = new Event  # fires whenever the model is completed (re-fires when model changes and is complete)
-
-model_is_complete = () ->
-    # returns true if model is complete, else false
-    # TODO: this is broken now; fix it.
-    if simulator._model.node_count == simulator._model.node_count  # basic check: completed count == total node count
-        return true
-    else
-        return false
-
 check_for_complete_model = () ->
     # checks if the model is complete and fires the model_complete_event if needed
-    if model_is_complete()
-        model_complete_event.trigger()
+    if model_builder.model_is_complete()
+        $(document).trigger("modelComplete")
         return
     else
         return
-model_changed_event.add_action(check_for_complete_model) 
-        
+$(document).on("selectNodeChange", (evt) -> check_for_complete_model())
+
 @model_builder = new ModelBuilder
 @simulator = new Simulator(model_builder._model, model_builder._graph)
+
+# set up priority chain for selectNodeChange
+$(document).on("selectNodeChange", (evt) -> $(document).trigger("selectNodeChange_highP"))
+$(document).on("selectNodeChange_highP", (evt) -> $(document).trigger("selectNodeChange_higherP"))
+$(document).on("selectNodeChange_higherP", (evt) -> $(document).trigger("selectNodeChange_highestP"))
+
+# set simulator values to recalc when changes to node model are made (note: doesn't actually recalc, that comes later)
+$(document).on("selectNodeChange_highestP", (evt) -> simulator.recalc(model_builder.selected_node))
 
 window.$listen = (target, name, callback) ->
     ###
@@ -36,25 +30,21 @@ window.$listen = (target, name, callback) ->
     else
         console.log('cannot listen for '+name+' on '+target+' with '+callback)
 
-window.submit_node_spec = () ->
+window.submit_node_spec = () -> # TODO: replace this with calls directly to model_builder.submit_node()
     ###
     submits node specification from web form
     ###
     model_builder.submit_node()
 
-    model_changed_event.trigger()
-
-    # TODO: replace this call with event listeners elsewhere
-    model_builder.set_selected_node(model_builder.selected_node)
-
 window.node_sparkline_id = (node_id) ->
    # returns element id for given node id
    return ''+node_id+'_sparkline'
 
-window.get_node_graph_html = (node_id) ->
+window.get_node_graph_html = (node_id) ->  # TODO: use a template for this...
     ###
     returns html for a given node id
     ###
+    # TODO: replace this with dust template
     html = node_id+'<br><div class="sparkline" id="'+node_sparkline_id(node_id)+'"'
     html += ' data-type="line" data-spot-Radius="3" '
     html += ' data-highlight-Spot-Color="#f39c12" data-highlight-Line-Color="#222" '
@@ -65,9 +55,10 @@ window.get_node_graph_html = (node_id) ->
     html += ' </div> '
     return html
 
-window.update_assumption_preset = () ->
-    ###
-    updates the calculation method used on the current node using the value of the 'calculator-preset' element
-    ###
-    # TODO: set model thing?
-    model_builder.submit_node()
+window.sparkline_options = {type: 'line', height: '4em', width: '100%'}
+    
+window.insert_dummy_graph = (el) ->
+    # inserts sample sparkgraph into the given jquery element
+    dummy_data = [1,2,3,4,6,8,2,5,8,3,4,9,1,2,5,4,6,8,9,0,1,2,4,7,2,4]
+    el.sparkline(dummy_data, sparkline_options)
+    el.append('<div style="top:10%; left:0; height:90%; width:100%; background:white; opacity:.8; position:absolute; z-index:9;"></div><div style="top:40%; left:10%; z-index:10; position:absolute">sample only.<br>specify node and inflows to simulate.</div>')

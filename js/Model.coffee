@@ -38,30 +38,16 @@ class Model extends Graph
     }
     ```
     ###
-    constructor: ->
+    constructor: (recycling=true)->
         @creator = ''
         @name = ''
         @description = ''
         @time_step = 1
-        super("Model")
+        super(recycling)
 
     add_node: (name, type=undefined, parents=[], children=[], formulation=undefined) ->
-        ###
-        !!! Overrides Graph.add_node
-        adds a node to the model. returns node if added, undefined if node already exists.
-        ###
-        if @get_node(name) == undefined
-            new_node = {
-                "name":name,
-                "type": type,
-                "parents": parents,
-                "children": children,
-                "formulation":formulation}
-            @nodes.push(new_node)
-            @node_count += 1
-            return new_node
-        else
-            return undefined
+        ### !!! Overrides Graph.add_node ###
+        return super(name, parents, children, {name:name, type:type, formulation:formulation})
 
     update_node: (name, type, parents, children, formulation, assumption) ->
         ###
@@ -81,6 +67,16 @@ class Model extends Graph
         else
             # add node
             @add_node(name, type, parents ? [], children ? [], formulation)
+    
+    _recycle_node: (nodeId) -> 
+        ###
+        !!! Overrides Graph._recycle_node
+        removes additional information stored on node which should not be recycled
+        ###
+        #nodeObj = @nodes[nodeId]
+        #delete nodeObj.assumption
+        #delete nodeObj.formulation
+        return super(nodeId)
 
 try
     window.Model = Model

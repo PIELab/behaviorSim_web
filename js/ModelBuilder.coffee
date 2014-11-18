@@ -6,20 +6,15 @@ class ModelBuilder
     - nodeSize: total number of nodes.
     - edgeSize: total number of edges.
     ###
-    constructor: () ->
+    constructor: (model) ->
         @_model = new Model
         @selected_node = 'Verbal_Persuasion'
         @completed_nodes = []
 
-    complete_a_node: (node_id) ->
-        if node_id in @completed_nodes  # if node already in list
-            return undefined
-        else
-            @completed_nodes.push(node_id)
-            $('#completed-node-list').html(model_builder.completed_nodes)
-            return @completed_nodes
+        @IRS_COUNTER = 0  # counter for ion range slider (why is this here?)
 
-        model_changed_event.trigger()
+    get_node: (node_id) ->
+        return @_model.get_node(node_id)
 
     get_node_model: (node_id) ->
         ###
@@ -47,7 +42,7 @@ class ModelBuilder
         accepts submission of node & updates or adds node spec if needed
         ###
         node = @add_node(nname, type, parents, children, formulation)
-        @set_node_assumption(nname)
+        @set_node_assumption(nname, @get_node_assumption_input(nname))
         simulator.recalc(nname)
         return node
 
@@ -55,17 +50,16 @@ class ModelBuilder
         ###
         adds a node to the model
         ###
-        @complete_a_node(@selected_node)
         return @_model.update_node(nname, type, parents, children, formulation)
 
     get_node_name: () ->
         return @selected_node
 
     get_node_parents: () ->
-        return @_model.get_node(@selected_node).parents ? []
+        return @get_node(@selected_node).parents ? []
 
     get_node_children: () ->
-        return @_model.get_node(@selected_node).children ? []
+        return @get_node(@selected_node).children ? []
 
     get_node_formulation: () ->
         node_type = @get_node_model(@selected_node)
@@ -81,9 +75,21 @@ class ModelBuilder
                 sigma: parseFloat($("input[name='sigma']").val())
             }
         else if node_type == 'linear-combination'
-            return @_add_modeling_options({type:"linear-combination"}, '.model-option-linear')
-        else if node_type == 'fluid-flow'
-            return @_add_modeling_options({type:"fluid-flow"}, '.model-option-fluid-flow')
+            return @_add_modeling_options(
+                {
+                    type:"linear-combination",
+                    calculator:simulator.calculator_linear_combination
+                },
+                '.model-option-linear-combination'
+            )
+        else if node_type == 'differential-equation'
+            return @_add_modeling_options(
+                {
+                    type:"differential-equation",
+                    calculator:simulator.calculator_differential_equation
+                },
+                '.model-option-differential-equation'
+            )
         else if node_type == 'other'
             return {
                 type : "general_formulation"
@@ -94,7 +100,6 @@ class ModelBuilder
 
     set_selected_node: (node_id) ->
         model_builder.selected_node = node_id
-        node_selection_changed.trigger()
 
     set_model: (new_model) ->
         ###
@@ -110,18 +115,17 @@ class ModelBuilder
         
         # update the completed nodes list
         @completed_nodes = []
-        for node in @_model.nodes
-            if node.formulation
+        for node of @_model.nodes
+            if @_model.nodes[node].formulation
                 @completed_nodes.push(node.name)
                 
         # select the first node of the new model
-        @selected_node = @_model.nodes[0].name
+        @selected_node = @_model.root_node.children[0]
 
         # update the dsl display
         $('#textarea').val(@get_model_dsl())
         
         console.log('model set to:', @_model)
-        model_changed_event.trigger()
 
     load_model: (file_loc) ->
         ###
@@ -148,6 +152,7 @@ class ModelBuilder
         return result
 
     build_graph_obj: (dsl_str) ->
+        @_model.clear()
         for line in dsl_str.split('\n')
             line = line.split('//')[0]  # this ignores everything after a // (comments)
             if line == '' # ignore blank lines
@@ -155,14 +160,26 @@ class ModelBuilder
             try
                 stmt = line.split('->')  # split by arrow
                 n1 = stmt[0].trim()
-                n2 = stmt[1].trim()
-                # console.log(n1, '->', n2)
                 @_model.add_node(n1)
+
+                n2 = stmt[1].trim()
                 @_model.add_node(n2)
+
+                # console.log(n1, '->', n2)
                 @_model.add_edge(n1, n2);
             catch error  # malformed line (no big deal)
                 console.log('dsl parse error @: ', line)
 
+        if @_model.node_count <= 0 # no nodes
+            @_model.add_node('infoflow_graph_nodes_show_up_here...')
+        else if @_model.node_count > 1 and @_model.nodes['infoflow_graph_nodes_here...']?
+            delete @_model.nodes['infoflow_graph_nodes_here...']
+            @_model.node_count -= 1  # TODO: where is the delete_node method???
+
+        if ! @_model.nodes[@selected_node] and @_model.root_node.children.length > 0  # if selected node has been deleted
+            @set_selected_node(@_model.root_node.children[0])
+        return
+                
     get_selected_node_functional_form: () ->
         ###
         returns a string showing the functional form of the selected node
@@ -172,18 +189,18 @@ class ModelBuilder
 
         switch @get_node_model(@selected_node)
             when 'linear-combination'
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     lhs += parent + ', '
                     rhs += 'c_'+parent+'*'+parent+'(t) +'
                 lhs += 't)'
                 rhs = rhs[0..rhs.length-2]  # trim off last plus
-            when 'fluid-flow'
+            when 'differential-equation'
                 rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
                 lhs += 't)'
             when 'other'
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     lhs += parent + ', '
                 lhs += 't)'
                 rhs = 'f()'
@@ -201,29 +218,58 @@ class ModelBuilder
 
         return lhs + ' = ' + rhs
 
+    node_is_complete: (node) ->
+        ###
+        returns true if the given node is considered fully specified
+        ###
+        if node.formulation? or node.assumption?
+            return true
+        else
+            return false
+
+    get_node_assumption_argument: (node_id, parameter_name, use_default=false) ->
+        ###
+        returns the value of the requested parameter for the given node
+        ###
+        try
+            val = @_model.get_node(node_id).assumption.arguments[parameter_name]
+            if val?
+                return val
+            else
+                throw Error('bad val')
+        catch err
+            if use_default
+                return simulator._get_default_value()
+            else
+                throw err
+
     update_selected_node_form: () ->
         ###
-        returns an html string for the contents of a form used to specify the selected node
+        updates the modeling options form with a form used to specify the selected node
         ###
         _result = ''
         # clear existing html
         $('#modeling-options-form').html('')
         switch @get_node_model(@selected_node)
             when 'linear-combination'
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
-                    @_add_parameter_to_form(coeff, c_val, 'linear')
+                    @_add_parameter_to_form(coeff, c_val, 'linear-combination')
 
-            when 'fluid-flow'
-                tao = 'tao_' + @selected_node
+            when 'differential-equation'
+                tao = 'tao'
                 tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true)
-                @_add_parameter_to_form(tao, tao_v, 'fluid-flow')
+                @_add_parameter_to_form(tao, tao_v, 'differential-equation')
 
-                for parent in @_model.get_node(@selected_node).parents
+                for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
-                    @_add_parameter_to_form(coeff, c_val, 'fluid-flow')
+                    @_add_parameter_to_form(coeff, c_val, 'differential-equation')
+                    
+                    theta = 'theta_'+parent
+                    theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true)
+                    @_add_parameter_to_form(theta, theta_val, 'differential-equation')
             when 'other'
                 _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node
@@ -249,13 +295,15 @@ class ModelBuilder
                 if err
                     console.log(err))
 
-    _init_slider_and_box: (coeff, c_val) ->
+    _init_slider_and_box: (coeff, c_val) ->  #TODO: this should be someplace that makes more sense
         ###
         inits the drawing of the slider and links the box and slider using jquery events
         ###
+        @IRS_COUNTER += 1
         c_val = parseFloat(c_val)
         slider = $("#"+coeff+"-slider")
         box = $("#"+coeff+"-box")
+        box.val(c_val)
 
         # should get exactly 1 box and 1 slider
         if slider.length + box.length != 2
@@ -264,31 +312,43 @@ class ModelBuilder
 
         # init the new slider
         slider.ionRangeSlider({
-            min: c_val-10,
-            max: c_val+10,
+            min: c_val-10.0,
+            max: c_val+10.0,
             from: c_val,
             type: 'single',
-            step: 1,
+            step: 0.1,
             prettify: false,
             hasGrid: true,
             onChange: () ->
                 new_val = parseFloat($("#"+coeff+"-slider").val())
-                box = $("#"+coeff+"-box")
                 box.val(new_val)
         })
 
+        trig = () ->
+            box.trigger('change')
+
+        # slider.on('mouseup', box.trigger('change'))
+        $('#irs-'+@IRS_COUNTER).on('mouseup', trig )
+
+        # TODO: this should only link slider-> box??? since onModelChange.trigger on box val change
         # add listeners to link the box and the slider
         # from slider to box (added as onChange callback)
         # from box to slider
         box.change( () ->
-            new_val = parseFloat($("#"+coeff+"-box").val())
-            slider = $("#"+coeff+"-slider")
-            slider.ionRangeSlider("update", {
-                min: new_val-10,
-                max: new_val+10,
-                from: new_val
-            })
+#            new_val = parseFloat($("#"+coeff+"-box").val())
+#            slider = $("#"+coeff+"-slider")
+#            slider.ionRangeSlider("update", {
+#                min: new_val-10,
+#                max: new_val+10,
+#                from: new_val
+#                }
+#            )
+
+            # add onModelChange trigger to box
+            model_builder.submit_node()
+            $(document).trigger("selectNodeChange")
         )
+
 
     get_selected_node_type: () ->
         ###
@@ -306,28 +366,89 @@ class ModelBuilder
             return 'state'
 
     _add_modeling_options: (target_obj, selector_string) ->
+        # adds attributes retrieved using selector_string to target_object
         model_options = $(selector_string)
-        console.log('adding options '+model_options)
+        console.log('adding options:', model_options)
         for option in model_options
-            console.log(option.name+':'+option.value)
+            console.log(option.name,':',option.value)
             target_obj[option.name] = parseFloat(option.value)
         return target_obj
 
     set_node_assumption: (node_id, assumption) ->
         ###
-        sets the node assumption, if unidentified default for node type is used
+        sets the node assumption 
         ###
-        node = @_model.get_node(node_id)
-        if assumption
-            node.assumption = assumption
-        else
+        node = @get_node(node_id)
+        node.assumption = assumption
+
+    get_node_assumption_input: (node_id, assumption) ->  # TODO: this is duplicate of modeling_options_controls.update_node_assumption ?
+        ###
+        gets the node assumption input from the UI
+        ###
+        node = @get_node(node_id)
         switch node.type
             when 'personality-var-options'
-                node.assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
+                assumption = {calculator: simulator.calculator_constant, arguments: {value: simulator.get_personality_value(node_id)}}
             when 'context-var-options'
-                node.assumption = {calculator: simulator.calculator_random_walk, arguments: {scale: 10, initial_value:5}}
-            else
-                console.log("WARN: node type not recognized, '"+node.type+"' assumption not set.")
+                switch $('#calculator-preset').val()
+                    when 'random_walk'
+                        assumption = {
+                            calculator: simulator.calculator_random_walk,
+                            arguments: {
+                                scale: $('#scale-box').val(),
+                                initial_value: 5  # TODO: add init val box
+                            }
+                        }
+                    when 'constant'
+                        assumption = {
+                            calculator: simulator.calculator_constant,
+                            arguments: {value: $('#value-box').val()}
+                        }
+                    when 'step'
+                        assumption = {
+                            calculator: simulator.calculator_step,
+                            arguments: {
+                                step_time: $('#step_time-box').val(),
+                                low: $('#low-box').val(),
+                                high: $('#high-box').val()
+                            }
+                        }
+                    when 'square'
+                        assumption = {
+                            calculator: simulator.calculator_square,
+                            arguments: {
+                                dt: $('#dt-box').val(),
+                                low: $('#low-box').val(),
+                                high: $('#high-box').val()
+                            }
+                        }
+                    when 'upload'
+                        assumption = {
+                            calculator: simulator.calculator_linear_interpolate,
+                            arguments: {
+                                times:  [0,1,2,3,4,5,6 ,7 ,8 ,9 ,10, 11],  # TODO: get these values from the uploaded file
+                                values: [1,1,2,3,5,8,13,21,34,55,89,144],
+                                before: 0,  # TODO: set these values more intelligently
+                                after: 0
+                            }
+                        }
+                    else
+                        assumption = undefined
+                        console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")
+                        throw Error('bad node type')
+        return assumption
+        
+    model_is_complete: () ->
+        # returns true if all nodes in model are specified
+        for nodeID of @_model.nodes
+            if not @node_is_complete(@get_node(nodeID))
+                return false
+        # else all nodes are specified
+        if @_model.node_count <= 0
+            return false  # empty graphs don't count
+        else
+            return true
+
 
 try
     window.ModelBuilder = ModelBuilder

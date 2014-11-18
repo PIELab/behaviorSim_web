@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>BehaviorSim | Model Builder</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        
+        <!-- favicon stuff (thanks to http://realfavicongenerator.net/) -->
+        <link rel="apple-touch-icon" sizes="57x57" href="../apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../apple-touch-icon-76x76.png">
+        <link rel="icon" type="image/png" href="../favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="../favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="../favicon-32x32.png" sizes="32x32">
+        <meta name="msapplication-TileColor" content="#474747">
+        <!-- /favicon stuff -->
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="../css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <!-- Ion Slider -->
+        <link href="../css/ionslider/ion.rangeSlider.css" rel="stylesheet" type="text/css" />
+        <!-- ion slider Nice -->
+        <link href="../css/ionslider/ion.rangeSlider.skinNice.css" rel="stylesheet" type="text/css" />
+        <!-- custom css -->
+        <style type='text/css'>
+            /* node coloration guide */
+            .selected_node{
+                font-weight:bold;
+                color:#2488DF;
+            }
+            .complete_node{
+                font-weight:bold;
+                color:#00A900;
+            }
+
+            /* remove min height of rows */
+            .row {
+                margin-bottom: 5px !important;
+                min-height: 5px !important;
+            }
+            .connectedSortable {
+                margin-bottom: 5px !important;
+                min-height: 5px !important;
+            }
+        </style>
+        
+        <script type="text/javascript" src="../js/uri_search.js"></script>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- user data -->
+        <script type="text/javascript">
+            //TODO: show loading animation...
+
+            // default user_data to fall back on
+            user_data = {
+                name: "demo_user",
+                uid: "DEMOxUID",
+                visits: 0
+            };
+            
+            // set user_data information which was passed in the URI search
+            if (uri_search.uid){
+                user_data.uid = uri_search.uid;
+            }
+        </script>
+        
+        <!-- jquery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/coffeescript">
+        window.$ = jQuery
+        </script>
+
+        <!-- browser-side templating (dust js) using precompiled dust templates -->
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dustjs-linkedin/2.4.0/dust-core.min.js"></script>
+        <script type="text/javascript" src="../templates/templates.js"></script>
+
+        <!-- chosen -->
+        <link rel="stylesheet" href="../css/chosen/chosen.css">
+
+        <!-- ===================================================================== -->
+        <!--                          for diagrammophone                           -->
+        <!-- ===================================================================== -->
+        <!-- things you need to run -->
+        <script src="../js/lib/diagramophone/lib/raphael-min.js" type="text/javascript"></script>
+        <script src="../js/lib/diagramophone/lib/coffee-script.js" type="text/javascript"></script>
+
+        <!-- my stuff -->
+        <script src="../js/lib/diagramophone/dramagrama.coffee" type="text/coffeescript"></script>
+        <script src="../js/lib/diagramophone/drawer.coffee" type="text/coffeescript"></script>
+        <script src="../js/lib/diagramophone/parser.coffee" type="text/coffeescript"></script>
+
+        <!-- fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
+
+        <!-- svg to canvas (so then i can image it) -->
+        <script type="text/javascript" src="../js/lib/diagramophone/lib/rgbcolor.js"></script>
+        <script type="text/javascript" src="../js/lib/diagramophone/lib/canvg.js"></script>
+        <!-- ===================================================================== -->
+
+        <!-- graph data & model struct -->
+        <script type="text/coffeescript" src="../js/lib/diagramophone/Graph.coffee"></script>
+        <script type="text/coffeescript" src="../js/Model.coffee"></script>
+
+        <!-- model builder for managing model building-->
+        <script type="text/coffeescript" src="../js/ModelBuilder.coffee"></script>
+
+        <!-- integrator & simulator for computing/plotting -->
+        <script type="text/javascript" src="../js/Integrator.js"></script>
+        <script type="text/coffeescript" src="../js/Simulator.coffee"></script>
+
+        <script type="text/javascript" src="../js/diagram_globals.js"></script>
+        <script type="text/coffeescript" src="../js/diagram_globals.coffee"></script>
+
+        <!-- widget text span updater -->
+        <script type="text/coffeescript" src="../js/text_span_updater.coffee"></script>
+
+        <!-- jquery event debugger -->
+        <script type="text/coffeescript" src="../js/event_debugger.coffee"></script>
+
+    </head>
+    <body class="skin-blue">
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="model_builder.html" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                BehaviorSim
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown messages-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope"></i>
+                                <span class="label label-success">4</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 4 messages</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li><!-- start message -->
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="../img/bf_skinner.jpg" class="img-circle" alt="User Image"/>
+                                                </div>
+                                                <h4>
+                                                    Support Team
+                                                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                </h4>
+                                                <p>Check out my new Affective computing model</p>
+                                            </a>
+                                        </li><!-- end message -->
+                                        <li>
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="../img/avatar2.png" class="img-circle" alt="user image"/>
+                                                </div>
+                                                <h4>
+                                                    AdminLTE Design Team
+                                                    <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                                </h4>
+                                                <p>What do you think of the site layout?</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="../img/avatar.png" class="img-circle" alt="user image"/>
+                                                </div>
+                                                <h4>
+                                                    Developers
+                                                    <small><i class="fa fa-clock-o"></i> Today</small>
+                                                </h4>
+                                                <p>What tools do you need?</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="../img/avatar2.png" class="img-circle" alt="user image"/>
+                                                </div>
+                                                <h4>
+                                                    Tylar
+                                                    <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                                </h4>
+                                                <p>I'd love to hear your thoughts</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="../img/avatar.png" class="img-circle" alt="user image"/>
+                                                </div>
+                                                <h4>
+                                                    Reviewers
+                                                    <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                                </h4>
+                                                <p>Needs more math!</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">See All Messages</a></li>
+                            </ul>
+                        </li>
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-warning"></i>
+                                <span class="label label-warning">10</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 10 notifications</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-ios7-people info"></i> 5 new members joined today
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-warning danger"></i> Very long description here that may not fit into the page and may cause design problems
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users warning"></i> 5 new members joined
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-ios7-cart success"></i> 25 models made
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-ios7-person danger"></i> You changed your username
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">View all</a></li>
+                            </ul>
+                        </li>
+                        <!-- Tasks: style can be found in dropdown.less -->
+                        <li class="dropdown tasks-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-tasks"></i>
+                                <span class="label label-danger">9</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 9 tasks</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li><!-- Task item -->
+                                            <a href="#">
+                                                <h3>
+                                                    Draw an information flow diagram
+                                                    <small class="pull-right">20%</small>
+                                                </h3>
+                                                <div class="progress xs">
+                                                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                        <span class="sr-only">20% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li><!-- end task item -->
+                                        <li><!-- Task item -->
+                                            <a href="#">
+                                                <h3>
+                                                    Specify formulas for each node
+                                                    <small class="pull-right">40%</small>
+                                                </h3>
+                                                <div class="progress xs">
+                                                    <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                        <span class="sr-only">40% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li><!-- end task item -->
+                                        <li><!-- Task item -->
+                                            <a href="#">
+                                                <h3>
+                                                    Simulate with your new model
+                                                    <small class="pull-right">60%</small>
+                                                </h3>
+                                                <div class="progress xs">
+                                                    <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                        <span class="sr-only">60% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li><!-- end task item -->
+                                        <li><!-- Task item -->
+                                            <a href="#">
+                                                <h3>
+                                                    Do science!
+                                                    <small class="pull-right">80%</small>
+                                                </h3>
+                                                <div class="progress xs">
+                                                    <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                        <span class="sr-only">80% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li><!-- end task item -->
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="#">View all tasks</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span>BF Skinner <i class="caret"></i></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header bg-light-blue">
+                                    <img src="../img/bf_skinner.jpg" class="img-circle" alt="User Image" />
+                                    <p>
+                                        BF Skinner - Behavioral Scientist
+                                        <small>Member since Nov. 2014</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Models</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Model Builder
+                    <small>v<span class="version-number">?.?.?</span></small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Model Builder</li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- study instructions row -->
+                <div class="row" id="study-text">
+
+                </div>
+                <!-- DSL encode & graphView row -->
+                <div class="row">
+                    <!-- DSL encoding window -->
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="title">
+                            Code your diagram here
+                            <button class="btn btn-primary btn-mini" id="diagramophone" style="float: right">GO</button>
+                        </div>
+                        <textarea style="width:100%" id="textarea" rows="17"></textarea>
+                        <!-- help -->
+                        <div class="well">
+                            <ul>
+                                <li>connect nodes together using arrows</li>
+                                <li>lines starting with // are comments</li>
+                                <li>only one arrow (-&gt;) per line</li>
+                                <li>no spaces in variable names</li>
+                            </ul>
+                        </div>
+                        <!-- /help -->
+                    </div>
+
+                    <!-- main diagram display -->
+                    <div class="col-lg-9 col-md-8 col-sm-12">
+                        <div class="title" style="overflow:hidden">
+                            Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
+                            (click to select a node) &nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div id="color-key">
+                            color key: | <span class='selected_node'>Selected Node</span> |
+                            <span class='complete_node'>Completed Node</span> |
+                        </div>
+                        <div id="canvas"> </div>
+                        <script type="text/coffeescript" src="../js/diagram_controls.coffee"></script>
+                    </div>
+                </div>
+                <!-- widget rows -->
+                <div class="row">
+                    <!-- large section for users to drop in a box -->
+                    <section class="col-md-12 connectedSortable">
+                        <!-- save your model section -->
+                        <div class="box box-success" id="model-saver">
+                            <div class="box-header">
+                                Save Your Model
+                            </div>
+                            <div id="download-button">
+                                loading...
+                            </div>
+                            <script type="text/coffeescript" src="../js/model_saver.coffee"></script>
+                        </div>
+                        
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col-lg-6 col-md-4 col-sm-12 connectedSortable">
+                        <!-- selected node specification -->
+                        <div class="box box-primary" id="node-spec-box">
+                            <div class="box-header">
+                                Selected Node Model Specification
+                            </div>
+                            <div id="selected-node-desc">
+                                <span class='selected_node selected_node_text'>???</span> has
+                                <span class="node_inflow_count">?</span> inflows.
+                                <div id='modeling-spec'>
+                                    We must define a formula to describe how information flows into
+                                    <span class='selected_node selected_node_text'>???</span>.
+                                    <select id="model-selector" data-placeholder="default-choice..."
+                                            class="chosen-select" style="width:250px;" tabindex="4">
+                                        <option value="linear-combination">Linear Combination</option>
+                                        <option value="differential-equation">Differential Equation</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id='source-spec'>
+                                So <span class='selected_node selected_node_text'>???</span> must be either a
+                                context variable, or a personality variable.
+                                <span class='selected_node selected_node_text'>???</span> is a
+                                <select id="source-type-selector" class="chosen-select">
+                                    <!--<option value="personality-var-options">personality variable</option>-->
+                                    <option value="context-var-options">context variable</option>
+                                </select>
+                            </div>
+                            <div id="modeling-options">
+                                <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
+                                <br>
+                                <form id="modeling-options-form">
+                                    loading options...
+                                </form>
+                                <script type='text/coffeescript' src="../js/modeling_options_controls.coffee"></script>
+                            </div>
+                            <div id="assumption-options">
+                                Since we cannot know the value of this exogenous inflow from the agent's context without simulating the enviroment, set here a temporary function for the mini-simulation:
+                                <div id="assumption-options-selector">
+                                    <select id="calculator-preset" style="width:250px;" tabindex="4">
+                                        <option value="random_walk">random walk</option>
+                                        <option value="constant">constant value</option>
+                                        <option value="step">step function</option>
+                                        <option value="square">square wave</option>
+                                    </select>
+                                </div>
+                                <form id="assumption-options-form">
+                                    loading inflow assumption options...
+                                </form>
+                            </div>
+                            <script type='text/coffeescript' src="../js/selected_node_mini_sim.coffee"></script>
+                        </div>
+                    </section>
+                    <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                        <!-- parent graphs -->
+                        <div class='box box-primary'>
+                            <div id="parent-graphs">
+                                loading parent node(s) detail...
+                            </div>
+                            <script type="text/coffeescript" src="../js/parent_timeseries_graphs.coffee"></script>
+                        </div>
+                        <!-- support -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                Support/Contact
+                            </div>
+                            <p>
+                                Confused? Want to learn more? Don't hesitate to contact us! 
+                            </p>
+                            <ul>
+                                <li>Report bugs & feature requests using the <a href="https://github.com/PIELab/behaviorSim_web/issues">issue tracker</a></li>
+                                <li>Contact tylarmurray@mail.usf.edu with any other questions/comments.</li>
+                            </ul>
+
+                        </div>
+                        <!-- settings -->
+                        <div class="box box-primary" style="display: none;">
+                            <div class="box-header">
+                                Settings
+                            </div>
+                            <label class="checkbox">
+                                    <input type="checkbox" id="fontBtn" checked="false">use silly handwritten font
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="replBtn" checked="false">live updates -- this will make things slower
+                            </label>
+                        </div>
+                    </section>
+                    <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                        <!-- selected node miniSimulation -->
+                        <div class='box box-primary'>
+                            <div class="box-header">
+                                selected node mini-simulation
+                            </div>
+                            <div id="selected-node-graph">
+                                loading selected node graph...
+                            </div>
+                            <div id="selected-node-stochastic">
+                            </div>
+                            <script type="text/coffeescript" src="../js/selected_timeseries_graph.coffee"></script>
+                        </div>
+                        <!-- customization -->
+                        <div class='box box-primary'>
+                            <div class="box-header">
+                                Customization
+                            </div>
+                            <div>
+                                Drag and drop widgets to rearrange however you like. Registered users can save their  configuration and access additional widgets.
+                            </div>
+                        </div> <!-- /customization -->
+                        <!-- model uploader -->
+                        <div class="box box-primary" id="model-loader">
+                            <div class="box-header">
+                                Load a Model
+                            </div>
+                            Upload:
+                            <form enctype="multipart/form-data">
+                                <input name="file" type="file" id='file-chooser' />
+                            </form>
+                            <script type="text/javascript" src="../js/load_model.js"></script>
+                        </div>
+                        <!-- sub-diagram inserter -->
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                Sub-models
+                            </div>
+                            <p>Use the "add submodel" button to insert existing model linkages in your diagram code. </p>
+                            <select id="submodel_selector" data-placeholder="select submodel..." class="chosen-select" style="width:250px;" tabindex="4">
+                                <option value="TPB">Theory of Planned Behavior</option>
+                            </select>
+                            <button class="btn btn-primary btn-mini" id="submodel_inserter">Insert Selected Sub-model</button>
+                        </div>
+                    </section>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- ./wrapper -->
+
+        <!-- jquery -->
+        <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
+        <!-- bootstrap -->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+        <!-- Sparkline -->
+        <script src="../js/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
+        <!-- FLOT CHARTS -->
+        <script src="../js/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+        <!-- Ion Slider -->
+        <script src="../js/plugins/ionslider/ion.rangeSlider.min.js" type="text/javascript"></script>
+        <!-- AdminLTE App -->
+        <script src="../js/AdminLTE/app.js" type="text/javascript"></script>
+        <!-- show the version number from package.json in ".version-number" spans -->
+        <script src="../js/showVersionNumber.js" type="text/javascript"></script>
+        
+        <!-- setup for the reasearch study -->
+        <script type="text/coffeescript" src="../js/researchStudy.coffee"></script>
+        <script type="text/coffeescript" src="../js/studies.coffee"></script>
+
+        <script type="text/javascript">
+            //Make the dashboard widgets sortable Using jquery UI
+            $(".connectedSortable").sortable({
+                placeholder: "sort-highlight",
+                connectWith: ".connectedSortable",
+                handle: ".box-header, .nav-tabs",
+                forcePlaceholderSize: true,
+                zIndex: 999999
+            }).disableSelection();
+            $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
+
+            // TODO: set up connection to user data db
+            //init_user_data_loader();
+
+            // ==========================================================
+            //                  really stubborn app inits
+            // ==========================================================
+            timeout_len = 2;  // initial setTimeout (increases after each fail)
+
+            function init_app() {
+                try{
+                    get_user_data();
+                    init_ui();
+                    console.log('application successfully initialized');
+                } catch (e) {
+                    if (e.message == "db not ready"  // TODO: catch actual db error here
+                        || e.message == "model_builder is not defined"
+                        || e.message == "undefined is not a function"
+                        || e.message == "Cannot read property 'parents' of undefined"
+                        || e.message == "not yet ready..."
+                        || e.message == "node not found"
+                    ){
+                        console.log('app not ready, rescheduling init...');
+                        setTimeout(init_app, timeout_len*1000);
+                        timeout_len *= 2;
+                    } else {
+                        throw e;
+                    }
+                }
+            }
+
+            function get_user_data(){
+                // === LOAD USER DATA FROM DB ===
+                try {  // try to load UID from the URI
+                    Error("user not found");  // b/c there is no db yet...
+                    // TODO: get user_data using uid
+                    //load_user_data(uri_search.uid);
+                    //user_data.visits += 1;  // TODO: track visit count
+                } catch (err) {  // use default UID
+                    if (err.message == "user not found"  // TODO: use actual user not found error(s)
+                        || err.message == "Cannot read property 'split' of undefined"){
+                        console.log('cannot load user from db, using default');
+                    } else {
+                        throw err;
+                    }
+                }
+            }
+
+            function init_ui() {
+                if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
+                    // trigger events to kick things off
+                    $(document).trigger("graphChange");
+                    $(document).trigger('selectNode');
+                    $(document).trigger('selectNodeChange');
+                } else {
+                    throw Error('not yet ready...')
+                }
+            }
+
+            $(window).on("load", init_app);
+
+            $(window).on("beforeunload", function() {
+                    // save_user_data(user_data);
+                }
+            );
+        </script>
+    </body>
+</html>

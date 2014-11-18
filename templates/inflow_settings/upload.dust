@@ -1,0 +1,9 @@
+<input type="file" accept="text/csv">
+<br>
+File should be comma-separated with time values in the first column and variable value in the second. Example:
+<br>
+0,1<br>
+1,1<br>
+2,2<br>
+3,3<br>
+4,5<br>

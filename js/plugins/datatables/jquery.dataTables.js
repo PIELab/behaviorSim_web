@@ -5909,7 +5909,7 @@
 		/**
 		 * Change the pagination - provides the internal logic for pagination in a simple API 
 		 * function. With this function you can have a DataTables table go to the next, 
-		 * previous, first or last pages.
+		 * previous, first or last demo_pages.
 		 *  @param {string|int} mAction Paging action to take: "first", "previous", "next" or "last"
 		 *    or page number to jump to (integer), note that page 0 is the first page.
 		 *  @param {bool} [bRedraw=true] Redraw the table or not
@@ -11635,7 +11635,7 @@
 		
 		/*
 		 * Variable: iFullNumbersShowPages
-		 * Purpose:  Change the number of pages which can be seen
+		 * Purpose:  Change the number of demo_pages which can be seen
 		 * Scope:    jQuery.fn.dataTableExt.oPagination
 		 */
 		"iFullNumbersShowPages": 5,
@@ -11648,7 +11648,7 @@
 		"full_numbers": {
 			/*
 			 * Function: oPagination.full_numbers.fnInit
-			 * Purpose:  Initialise dom elements required for pagination with a list of the pages
+			 * Purpose:  Initialise dom elements required for pagination with a list of the demo_pages
 			 * Returns:  -
 			 * Inputs:   object:oSettings - dataTables settings object
 			 *           node:nPaging - the DIV which contains this pagination control
