@@ -26,7 +26,7 @@ class Study
             (err, out) =>
                 # update the html
                 window.study_submitted = false
-                pre = '<div class="ss-form" style="display:none;"><iframe id="submit_frame" name="submit_frame" onload="if(study_submitted) {window.location=\'' + @options.completionRedirect + '\'; console.log(\'redirecting after study completion\')}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_frame"><ol role="list" class="ss-question-list" style="padding-left: 0" onsubmit="study_submitted=true;">'
+                pre = '<div class="ss-form" style="display:none;"><iframe id="submit_frame" name="submit_frame" onload="if(study_submitted) {window.location=\'' + @options.completionRedirect + '\'; console.log(\'redirecting after study completion\')}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_frame" onsubmit="study_submitted=true;">'
                 post = "</form></div>"
                 $('body').append(pre + out + post)
                 document.getElementById("ss-form").submit();
