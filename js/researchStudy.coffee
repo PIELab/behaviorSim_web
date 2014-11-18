@@ -13,8 +13,8 @@ class Study
         # triggered when the required tasks have been completed. The finishedHTML is shown.
         # The button or link to finish and submit the data (given by @options.submitBtnElement)
         @options.studyTextElement.html(@options.finishedHTML);
-        @options.submitBtnElement.on("click", @submitStudy)
-        
+        $(document).on('click', @options.submitBtnId, @submitStudy);  # activate study completeBtn
+
     submitStudy: ()=>
         # triggered by clicking on the "submit study" button, this gets all data from the 
         # the given options javascript, POSTs it to options.target, and redirects to options.debriefPage
