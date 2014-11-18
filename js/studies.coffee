@@ -22,11 +22,14 @@ model_builder_usability_study = {
     studyCompleteEvent: "modelComplete",
     finishedHTML: "Complete the study by clicking here",  # TODO: use a dust template
     studyId: "U1",
+    target:"https://docs.google.com/a/mail.usf.edu/forms/d/18qPcVfTXrsiF8ZgEWe_5qgpDrgncges80j8-7Ys3Zsk/formResponse",  # place where data POSTs to
+    completionRedirect: "",  # where to send participants after completing study & submitting data
     getFormTemplateValues: () ->
         vals = {PID: uri_search.PID}
         vals.DSL = $("#textarea").val()
         vals.Model = simulator._model  # TODO: need to add Model.toJSON or similar
-    formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
+        return vals
+    formTemplate: "model_builder_usability"  # form dust template (should contain only input elements, not the encapsulating form element)
 }
 
 setupStudy = ()->

@@ -22,11 +22,13 @@ class Study
         #TODO: get form HTML with values filled by javascript in options.???
         # (most easily done using dust.js)
         dust.render(@options.formTemplate,
-            @options.formTemplateValues,
+            @options.getFormTemplateValues(),
             (err, out) =>
                 # update the html
-                $('#modeling-options-form').append(out)
-                @_init_slider_and_box(name, val)
+                pre = '<div class="ss-form" style="display:none;"><iframe id="submit-study-iframe" name="submit_frame" onload="if(study_submitted) {window.location=\'' + @options.completionRedirect + '\';}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_Frame"><ol role="list" class="ss-question-list" style="padding-left: 0" onsubmit="study_submitted=true;">'
+                post = "</form></div>"
+                $(document).append(pre + out + post)
+                document.getElementById("ss-form").submit();
                 if err
                     console.log(err))
 
