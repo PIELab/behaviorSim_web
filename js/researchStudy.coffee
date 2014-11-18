@@ -25,9 +25,10 @@ class Study
             @options.getFormTemplateValues(),
             (err, out) =>
                 # update the html
-                pre = '<div class="ss-form" style="display:none;"><iframe id="submit-study-iframe" name="submit_frame" onload="if(study_submitted) {window.location=\'' + @options.completionRedirect + '\';}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_Frame"><ol role="list" class="ss-question-list" style="padding-left: 0" onsubmit="study_submitted=true;">'
+                window.study_submitted = false
+                pre = '<div class="ss-form" style="display:none;"><iframe id="submit_frame" name="submit_frame" onload="if(study_submitted) {window.location=\'' + @options.completionRedirect + '\'; console.log(\'redirecting after study completion\')}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_frame"><ol role="list" class="ss-question-list" style="padding-left: 0" onsubmit="study_submitted=true;">'
                 post = "</form></div>"
-                $(document).append(pre + out + post)
+                $('body').append(pre + out + post)
                 document.getElementById("ss-form").submit();
                 if err
                     console.log(err))

@@ -24,7 +24,7 @@ model_builder_usability_study = {
     finishedHTML: "Your model looks complete, nice work! When you are ready, <a href='#' id='study-complete-btn'>click here to submit your model and finish.</a>",  # TODO: use a dust template?
     studyId: "U1",
     target:"https://docs.google.com/a/mail.usf.edu/forms/d/18qPcVfTXrsiF8ZgEWe_5qgpDrgncges80j8-7Ys3Zsk/formResponse",  # place where data POSTs to
-    completionRedirect: "",  # where to send participants after completing study & submitting data
+    completionRedirect: "/",  # where to send participants after completing study & submitting data
     getFormTemplateValues: () ->
         vals = {PID: uri_search.PID}
         vals.DSL = $("#textarea").val()
