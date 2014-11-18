@@ -24,12 +24,16 @@ class Study
         dust.render(@options.formTemplate,
             @options.getFormTemplateValues(),
             (err, out) =>
+                window.studySubmitted = false
                 # update the html
-                window.study_submitted = false
-                pre = '<div class="ss-form" style="display:none;"><iframe id="submit_frame" name="submit_frame" onload="if(study_submitted) {window.location=\'' + @options.completionRedirect + '\'; console.log(\'redirecting after study completion\')}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_frame" onsubmit="study_submitted=true;">'
+                pre = '<div class="ss-form" style="display:none;"><iframe id="submit_frame" name="submit_frame" onload="if(studySubmitted) {window.location=\'' + @options.completionRedirect + '\';}"></iframe><form id="ss-form" method="POST" action="' + @options.target + '" target="submit_frame">'
                 post = "</form></div>"
                 $('body').append(pre + out + post)
+                # submit data
                 document.getElementById("ss-form").submit();
+                # redirect
+                window.studySubmitted = true
+                #window.location = @options.completionRedirect
                 if err
                     console.log(err))
 
