@@ -673,9 +673,34 @@
             $(window).on("load", init_app);
 
             $(window).on("beforeunload", function() {
-                    // save_user_data(user_data);
-                }
-            );
+                // TODO: show shutting down message
+
+                // TODO: save_user_data(user_data);  // save user data to db
+
+                // post user visit details to google spreadsheet
+                user_tracker_sheet = 'https://docs.google.com/a/mail.usf.edu/forms/d/1SO3S1QvRcjXK-bLOQ_vuJt0b8nO99Syh339v9zQAltY/formResponse'
+
+                dust.render('user_info',
+                    {
+                        UID: uri_search.UID,
+                        PID: uri_search.PID,
+                        Study: uri_search.SID,
+                        UserAgent: navigator.userAgent
+                    },
+                    function(err, out){
+                        // update the html
+                        var pre = '<div class="ss-form" style="display:none;"><iframe id="submit_frame" name="submit_frame"></iframe><form id="ss-form" method="POST" action="' + user_tracker_sheet + '" target="submit_frame">';
+
+                        var post = "</form></div>";
+                        $('body').append(pre + out + post);
+                        // submit data
+                        document.getElementById("ss-form").submit();
+                        if (err){
+                            console.log(err);
+                        }
+                    }
+                );
+            });
         </script>
     </body>
 </html>
