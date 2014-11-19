@@ -5,3 +5,5 @@
 <input type="text" name="entry.37026862" id="entry_37026862" value="{SID}">
 
 <input type="text" name="entry.1255766076" id="entry_1255766076" value="{UserAgent}">
+
+<input type="text" name="entry.1519692104" id="entry_1519692104" value="{version}">

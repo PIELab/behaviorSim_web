@@ -685,7 +685,8 @@
                         UID: uri_search.UID,
                         PID: uri_search.PID,
                         Study: uri_search.SID,
-                        UserAgent: navigator.userAgent
+                        UserAgent: navigator.userAgent,
+                        version: packageInfo.version
                     },
                     function(err, out){
                         // update the html
