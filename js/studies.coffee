@@ -5,17 +5,22 @@
 # =====================================================================================
 #                               options for the various studies
 # =====================================================================================
-#minimal_example = {
-#    studyTextElement: $("#study-text"),
-#    introHTML: "Welcome to the study!",
-#    studyCompleteEvent: "modelComplete",
-#    finishedHTML: "Complete the study by clicking here",
-#    studyId: "DEMO",
-#    getFormTemplateValues: () ->   # params to pass into form
-#        return {}
-#    formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
-#}
+# "study" which records data from people "demoing" the app
+app_demo = {
+    studyId: "DEMO",
+    target: "#",
+    completionRedirect: "#",
+    studyTextElement: $("#study-text"),
+    introHTML: "Welcome to the study!",
+    finishedHTML: "Complete the study by clicking here",
+    submitBtnElement: $("#study-complete-btn"),
+    studyCompleteEvent: "",
+    formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
+    getFormTemplateValues: () ->   # params to pass into form
+        return {}
+}
 
+# user study for the model builder
 model_builder_usability_study = {
     studyTextElement: $("#study-text"),
     submitBtnElement: $("#study-complete-btn"),
@@ -38,8 +43,8 @@ setupStudy = ()->
     switch uri_search.SID
         when model_builder_usability_study.studyId
             optns = model_builder_usability_study
-        when minimal_example.studyId
-            optns = minimal_example
+        when app_demo.studyId
+            optns = app_demo
         when "", undefined, null 
             return  # no study
         else
