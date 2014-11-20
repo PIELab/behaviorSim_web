@@ -13,8 +13,8 @@ app_demo = {
     studyTextElement: $("#study-text"),
     introHTML: "Welcome to the study!",
     finishedHTML: "Complete the study by clicking here",
-    submitBtnElement: $("#study-complete-btn"),
     studyCompleteEvent: "",
+    studySubmitEvent: "",
     formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
     getFormTemplateValues: () ->   # params to pass into form
         return {}
@@ -23,10 +23,10 @@ app_demo = {
 # user study for the model builder
 model_builder_usability_study = {
     studyTextElement: $("#study-text"),
-    submitBtnElement: $("#study-complete-btn"),
     introHTML: "Please attempt to re-create the model described below: <br> <br> The Theory of Planned Beahvior (TPB) states that attitude toward behavior, subjective norms, and perceived behavioral control, together shape an individual's behavioral intentions and behaviors.",  # TODO: use a dust template?
     studyCompleteEvent: "modelComplete",
-    finishedHTML: "Your model looks complete, nice work! When you are ready, <a href='#' id='study-complete-btn'>click here to submit your model and finish.</a>",  # TODO: use a dust template?
+    studySubmitEvent: "submitTheStudy",
+    finishedHTML: "Your model looks complete, nice work! When you are ready, <a href='#' onclick='$(document).trigger(\"submitTheStudy\")'>click here to submit your model and finish.</a>",  # TODO: use a dust template?
     studyId: "U1",
     target:"https://docs.google.com/a/mail.usf.edu/forms/d/18qPcVfTXrsiF8ZgEWe_5qgpDrgncges80j8-7Ys3Zsk/formResponse",  # place where data POSTs to
     completionRedirect: "/",  # where to send participants after completing study & submitting data

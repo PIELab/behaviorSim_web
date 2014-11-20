@@ -3,20 +3,19 @@ class Study
     # :requires: jquery, dust.js
     # :options:
     #   studyId: string which identifies the study (for data logging purposes)
+    #
     #   target: url to which the form will be POSTed
     #   completionRedirect: url which users are sent to after the form data is submitted
+    #
     #   studyTextElement: jquery selection for the text element where study intro/completion html gets inserted
     #   introHTML: html or text to insert into the studyTextElement on studyStart
     #   finishedHTML: html or text to insert into the studyTextElement on studyComplete
     #
-    #   # TODO: these two are redundant???:
-    #   submitBtnElement: jquery selection for the submit button
-    #   submitBtnId: id text of the submit-study-data button
-    #
     #   studyCompleteEvent: name of the jquery custom event which signals study completion
-    #   # TODO: add studySubmit event (btn triggers event, then it is recieved); remove submitBtnId/Elment
+    #   studySubmitEvent: name of the jquery custom event which triggers submission of study data
+    #        (e.g.: a btn triggers this event and it is recieved by the Study obj automatically)
     #
-    #   formTemplate: name of the dust.js template to use to build the form (should NOT contain <form></form> wrapper)
+    #   formTemplate: name of the dust.js template for the form (should NOT contain <form></form> wrapper)
     #   getFormTemplateValues: function which returns the template key/val list object for dust.js
 
     constructor: (options)->
@@ -31,7 +30,7 @@ class Study
         # triggered when the required tasks have been completed. The finishedHTML is shown.
         # The button or link to finish and submit the data (given by @options.submitBtnElement)
         @options.studyTextElement.html(@options.finishedHTML);
-        $(document).on('click', @options.submitBtnId, @submitStudy);  # activate study completeBtn
+        $(document).on(@options.studySubmitEvent, @submitStudy);  # activate study completeBtn
 
     submitStudy: ()=>
         # triggered by clicking on the "submit study" button, this gets all data from the 
