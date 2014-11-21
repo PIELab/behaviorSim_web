@@ -643,7 +643,9 @@
                     init_ui();
                     $('#loading-status').html('DONE!');
                     $('#content-wrapper').fadeTo(1500,1);  // show the app content section
-                    $('#loading-wrapper').fadeTo(500,0); // hide the loading div
+                    // hide the loading div
+                    $('#loading-wrapper').fadeTo(500,0);
+                    $('#loading-wrapper').hide();
                     console.log('application successfully initialized');
                 } catch (e) {
                     if (e.message == "db not ready"  // TODO: catch actual db error here
