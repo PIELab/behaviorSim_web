@@ -18,6 +18,10 @@
         <meta name="msapplication-TileColor" content="#474747">
         <!-- /favicon stuff -->
 
+        <!-- css loading cogs -->
+        <link href="../css/loading_cogs.css" rel="stylesheet" type="text/css" />
+
+        <!-- bootstrap -->
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
@@ -26,7 +30,6 @@
         <link href="../css/AdminLTE.css" rel="stylesheet" type="text/css" />
         <!-- Ion Slider -->
         <link href="../css/ionslider/ion.rangeSlider.css" rel="stylesheet" type="text/css" />
-        <!-- ion slider Nice -->
         <link href="../css/ionslider/ion.rangeSlider.skinNice.css" rel="stylesheet" type="text/css" />
         <!-- custom css -->
         <style type='text/css'>
@@ -135,7 +138,16 @@
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
         <header class="header">
-            <a href="model_builder.html" class="logo">
+        <!-- loading animation -->
+        <div class="loading-wrapper">
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <h1> LOADING... </h1>
+            (<span id="loading-status">please wait</span>)
+            <div class="cog-small" id="cog"></div>
+            <div class="cog-medium" id="cog-anti"></div>
+            <div class="cog-large" id="cog"></div>
+        </div>
+        <a href="model_builder.html" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 BehaviorSim
             </a>
@@ -615,6 +627,7 @@
             $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
 
             // TODO: set up connection to user data db
+            $('#loading-status').html('connecting to config db');
             //init_user_data_loader();
 
             // ==========================================================
@@ -624,8 +637,12 @@
 
             function init_app() {
                 try{
+                    $('#loading-status').html('loading config');
                     get_user_data();
+                    $('#loading-status').html('initializing GUI');
                     init_ui();
+                    $('.loading-wrapper').hide();  // hide the loading div
+                    $('.wrapper').show();  // show the app content section
                     console.log('application successfully initialized');
                 } catch (e) {
                     if (e.message == "db not ready"  // TODO: catch actual db error here
@@ -662,10 +679,14 @@
             }
 
             function init_ui() {
+                $('#loading-status').html('prepping model & simulator');
                 if (model_builder._model == simulator._model){ // hack that hopefully waits for both to be ready
                     // trigger events to kick things off
+                    $('#loading-status').html('inserting graph DSL');
                     $(document).trigger("graphChange");
+                    $('#loading-status').html('selecting a node');
                     $(document).trigger('selectNode');
+                    $('#loading-status').html('making pretty charts');
                     $(document).trigger('selectNodeChange');
                 } else {
                     throw Error('not yet ready...')
