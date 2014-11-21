@@ -36,8 +36,7 @@ class Study
         # triggered by clicking on the "submit study" button, this gets all data from the 
         # the given options javascript, POSTs it to options.target, and redirects to options.debriefPage
         
-        #TODO: get form HTML with values filled by javascript in options.???
-        # (most easily done using dust.js)
+        # get form HTML with values filled by javascript in @options
         dust.render(@options.formTemplate,
             @options.getFormTemplateValues(),
             (err, out) =>

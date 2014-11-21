@@ -69,7 +69,7 @@ $(document).on('selectNode', (evt) ->
             return
         else
             console.log('submitting')
-            model_builder.submit_node()
+            $(document).trigger('selectNodeChange')
     catch err
         if err.message == 'node not found'
             console.log('err submitting on select; selected node not found:', model_builder.selected_node)
@@ -82,8 +82,8 @@ $(document).on("selectNodeChange_higherP", (evt) -> model_builder.submit_node())
 
 # add mouseover popup to the nodes
 $("#canvas").on("mouseover", ".diagramophone-node-text", (evt) ->
-    console.log(evt.target.innerHTML, ' hovered: ', @)
-    console.log($(@))
+    #console.log(evt.target.innerHTML, ' hovered: ', @)
+    #console.log($(@))
     $(@).popover({
         container: @,
         content:"test"#"<a href='#node-spec-box'><i class='fa fa-cog'></i>Formulate Inflow</a>",

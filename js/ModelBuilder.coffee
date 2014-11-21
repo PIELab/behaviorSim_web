@@ -367,10 +367,11 @@ class ModelBuilder
 
     _add_modeling_options: (target_obj, selector_string) ->
         # adds attributes retrieved using selector_string to target_object
+        # then returns object with values set
         model_options = $(selector_string)
-        console.log('adding options:', model_options)
+        # console.log('adding options:', model_options)
         for option in model_options
-            console.log(option.name,':',option.value)
+            # console.log(option.name,':',option.value)
             target_obj[option.name] = parseFloat(option.value)
         return target_obj
 

@@ -13,7 +13,7 @@ addEvt = (name) ->
     $( document ).on(
         name,
         (event) ->
-            console.log( 'EVENT:', event.type )
+            console.log( '\t\t\t\t\t\t\t\t\t\t\t\t\t\tEVENT:', event.type )
     )
 
 addEvt(evt) for evt in evts

@@ -29,6 +29,7 @@ window.$listen = (target, name, callback) ->
             target.attachEvent "on#{name}", callback
     else
         console.log('cannot listen for '+name+' on '+target+' with '+callback)
+        throw Error('failure to listen')
 
 window.submit_node_spec = () -> # TODO: replace this with calls directly to model_builder.submit_node()
     ###
