@@ -269,7 +269,7 @@ class ModelBuilder
                     
                     theta = 'theta_'+parent
                     theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true)
-                    @_add_parameter_to_form(theta, theta_val, 'differential-equation')
+                    @_add_parameter_to_form(theta, theta_val, 'differential-equation', 1)
             when 'other'
                 _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node
@@ -285,17 +285,17 @@ class ModelBuilder
                 throw Error('unknown node form "'+@get_node_model(@selected_node)+'"')
         return _result
 
-    _add_parameter_to_form: (name, val, option_type) ->
+    _add_parameter_to_form: (name, val, option_type, sliderStepSize=0.1) ->
         dust.render("parameter_tweak",
             {param_name: name, valu: val, option_type: option_type},
             (err, out) =>
                 # update the html
                 $('#modeling-options-form').append(out)
-                @_init_slider_and_box(name, val)
+                @_init_slider_and_box(name, val, sliderStepSize)
                 if err
                     console.log(err))
 
-    _init_slider_and_box: (coeff, c_val) ->  #TODO: this should be someplace that makes more sense
+    _init_slider_and_box: (coeff, c_val, sliderStepSize=0.1) ->  #TODO: this should be someplace that makes more sense
         ###
         inits the drawing of the slider and links the box and slider using jquery events
         ###
@@ -316,7 +316,7 @@ class ModelBuilder
             max: c_val+10.0,
             from: c_val,
             type: 'single',
-            step: 0.1,
+            step: sliderStepSize,
             prettify: false,
             hasGrid: true,
             onChange: () ->
