@@ -385,7 +385,7 @@
                 </div>
             </nav>
         </header>
-        <div class="wrapper row-offcanvas row-offcanvas-left">
+        <div class="wrapper row-offcanvas row-offcanvas-left" style="opacity: 0.2;">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
@@ -641,8 +641,9 @@
                     get_user_data();
                     $('#loading-status').html('initializing GUI');
                     init_ui();
-                    $('.loading-wrapper').hide();  // hide the loading div
-                    $('.wrapper').show();  // show the app content section
+                    $('#loading-status').html('DONE!');
+                    $('.wrapper').fadeTo(1500,1);  // show the app content section
+                    $('.loading-wrapper').fadeTo(500,0); // hide the loading div
                     console.log('application successfully initialized');
                 } catch (e) {
                     if (e.message == "db not ready"  // TODO: catch actual db error here
