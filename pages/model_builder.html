@@ -139,13 +139,13 @@
         <!-- header logo: style can be found in header.less -->
         <header class="header">
         <!-- loading animation -->
-        <div class="loading-wrapper">
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div id="loading-wrapper">
+            <br><br><br><br><br><br><br><br><br>
             <h1> LOADING... </h1>
             (<span id="loading-status">please wait</span>)
-            <div class="cog-small" id="cog"></div>
-            <div class="cog-medium" id="cog-anti"></div>
-            <div class="cog-large" id="cog"></div>
+            <div class="cog" id="cog-small"></div>
+            <div class="cog-anti" id="cog-medium"></div>
+            <div class="cog" id="cog-large" ></div>
         </div>
         <a href="model_builder.html" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
@@ -385,7 +385,7 @@
                 </div>
             </nav>
         </header>
-        <div class="wrapper row-offcanvas row-offcanvas-left" style="opacity: 0.2;">
+        <div id="content-wrapper" class="wrapper row-offcanvas row-offcanvas-left" style="opacity: 0.2;">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
@@ -642,8 +642,8 @@
                     $('#loading-status').html('initializing GUI');
                     init_ui();
                     $('#loading-status').html('DONE!');
-                    $('.wrapper').fadeTo(1500,1);  // show the app content section
-                    $('.loading-wrapper').fadeTo(500,0); // hide the loading div
+                    $('#content-wrapper').fadeTo(1500,1);  // show the app content section
+                    $('#loading-wrapper').fadeTo(500,0); // hide the loading div
                     console.log('application successfully initialized');
                 } catch (e) {
                     if (e.message == "db not ready"  // TODO: catch actual db error here
