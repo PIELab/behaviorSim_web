@@ -15,9 +15,6 @@ $(document).on("selectNodeChange", (evt) -> $(document).trigger("selectNodeChang
 $(document).on("selectNodeChange_highP", (evt) -> $(document).trigger("selectNodeChange_higherP"))
 $(document).on("selectNodeChange_higherP", (evt) -> $(document).trigger("selectNodeChange_highestP"))
 
-# priority chain for graphChange
-$(document).on("graphChange", (evt) -> $(document).trigger("graphChange_highP"))
-
 # set simulator values to recalc when changes to node model are made (note: doesn't actually recalc, that comes later)
 $(document).on("selectNodeChange_highestP", (evt) -> simulator.recalc(model_builder.selected_node))
 

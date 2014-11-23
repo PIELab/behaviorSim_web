@@ -23,5 +23,5 @@ draw_parent_graphs = () ->
         $('#parent-graphs').append(model_builder.selected_node+' has no inflow nodes.')
     return
 
-$(document).on("graphChange", (evt) -> draw_parent_graphs())
+$(document).on("graphModelReady", (evt) -> draw_parent_graphs())
 $(document).on('selectNode', (evt) -> draw_parent_graphs())

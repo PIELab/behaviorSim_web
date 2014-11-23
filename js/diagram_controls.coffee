@@ -39,6 +39,7 @@ window.click_node = (node_id) ->
 draw_colored_graph = (inputText=textarea.value, paper=the_paper, hasSillyFont=fontBtn.checked) ->
     # update the js graph object
     model_builder.build_graph_obj(inputText )
+    $(document).trigger('graphModelUpdated');
 
     # desired color to selected node
     inputText += '\n' + model_builder.selected_node + ' {#2488DF}'  # 0->blue
