@@ -123,4 +123,18 @@ consoleWarnMNSCCs = function(graph){
     }
 }
 
-$(document).on('graphModelUpdated', function(evt){consoleWarnMNSCCs(simulator._model)});
+add_in_a_loop_to_nodes = function(graph){
+    var scc = getStronglyConnectedComponents(graph);
+    for (i in scc){
+        for (node in scc[i]){
+            if (scc[i].length > 1){  // in a loop!
+                scc[i][node].in_a_loop = true;
+            } else {
+                scc[i][node].in_a_loop = false;
+            }
+        }
+    }
+}
+
+//$(document).on('graphModelUpdated', function(evt){consoleWarnMNSCCs(simulator._model)});
+$(document).on('graphModelUpdated', function(evt){add_in_a_loop_to_nodes(simulator._model)});

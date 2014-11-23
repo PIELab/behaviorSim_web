@@ -62,4 +62,4 @@ window.insert_dummy_graph = (el) ->
     # inserts sample sparkgraph into the given jquery element
     dummy_data = [1,2,3,4,6,8,2,5,8,3,4,9,1,2,5,4,6,8,9,0,1,2,4,7,2,4]
     el.sparkline(dummy_data, sparkline_options)
-    el.append('<div style="top:10%; left:0; height:90%; width:100%; background:white; opacity:.8; position:absolute; z-index:9;"></div><div style="top:40%; left:10%; z-index:10; position:absolute">sample only.<br>specify node and inflows to simulate.</div>')
+    el.append('<div style="top:0; left:0; height:100%; width:100%; background:white; opacity:.8; position:absolute; z-index:9;"></div><div style="top:0; left:10%; z-index:10; position:absolute">sample only.<br>specify node & inflows to simulate.<br>note: mini-simulator cannot handle loops</div>')

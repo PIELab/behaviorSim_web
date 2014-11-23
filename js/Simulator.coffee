@@ -202,6 +202,9 @@ class Simulator
         node = @_model.get_node(node_id)
         if node.data_values && !recalculate
             return node.data_values
+        else if node.in_a_loop
+            console.log('cannot calc; node is in loop')
+            return []
         else
             if node.type == 'state'
                 # calculate from formulation & parents (if possible)
