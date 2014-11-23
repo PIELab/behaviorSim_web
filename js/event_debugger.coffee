@@ -3,6 +3,7 @@ evts = [
     'selectNode',
     'modelComplete',
     'graphChange',
+    'graphChange_highP',
     'selectNodeChange',
     'selectNodeChange_highP',   # update model state displays
     'selectNodeChange_higherP', # update model/data
