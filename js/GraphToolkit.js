@@ -1,3 +1,4 @@
+// TODO: wrap this all in a closure
 
 function VertexStack(vertices) {
     this.vertices = vertices || [];
@@ -92,3 +93,32 @@ Tarjan.prototype = {
         console.log('done w/ node:', vertex);
     }
 };
+
+getStronglyConnectedComponents = function(graph){
+    var t = new Tarjan(graph);
+    return t.run();
+}
+
+getMultiNodeComponents = function(graph){
+    var scc = getStronglyConnectedComponents(graph);
+    var mn_scc = [];
+    for (i in scc){
+        if (scc[i].length > 1){
+            mn_scc.push(scc[i]);
+        }  // else 1-node scc, ignore
+    }
+    return mn_scc;
+}
+
+consoleWarnMNSCCs = function(){
+    var graph = simulator._model;
+    var loops = getMultiNodeComponents(graph);
+    if (loops.length > 0){
+        for ( i in loops ){
+            console.log("WARN: multi-node strongly connected component detected!");
+            console.log("MN_SCC:", loops[i]);
+        }
+    }
+}
+
+$(document).on('graphChange_highP', consoleWarnMNSCCs);
