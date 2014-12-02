@@ -29,7 +29,7 @@ model_builder_usability_study = {
     finishedHTML: "Your model looks complete, nice work! When you are ready, <a href='#' onclick='$(document).trigger(\"submitTheStudy\")'>click here to submit your model and finish.</a>",  # TODO: use a dust template?
     studyId: "U1",
     target:"https://docs.google.com/a/mail.usf.edu/forms/d/18qPcVfTXrsiF8ZgEWe_5qgpDrgncges80j8-7Ys3Zsk/formResponse",  # place where data POSTs to
-    completionRedirect: "https://docs.google.com/forms/d/1rqvpAOT96_uIo4DK-ACBp9s1cIj1gDVLZQs3QRYig0w/viewform?usp=send_form",  # where to send participants after completing study & submitting data
+    completionRedirect: "modelBuilderUsabilityStudy/usabilitySurvey.html",  # where to send participants after completing study & submitting data
     getFormTemplateValues: () ->
         vals = {PID: uri_search.PID}
         vals.DSL = $("#textarea").val()
