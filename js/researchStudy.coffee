@@ -21,7 +21,7 @@ class Study
     constructor: (options)->
         @options = options
         @completed = false
-        
+
     startStudy: ()->
         # inits the study, setting up the completion listener and the study instructions text
         @options.studyTextElement.html(@options.introHTML);
