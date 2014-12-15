@@ -11,8 +11,8 @@ app_demo = {
     target: "#",
     completionRedirect: "#",
     studyTextElement: $("#study-text"),
-    introHTML: "Welcome to the study!",
-    finishedHTML: "Complete the study by clicking here",
+    introHTML: "Welcome to the demo!",
+    finishedHTML: "Finish the demo by clicking here",
     studyCompleteEvent: "",
     studySubmitEvent: "",
     formTemplate: "sample_form"  # form dust template (should contain only input elements, not the encapsulating form element)
@@ -23,7 +23,55 @@ app_demo = {
 # user study for the model builder
 model_builder_usability_study = {
     studyTextElement: $("#study-text"),
-    introHTML: "Please attempt to re-create the model described below: <br> <br> The Theory of Planned Beahvior (TPB) states that attitude toward behavior, subjective norms, and perceived behavioral control, together shape an individual's behavioral intentions and behaviors.",  # TODO: use a dust template?
+    # TODO: use a dust template for introHTML?
+    introHTML: """
+                <div class='box box-primary' id='study-intro-box'>
+                    <div class='box-header'>
+                        Modeling Task Instructions
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div id='study-intro-intro' class="box box-primary">
+                                Your goal in this activity is to create a model based on Icek Ajzen's Theory of Planned Beahvior (TPB) as it applies to physical activity. From this model we will be able to perform simulations and see how a simulation agent with the TPB at its core might behave in various scenarios.
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+
+                            <div id="tpb-description" class="box box-primary col-xs-6">
+                                <div class='box-header'>
+                                    Theory of Planned Behavior Summary
+                                </div>
+                                <a href="http://en.wikipedia.org/wiki/Theory_of_planned_behavior">The Theory of Planned Beahvior</a> (TPB) states that attitude toward behavior, subjective norms, and perceived behavioral control, together shape an individual's behavioral intentions and behaviors. "Intentions to perform behaviors of different kinds can be predicted with high accuracy from attitudes toward the behavior, subjective norms, and perceived behavioral control; and these intentions, together with perceptions of behavioral control, account for considerable variance in actual behavior. Attitudes, subjective norms, and perceived behavioral control are shown to be related to appropriate sets of salient behavioral, normative, and control beliefs about the behavior, but the exact nature of these relations is still uncertain. <a href="http://dx.doi.org/10.1016%2F0749-5978%2891%2990020-T">(Ajzen 1985)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="todo-checklist" class="box box-primary">
+                                Task completion checklist:
+                                <ol>
+                                    <li>Create "information-flow" diagram of the TPB
+                                        <ul>
+                                            <li>generic example has been included to help</li>
+                                            <li>use text box on left to change the diagram</li>
+                                            <li>develop a path diagram of the TPB</li>
+                                        </ul>
+                                    </li>
+                                    <li>Describe relations between variables
+                                        <ul>
+                                            <li>click each node in the diagram to select it</li>
+                                            <li>use the "Selected Node Model Specification" widget to formulate the variable in terms of its inflows.</li>
+                                            <li>define inputs for nodes with no inflows</li>
+                                            <li>use the "mini-simulation" widgets to see how values change over time.</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            """,
+
     studyCompleteEvent: "modelComplete",
     studySubmitEvent: "submitTheStudy",
     finishedHTML: "Your model looks complete, nice work! When you are ready, <a href='#' onclick='$(document).trigger(\"submitTheStudy\")'>click here to submit your model and finish.</a>",  # TODO: use a dust template?
