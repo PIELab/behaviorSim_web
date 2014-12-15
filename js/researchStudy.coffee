@@ -20,6 +20,7 @@ class Study
 
     constructor: (options)->
         @options = options
+        @completed = false
         
     startStudy: ()->
         # inits the study, setting up the completion listener and the study instructions text
@@ -29,8 +30,10 @@ class Study
     completeStudy: ()=>
         # triggered when the required tasks have been completed. The finishedHTML is shown.
         # The button or link to finish and submit the data (given by @options.submitBtnElement)
-        @options.studyTextElement.html(@options.finishedHTML);
-        $(document).on(@options.studySubmitEvent, @submitStudy);  # activate study completeBtn
+        if !@completed
+            @options.studyTextElement.append(@options.finishedHTML);
+            $(document).on(@options.studySubmitEvent, @submitStudy);  # activate study completeBtn
+            @completed=true
 
     submitStudy: ()=>
         # triggered by clicking on the "submit study" button, this gets all data from the 

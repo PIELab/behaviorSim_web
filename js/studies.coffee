@@ -74,7 +74,10 @@ model_builder_usability_study = {
 
     studyCompleteEvent: "modelComplete",
     studySubmitEvent: "submitTheStudy",
-    finishedHTML: "Your model looks complete, nice work! When you are ready, <a href='#' onclick='$(document).trigger(\"submitTheStudy\")'>click here to submit your model and finish.</a>",  # TODO: use a dust template?
+    finishedHTML: """
+                <div class='box box-success' id='study-intro-box'>
+                    Your model looks just about complete, nice work! When you are ready, <a href='#' onclick='$(document).trigger(\"submitTheStudy\")'>click here to submit your model and finish.</a>
+                </div>                                                                                                                                                      """,  # TODO: use a dust template?
     studyId: "U1",
     target:"https://docs.google.com/a/mail.usf.edu/forms/d/18qPcVfTXrsiF8ZgEWe_5qgpDrgncges80j8-7Ys3Zsk/formResponse",  # place where data POSTs to
     completionRedirect: "modelBuilderUsabilityStudy/usabilitySurvey.html",  # where to send participants after completing study & submitting data
