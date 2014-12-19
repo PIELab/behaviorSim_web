@@ -12,7 +12,6 @@
     <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="../../css/AdminLTE.css" rel="stylesheet" type="text/css" />
-
 </head>
 <body class="container">
 
@@ -28,6 +27,25 @@
         <p>
             This concludes your participation in the BehaviorSim Model Builder Usability Survey!
         </p>
+        <ul>
+            <li>
+                  <div class="btn-group btn-toggle"> 
+                        <button class="btn btn-primary" data-toggle="collapse" data-target="#collapsible">Yes</button>
+                        <button class="btn btn-default active" data-toggle="collapse" data-target="#collapsible">No</button>
+                    </div>
+                volunteer to be contacted about your responses in this study
+            </li>
+            <li>volunteer to receive emails about participating in future behaviorSim studies</li>
+            <li>get email updates about behaviorSim's progress</li>
+        </ul>
+        
+        <div class="well collapse" id="collapsible"> 
+            <form class="form">
+                <input type="text" name="email" value="your email address"></input>
+                <button class="btn btn-default">Submit</button>
+            </form> 
+        </div>
+
         <p>
             Feel free to contact tylarmurray@mail.usf.edu with any further questions or concerns!
         </p>
@@ -43,6 +61,39 @@
         </ul>
     </div>
 </section>
+
+<!-- jquery -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- control for yes/no subscribe buttons -->
+<script type="text/javascript">
+    $('.btn-toggle').click(function() {
+        $(this).find('.btn').toggleClass('active');  
+        
+        if ($(this).find('.btn-primary').size()>0) {
+            $(this).find('.btn').toggleClass('btn-primary');
+        }
+        if ($(this).find('.btn-danger').size()>0) {
+            $(this).find('.btn').toggleClass('btn-danger');
+        }
+        if ($(this).find('.btn-success').size()>0) {
+            $(this).find('.btn').toggleClass('btn-success');
+        }
+        if ($(this).find('.btn-info').size()>0) {
+            $(this).find('.btn').toggleClass('btn-info');
+        }
+        
+        $(this).find('.btn').toggleClass('btn-default');
+           
+    });
+
+    $('form').submit(function(){
+        alert($(this["options"]).val());
+        return false;
+    });
+</script>
 
 </body>
 </html>
