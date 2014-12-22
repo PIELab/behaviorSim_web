@@ -57,7 +57,13 @@
             .infoflow-tooltip{
                 font-weght: bold;
                 color: #2488DF;  /* TODO use .less variables */
-                text-decoration: overline underline;
+                text-decoration: underline;
+            }
+
+            .contextvar-tooltip{
+                font-weght: bold;
+                color: #2488DF;  /* TODO use .less variables */
+                text-decoration: underline;
             }
         </style>
         
@@ -487,13 +493,18 @@
                                 </div>
                             </div>
                             <div id='source-spec'>
-                                So <span class='selected_node selected_node_text'>???</span> must be either a
-                                context variable, or a personality variable.
-                                <span class='selected_node selected_node_text'>???</span> is a
-                                <select id="source-type-selector" class="chosen-select">
-                                    <!--<option value="personality-var-options">personality variable</option>-->
-                                    <option value="context-var-options">context variable</option>
-                                </select>
+                                So <span class='selected_node selected_node_text'>???</span> must be a
+                                <span class="contextvar-tooltip"> context variable</span>.
+
+                                <!-- TODO: add personality var back and unhide -->
+                                <div style="display:none;">
+                                    <span class='selected_node selected_node_text'>???</span> is a
+                                    <select id="source-type-selector" class="chosen-select">
+                                        <!--<option value="personality-var-options">personality variable</option>-->
+                                        <option value="context-var-options">context variable</option>
+                                    </select>
+                                </div>
+
                             </div>
                             <div id="modeling-options">
                                 <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
@@ -504,7 +515,7 @@
                                 <script type='text/coffeescript' src="../js/modeling_options_controls.coffee"></script>
                             </div>
                             <div id="assumption-options">
-                                Since we cannot know the value of this exogenous inflow from the agent's context without simulating the enviroment, set here a temporary function for the mini-simulation:
+                                Since we cannot know the value of this exogenous inflow from the agent's <span class="contextvar-tooltip">context</span> without simulating the environment, set here a temporary function for the mini-simulation:
                                 <div id="assumption-options-selector">
                                     <select id="calculator-preset" style="width:250px;" tabindex="4">
                                         <option value="random_walk">random walk</option>
@@ -718,7 +729,16 @@
                     html:true,
                     title:"Information Flow Diagrams",
                     content:'Information Flow Diagrams represent the flow of information between variables. Arrows in infoFlow diagrams (e.g. A->B) can be read like "A influences B"'
-                });
+                }).click(function(){ window.open("https://github.com/PIELab/behaviorSim_web/wiki/Information-Flow-Diagram"); } );
+
+                $('.contextvar-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container: 'body',
+                    html:true,
+                    title:"Context Variables",
+                    content:'Context Variables are variables with values that are dependent only on the environment. Thus, they represent the flow of information into the human system from the surrounding environment."'
+                }).click(function(){ window.open("https://github.com/PIELab/behaviorSim_web/wiki/Context-Variable"); } );
             });
 
             $(window).on("beforeunload", function() {
