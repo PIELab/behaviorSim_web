@@ -36,11 +36,11 @@
             /* node coloration guide */
             .selected_node{
                 font-weight:bold;
-                color:#2488DF;
+                color:#2488DF;  /* TODO use .less variables */
             }
             .complete_node{
                 font-weight:bold;
-                color:#00A900;
+                color:#00A900;  /* TODO use .less variables */
             }
 
             /* remove min height of rows */
@@ -51,6 +51,13 @@
             .connectedSortable {
                 margin-bottom: 5px !important;
                 min-height: 5px !important;
+            }
+
+            /* tooltips */
+            .infoflow-tooltip{
+                font-weght: bold;
+                color: #2488DF;  /* TODO use .less variables */
+                text-decoration: overline underline;
             }
         </style>
         
@@ -288,7 +295,7 @@
                                         <li><!-- Task item -->
                                             <a href="#">
                                                 <h3>
-                                                    Draw an information flow diagram
+                                                    Draw an <span class="infoflow-tooltip">information flow diagram</span>
                                                     <small class="pull-right">20%</small>
                                                 </h3>
                                                 <div class="progress xs">
@@ -430,7 +437,7 @@
                     <!-- main diagram display -->
                     <div class="col-lg-9 col-md-8 col-sm-12">
                         <div class="title" style="overflow:hidden">
-                            Information Flow Diagram of your model &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="infoflow-tooltip">Information Flow Diagram</span> of your model &nbsp;&nbsp;&nbsp;&nbsp;
                             (click to select a node) &nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
                         <div id="color-key">
@@ -649,6 +656,7 @@
                     // hide the loading div
                     $('#loading-wrapper').fadeTo(500,0);
                     $('#loading-wrapper').hide();
+
                     console.log('application successfully initialized');
                 } catch (e) {
                     if (e.message == "db not ready"  // TODO: catch actual db error here
@@ -700,6 +708,18 @@
             }
 
             $(window).on("load", init_app);
+
+            // initialize tooltip popovers
+            $(function () {
+                $('.infoflow-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container: 'body',
+                    html:true,
+                    title:"Information Flow Diagrams",
+                    content:'Information Flow Diagrams represent the flow of information between variables. Arrows in infoFlow diagrams (e.g. A->B) can be read like "A influences B"'
+                });
+            });
 
             $(window).on("beforeunload", function() {
                 // TODO: show shutting down message
