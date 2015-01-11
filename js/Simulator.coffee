@@ -20,7 +20,7 @@ class Simulator
         :returns: true if recalc is set, false if no data values exist anyway
         ###
         # clear out data_values so that get_values recalcs next time
-        console.log('clearing data for node:', node_id)
+        #console.log('clearing data for node:', node_id)
         node = @_model.get_node(node_id)
         if node.data_values
             delete node.data_values
