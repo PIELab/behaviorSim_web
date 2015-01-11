@@ -1,3 +1,10 @@
+# === global constants === #
+window.URI_CODE = {
+    studyId:'SID',
+    sessionId:'PID'
+}
+# === ================ === #
+
 check_for_complete_model = () ->
     # checks if the model is complete and fires the model_complete_event if needed
     if model_builder.model_is_complete()
@@ -6,6 +13,8 @@ check_for_complete_model = () ->
     else
         return
 $(document).on("selectNodeChange", (evt) -> check_for_complete_model())
+
+window.session = new Session()
 
 @model_builder = new ModelBuilder
 @simulator = new Simulator(model_builder._model, model_builder._graph)

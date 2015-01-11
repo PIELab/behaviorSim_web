@@ -1,4 +1,4 @@
-// load URI search into global uri_search var
+// loads URI search into global uri_search var window.uri_search
 uri_search = {};
 if (window.location.search){
     try{
