@@ -11,30 +11,23 @@ class Session
             auto_compaction: false
         }
         @db = new PouchDB(remote, optns)  # the sessions db
-        @ready = false
         @noSave = true
+
         sId = window.uri_search[URI_CODE.sessionId]
         if sId?
             @db.get(sId).then( (doc)=>
                 # add new access logpoint
                 doc.accessed.append(new Date().getTime() / 1000)
                 @doc = doc
-            ).then( ()->
-                @ready = true
                 @noSave = false
-            ).catch( @_setup_default )
+                loggit(0)
+            ).catch( (err)=>
+                console.log('could not load session, using default. err:', err)
+                @_setup_default()
+            )
         else # no session id given
+            console.log('no session id given, using demo session')
             @_setup_default()
-
-        loggit = (n)=>
-            if @doc?
-                console.log('session initiated: ', @doc)
-            else
-                delay = Math.ceil(Math.exp(n))*1000
-                console.log('session not ready, waiting ', delay, 'ms...')
-                setTimeout(loggit, delay, n+1)
-
-        loggit(0)
 
     # === constants === #
     @DEFAULT_SESSION = {
@@ -50,9 +43,9 @@ class Session
 
     # === "private" methods === #
     _setup_default: ()->
-        @doc = @DEFAULT_SESSION
-        @ready = true
+        @doc = Session.DEFAULT_SESSION
         @noSave = true
+        return
     # === ================= === #
 
 try
