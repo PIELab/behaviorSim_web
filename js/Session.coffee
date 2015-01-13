@@ -9,35 +9,38 @@ class Session
         optns = {  # database options
             auto_compaction: false
         }
-        @db = new PouchDB(Session.SESSION_DB_NAME, optns)  # connect to or create local db
+
+        syncOptns = {  # local->remote sync options
+            continuous: true
+        }
 
         remote = 'https://theryintrinissalaslanter:8oXG6udJSnyftARSlUBuvI60@7yl4r.cloudant.com/'+Session.SESSION_DB_NAME
+
+        @db = new PouchDB(Session.SESSION_DB_NAME, optns)  # connect to or create local db
         @remote_db = new PouchDB(remote, optns)  # the remote sessions db
 
         sId = window.uri_search[URI_CODE.sessionId]
         if sId?
             # load from local db
             @db.get(sId).then( (doc)=>
+                # TODO check for existing remote session
                 # TODO check remote revision, if more current than local then ask user 
-                # TODO sync changes to remote... (do not sync full remote db to local)
-                @doc = doc                
+                @doc = doc
+                # sync changes to remote... (do not sync full remote db to local)
+                @db.replicate.to(remote, syncOptns);
                 @_add_access_point()
                 console.log('local session loaded')
             ).catch( (err)=>
-                console.log('local db load err:', err)
-                if err.status not in [404]
-                    console.log(err.stack)
-                    #return
+                @_logError('local', err)
+
                 # no local, try get session doc from remote
                 @remote_db.get(sId).then( (doc)=>
-                    # TODO put doc into local 
-                    
-                    # TODO sync local->remote (not remote->local)
                     @doc = doc
-                    @_add_access_point()
+                    @_add_access_point()  # Note: this also puts doc into local
+                    # TODO sync local->remote (not remote->local)
                     console.log('remote session loaded')
                 ).catch( (err)=>
-                    console.log('remote db load err:', err)
+                    @_logError('remote', err)
                     # no local, no remote
                     console.log('could not load session, using default')
                     @_setup_default()
@@ -84,6 +87,14 @@ class Session
         # loads up a default session
         @doc = Session.DEFAULT_SESSION
         return
+
+    _logError: (dbId, err)->
+        # convenience method for shortening known error logs & showing details on unknown ones
+        if err.status == 404
+            console.log(dbId + ' session not found')
+        else  # other error
+            console.log(dbId + ' db load err:', err)
+            console.log(err.stack)
     # === ================= === #
 
 try
