@@ -147,6 +147,21 @@
 
         <!-- jquery event debugger -->
         <script type="text/coffeescript" src="../js/event_debugger.coffee"></script>
+		
+		
+		<!--MathJax Configuration: should be placed before CDN script-->
+		
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+		});
+		</script>
+		
+		<!-- MathJax CDN over https-->
+		<script type="text/javascript"
+		  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+		</script>
+		
 
     </head>
     <body class="skin-blue">
@@ -506,14 +521,17 @@
                                 </div>
 
                             </div>
+							
                             <div id="modeling-options">
-                                <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>)
+                                <span class='selected_node_functional_form'>???=f(?, ?, ?, t)=c_?*c(t)+c_?*?(t)</span>
                                 <br>
                                 <form id="modeling-options-form">
                                     loading options...
                                 </form>
                                 <script type='text/coffeescript' src="../js/modeling_options_controls.coffee"></script>
                             </div>
+
+							
                             <div id="assumption-options">
                                 Since we cannot know the value of this exogenous inflow from the agent's <span class="contextvar-tooltip">context</span> without simulating the environment, set here a temporary function for the mini-simulation:
                                 <div id="assumption-options-selector">
