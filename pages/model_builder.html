@@ -79,19 +79,7 @@
         <!-- user data -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pouchdb/3.2.0/pouchdb.min.js"></script>
         <script type="text/coffeescript" src="../js/Session.coffee"></script>
-        <script type="text/javascript">
-            // default user_data to fall back on
-            user_data = {
-                name: "demo_user",
-                uid: "DEMOxUID",
-                visits: 0
-            };
-            
-            // set user_data information which was passed in the URI search
-            if (uri_search.uid){
-                user_data.uid = uri_search.uid;
-            }
-        </script>
+
         
         <!-- jquery -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -651,10 +639,6 @@
             }).disableSelection();
             $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
 
-            // TODO: set up connection to user data db
-            $('#loading-status').html('connecting to config db');
-            //init_user_data_loader();
-
             // ==========================================================
             //                  really stubborn app inits
             // ==========================================================
@@ -662,8 +646,6 @@
 
             function init_app() {
                 try{
-                    $('#loading-status').html('loading config');
-                    get_user_data();
                     $('#loading-status').html('initializing GUI');
                     init_ui();
                     $('#loading-status').html('DONE!');
@@ -687,23 +669,6 @@
                         timeout_len *= 2;
                     } else {
                         throw e;
-                    }
-                }
-            }
-
-            function get_user_data(){
-                // === LOAD USER DATA FROM DB ===
-                try {  // try to load UID from the URI
-                    Error("user not found");  // b/c there is no db yet...
-                    // TODO: get user_data using uid
-                    //load_user_data(uri_search.uid);
-                    //user_data.visits += 1;  // TODO: track visit count
-                } catch (err) {  // use default UID
-                    if (err.message == "user not found"  // TODO: use actual user not found error(s)
-                        || err.message == "Cannot read property 'split' of undefined"){
-                        console.log('cannot load user from db, using default');
-                    } else {
-                        throw err;
                     }
                 }
             }
@@ -749,7 +714,7 @@
             $(window).on("beforeunload", function() {
                 // TODO: show shutting down message
 
-                // TODO: save_user_data(user_data);  // save user data to db
+                // TODO: // save user data to db
 
                 // post user visit details to google spreadsheet
                 user_tracker_sheet = 'https://docs.google.com/a/mail.usf.edu/forms/d/1SO3S1QvRcjXK-bLOQ_vuJt0b8nO99Syh339v9zQAltY/formResponse'
