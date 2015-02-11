@@ -62,6 +62,10 @@ class Session
             console.log('no session id given, using demo session')
             @_setup_default()
 
+        $(document).on('appReady',() =>
+            @updateSessionUI()
+        )
+
     # === constants === #
     @SESSION_DB_NAME = 'behaviorsim_sessions'
 
@@ -76,6 +80,12 @@ class Session
         accessed: []
     }
     # === ========= === #
+
+    # === public methods === #
+    updateSessionUI: ()->
+        # updates the user interface to reflect current session
+        $('.u-name').text(@doc._id)
+    # === ============== === #
 
     # === "private" methods === #
     _add_access_point: ()->
