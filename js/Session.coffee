@@ -26,8 +26,7 @@ class Session
                 # TODO check for existing remote session
                 # TODO check remote revision, if more current than local then ask user 
                 @doc = doc
-                # sync changes to remote... (do not sync full remote db to local)
-                @db.replicate.to(remote, syncOptns);
+                @db.replicate.to(remote, syncOptns)
                 @_add_access_point()
                 console.log('local session loaded')
             ).catch( (err)=>
@@ -37,7 +36,7 @@ class Session
                 @remote_db.get(sId).then( (doc)=>
                     @doc = doc
                     @_add_access_point()  # Note: this also puts doc into local
-                    # TODO sync local->remote (not remote->local)
+                    @db.replicate.to(remote, syncOptns)
                     console.log('remote session loaded')
                 ).catch( (err)=>
                     @_logError('remote', err)
@@ -51,7 +50,7 @@ class Session
                         sId
                     ).then( (response)=>
                         console.log('local session saved for later')
-                        # TODO Sync local->remote
+                        @db.replicate.to(remote, syncOptns)
                     ).catch( (err)=>
                         console.log('err putting in local db:', err)
                         throw err
@@ -83,7 +82,7 @@ class Session
     @SESSION_DB_NAME = 'behaviorsim_sessions'
 
     @DEFAULT_SESSION = {
-        #_id: '_default',
+        _id: '_default',
         createDate: new Date().toDateString(),
         widgetLayout: 'TODO',  # TODO
         avatar: 'demoUser',
