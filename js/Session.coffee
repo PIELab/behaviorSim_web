@@ -64,7 +64,20 @@ class Session
 
         $(document).on('appReady',() =>
             @updateSessionUI()
+
+            $(document).on('graphChange', ()=>
+                @doc.model = model_builder._model.getPackedModel()  # TODO: do this w/o global reference
+                @db.put(@doc)
+            )
+
+            # TODO: why does this does not work in place of all the other @db.put()s
+            #$(window).on("beforeunload", ()=>
+            #    @db.put(@doc)
+            #    return "db updated"
+            #)
         )
+
+
 
     # === constants === #
     @SESSION_DB_NAME = 'behaviorsim_sessions'

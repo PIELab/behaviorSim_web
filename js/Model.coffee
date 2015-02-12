@@ -67,6 +67,22 @@ class Model extends Graph
         else
             # add node
             @add_node(name, type, parents ? [], children ? [], formulation)
+
+    getPackedModel: ()->
+        # returns a "packed" version of this model which only includes the most critical attributes (to save on db space)
+        packedNodes = {}
+        for node of @nodes  # TODO test this!!!
+            packedNodes[node] = @nodes[node].getPackedNode(['assumption', 'children', 'formulation', 'in_a_loop', 'index', 'lowLink', 'name', 'parents', 'type'])
+
+        return {
+            creator: @creator,
+            name: @name,
+            description: @description,
+            time_step: @time_step,
+            node_count: @node_count,
+            root_node: @root_node,
+            nodes: packedNodes
+        }
     
     _recycle_node: (nodeId) -> 
         ###

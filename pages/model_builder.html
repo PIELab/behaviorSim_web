@@ -714,8 +714,6 @@
             $(window).on("beforeunload", function() {
                 // TODO: show shutting down message
 
-                // TODO: // save user data to db
-
                 // post user visit details to google spreadsheet
                 user_tracker_sheet = 'https://docs.google.com/a/mail.usf.edu/forms/d/1SO3S1QvRcjXK-bLOQ_vuJt0b8nO99Syh339v9zQAltY/formResponse'
 
@@ -740,6 +738,7 @@
                         }
                     }
                 );
+                return "We'll save your progress."
             });
         </script>
     </body>
