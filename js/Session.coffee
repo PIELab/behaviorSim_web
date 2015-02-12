@@ -21,42 +21,54 @@ class Session
 
         sId = window.uri_search[URI_CODE.sessionId]
         if sId?
+            # TODO: make these local vars, not class attr
+            @inLocal = false
+            @localDoc = {}
+            @inRemote = false
+            @remoteDoc = {}
+            @def1 = new $.Deferred()
+            @def2 = new $.Deferred()
             # load from local db
             @db.get(sId).then( (doc)=>
                 # TODO check for existing remote session
                 # TODO check remote revision, if more current than local then ask user 
-                @doc = doc
-                @db.replicate.to(remote, syncOptns)
-                @_add_access_point()
-                console.log('local session loaded')
+                @inLocal = true
+                @localDoc = doc
+                @def1.resolve()
             ).catch( (err)=>
                 @_logError('local', err)
-
-                # no local, try get session doc from remote
-                @remote_db.get(sId).then( (doc)=>
-                    @doc = doc
-                    @_add_access_point()  # Note: this also puts doc into local
-                    @db.replicate.to(remote, syncOptns)
-                    console.log('remote session loaded')
-                ).catch( (err)=>
-                    @_logError('remote', err)
-                    # no local, no remote
-                    console.log('could not load session, using default')
-                    @_setup_default()
-                    
-                    # create new doc in local db
-                    @db.put(
-                        @doc,
-                        sId
-                    ).then( (response)=>
-                        console.log('local session saved for later')
-                        @db.replicate.to(remote, syncOptns)
-                    ).catch( (err)=>
-                        console.log('err putting in local db:', err)
-                        throw err
-                    )
-                )
+                @inLocal = false
+                @def1.resolve()
             )
+            
+            # load session doc from remote
+            @remote_db.get(sId).then( (doc)=>
+                @inRemote = true
+                @remoteDoc = doc
+                @def2.resolve()
+            ).catch( (err)=>
+                @_logError('remote', err)
+                @inRemote = false
+                @def2.resolve()
+            )
+            
+            
+            $.when(@def1, @def2).done( ()=>
+                console.log('inLocal:',@inLocal,'inRemote',@inRemote)
+                if @inLocal && @inRemote
+                    alert('TODO: compare _rev, ask user if remote>local')
+                    @doc = @localDoc  # temp workaround
+                else if @inLocal
+                    @doc = @localDoc
+                else if @inRemote
+                    @doc = @remoteDoc
+                else
+                    @_setup_default() 
+                    
+                @_add_access_point()  # Note: this also puts doc into local
+                @db.replicate.to(remote, syncOptns)
+            )
+            
         else # no session id given
             console.log('no session id given, using demo session')
             @_setup_default()
@@ -66,7 +78,10 @@ class Session
 
             $(document).on('graphChange', ()=>
                 @doc.model = model_builder._model.getPackedModel()  # TODO: do this w/o global reference
-                @db.put(@doc)
+                @db.get(@doc._id).then( (doc)=>
+                    @doc._rev = doc._rev
+                    @db.put(@doc)
+                )
             )
 
             # TODO: why does this does not work in place of all the other @db.put()s
@@ -82,7 +97,7 @@ class Session
     @SESSION_DB_NAME = 'behaviorsim_sessions'
 
     @DEFAULT_SESSION = {
-        _id: '_default',
+        _id: 'DEFAULT',
         createDate: new Date().toDateString(),
         widgetLayout: 'TODO',  # TODO
         avatar: 'demoUser',
@@ -103,10 +118,15 @@ class Session
     _add_access_point: ()->
         # adds a session accessed logpoint to the db with relevant info
         @doc.accessed.push(Math.floor(new Date().getTime() / 1000))
-        @db.put(@doc)
+        @db.get(@doc._id).then( (doc)=>
+            @doc._rev = doc._rev
+            @db.put(@doc)
+        )
         
-    _setup_default: ()->
-        # loads up a default session
+    _setup_default: (ID)->
+        # loads up a default session with ID if given, else uses default
+        if ID?
+            @doc._id = ID
         @doc = Session.DEFAULT_SESSION
         return
 

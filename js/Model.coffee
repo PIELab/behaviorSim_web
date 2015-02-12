@@ -74,7 +74,7 @@ class Model extends Graph
         for node of @nodes  # TODO test this!!!
             packedNodes[node] = @nodes[node].getPackedNode(['assumption', 'children', 'formulation', 'in_a_loop', 'index', 'lowLink', 'name', 'parents', 'type'])
 
-        return {
+        return JSON.parse(JSON.stringify({
             creator: @creator,
             name: @name,
             description: @description,
@@ -82,7 +82,7 @@ class Model extends Graph
             node_count: @node_count,
             root_node: @root_node,
             nodes: packedNodes
-        }
+        }))
     
     _recycle_node: (nodeId) -> 
         ###
