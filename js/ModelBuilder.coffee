@@ -186,7 +186,18 @@ class ModelBuilder
         ###
         lhs = @selected_node + "("  # left hand side
         rhs = ""  # right hand side
-
+        
+        # attempt to create general equation (iteration 1 under diff-eq
+        
+        
+        ###
+        Note for future use of latex commands: use double backslashes (\\) as opposed
+        to single (\) as the single is used as an escape character, so for example if we
+        were to want tau in our equation, use \\tau and not \tau. 
+        ###
+        
+        generalEquation = ""
+    
         switch @get_node_model(@selected_node)
             when 'linear-combination'
                 for parent in @get_node(@selected_node).parents
@@ -195,9 +206,12 @@ class ModelBuilder
                 lhs += 't)'
                 rhs = rhs[0..rhs.length-2]  # trim off last plus
             when 'differential-equation'
-                rhs += 'tao_' + @selected_node + '*d' + @selected_node + '/dt =' + @selected_node
+            
+                # generalEquation = "\\tau_{1}frac{deta{1}}{dt}"
+            
+                rhs += "\\tau_{" + @selected_node + '}*\\frac{d' + @selected_node + '}{dt} =' + @selected_node
                 for parent in @get_node(@selected_node).parents
-                    rhs += '+ c_' + parent + '*' + parent + '(t - theta_' + parent + ')'
+                    rhs += '+ c_{' + parent + '}*' + parent + '(t - \\theta_{' + parent + '})'
                 lhs += 't)'
             when 'other'
                 for parent in @get_node(@selected_node).parents
@@ -215,7 +229,8 @@ class ModelBuilder
                 rhs += 'gauss(mu, sigma)'
             else
                 throw Error('unknown node model "'+@get_node_model(@selected_node)+'"')
-
+    
+        # return generalEquation
         return lhs + ' = ' + rhs
 
     node_is_complete: (node) ->
@@ -243,6 +258,7 @@ class ModelBuilder
             else
                 throw err
 
+	
     update_selected_node_form: () ->
         ###
         updates the modeling options form with a form used to specify the selected node

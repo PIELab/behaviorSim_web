@@ -148,12 +148,17 @@
         <!-- jquery event debugger -->
         <script type="text/coffeescript" src="../js/event_debugger.coffee"></script>
 		
-		
 		<!--MathJax Configuration: should be placed before CDN script-->
+		
+		<!--Need to figure out proper input for \tau and \sigma so doesn't break Coffescript and JS Code-->
+		
 		
 		<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
-		  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+		  tex2jax: {inlineMath: [['$','$'], ['\(','\)']]
+		 
+		  }
+		  
 		});
 		</script>
 		
@@ -161,7 +166,12 @@
 		<script type="text/javascript"
 		  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 		</script>
-		
+
+    <script type="text/javascript" src="http://github.hubspot.com/shepherd/shepherd.js"></script>
+    
+    <!-- Shepherd themes -->
+    <link rel="stylesheet" href="http://github.hubspot.com/shepherd/css/shepherd-theme-arrows.css" />
+
 
     </head>
     <body class="skin-blue">
@@ -551,7 +561,7 @@
                             -->
                         </div>
                     </section>
-                    <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                    <section class="col-lg-6 col-md-4 col-sm-12 connectedSortable">
                         <!-- parent graphs -->
                         <div class='box box-primary'>
                             <div id="parent-graphs">
@@ -559,7 +569,9 @@
                             </div>
                             <script type="text/coffeescript" src="../js/parent_timeseries_graphs.coffee"></script>
                         </div>
-                        <!-- support -->
+                        
+                        
+                        <!-- support 
                         <div class="box box-primary">
                             <div class="box-header">
                                 Support/Contact
@@ -572,7 +584,11 @@
                                 <li>Contact tylarmurray@mail.usf.edu with any other questions/comments.</li>
                             </ul>
 
-                        </div>
+            </div>-->
+                        
+                        
+                        
+                        
                         <!-- settings -->
                         <div class="box box-primary" style="display: none;">
                             <div class="box-header">
@@ -586,7 +602,7 @@
                             </label>
                         </div>
                     </section>
-                    <section class="col-lg-3 col-md-4 col-sm-12 connectedSortable">
+                    <section class="col-lg-6 col-md-4 col-sm-12 connectedSortable">
                         <!-- selected node miniSimulation -->
                         <div class='box box-primary'>
                             <div class="box-header">
@@ -599,7 +615,10 @@
                             </div>
                             <script type="text/coffeescript" src="../js/selected_timeseries_graph.coffee"></script>
                         </div>
-                        <!-- customization -->
+                        
+                        
+                        
+                        <!-- customization
                         <div class='box box-primary'>
                             <div class="box-header">
                                 Customization
@@ -607,7 +626,7 @@
                             <div>
                                 Drag and drop widgets to rearrange however you like. Registered users can save their  configuration and access additional widgets.
                             </div>
-                        </div> <!-- /customization -->
+                        </div> --><!-- /customization -->
 
                         <!-- model uploader
                         <div class="box box-primary" id="model-loader">
@@ -638,6 +657,27 @@
                 </div>
             </section><!-- /.content -->
         </div><!-- ./wrapper -->
+		
+		
+		<footer class="footer">
+		  <div class="container">
+		    <p class="text-muted">Confused? Issues? <a href="mailto:tylarmurray@mail.usf.edu"> Contact us </a> for help, feature requests, or bugs!</p>
+		  </div>
+		</footer>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
         <!-- jquery UI -->
         <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script>
@@ -794,5 +834,19 @@
                 );
             });
         </script>
+        
+
+        <!-- Shepherd MVP -->
+        <script type="text/javascript" src="../js/script.js"></script>
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </body>
 </html>
