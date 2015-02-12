@@ -72,9 +72,24 @@ class Model extends Graph
         # returns a "packed" version of this model which only includes the most critical attributes (to save on db space)
         packedNodes = {}
         for node of @nodes  # TODO test this!!!
-            packedNodes[node] = @nodes[node].getPackedNode(['assumption', 'children', 'formulation', 'in_a_loop', 'index', 'lowLink', 'name', 'parents', 'type'])
+            packedNodes[node] = @nodes[node].getPackedNode(['children', 'in_a_loop', 'index', 'lowLink', 'name', 'parents', 'type'])
 
-        return JSON.parse(JSON.stringify({
+            # serialize formulation/assumption functions if they exist
+            if @nodes[node].assumption? && @nodes[node].assumption.calculator?
+                packedNodes[node].assumption = {
+                    calculator: @nodes[node].assumption.calculator.toString(),
+                    arguments: @nodes[node].assumption.arguments,
+                    type: @nodes[node].assumption.type
+                }
+
+            if @nodes[node].formulation? && @nodes[node].formulation.calculator?
+                packedNodes[node].formulation = {}
+                for attr of @nodes[node].formulation
+                    packedNodes[node].formulation[attr] = @nodes[node].formulation[attr]
+                packedNodes[node].formulation.calculator = @nodes[node].formulation.calculator.toString()
+
+
+        return {
             creator: @creator,
             name: @name,
             description: @description,
@@ -82,7 +97,7 @@ class Model extends Graph
             node_count: @node_count,
             root_node: @root_node,
             nodes: packedNodes
-        }))
+        }
     
     _recycle_node: (nodeId) -> 
         ###

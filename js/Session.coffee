@@ -76,7 +76,8 @@ class Session
         $(document).on('appReady',() =>
             @updateSessionUI()
 
-            $(document).on('graphChange', ()=>
+            $(document).on('graphModelUpdated', ()=>
+                console.log('MODEL SERIALIZATION')
                 @doc.model = model_builder._model.getPackedModel()  # TODO: do this w/o global reference
                 @db.get(@doc._id).then( (doc)=>
                     @doc._rev = doc._rev
