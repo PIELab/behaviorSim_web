@@ -56,10 +56,10 @@ $(document).on('selectNode', (evt) ->
     try
         node = model_builder.get_node(model_builder.selected_node)
         if model_builder.node_is_complete(node)
-            console.log('it is done')
+            #console.log('it is done')
             return
         else
-            console.log('submitting')
+            #console.log('submitting')
             $(document).trigger('selectNodeChange')
     catch err
         if err.message == 'node not found'
