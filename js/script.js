@@ -1,19 +1,13 @@
- 
- 
- /*
+  /*
   Next steps:
   
   - have it only initialize for new users
   - have it as a link as an optional tutorial for existing users
-  -  
-  
-  
-  
-  
+  -
   
   */
- 
- 
+
+
  
  (function() {
 	 var init, setupShepherd;
@@ -22,8 +16,8 @@
 		 return setupShepherd();
 	 };
 
- 	
- 	
+
+
 	
 	setupShepherd = function() {
         	var tour;
