@@ -87,7 +87,7 @@
 
         <p>
             Additionally, certain people may need to see your study records. By law, anyone who looks at your records must keep them completely confidential. The only people who will be allowed to see these records are:
-            The priciple investigator, research team, advising professor,The University of South Florida Institutional Review Board (IRB), researchers from collaborating institutions, and other government offices such as The Department of Health and Human Services (DHHS).
+            The principle investigator, research team, advising professor,The University of South Florida Institutional Review Board (IRB), researchers from collaborating institutions, and other government offices such as The Department of Health and Human Services (DHHS).
         </p>
 
         <h4>CONTACT INFORMATION</h4>
@@ -101,15 +101,157 @@
     <div class="row box box-primary">
         I freely give my consent to take part in this study. I understand that by proceeding with this survey that I am agreeing to take part in research and I am 18 years of age or older.
         <br>
-        <a href="./demographic_survey.html" class="btn btn-success" id="continue-btn">I Consent</a>
+        <button class="btn btn-success" id="continue-btn" onclick="goToPageWithId('./studyChecklist.html')">I Consent</button>
         <a href="pielab.github.io/behaviorSim_web/" class="btn btn-danger">Return to Homepage</a>
     </div>
     <div class="row box box-primary">
-        USF IRB # Pro00020226
-        ICD Version # 1
-        ICD Date: 2015-04-24
+        <div class="col-xs-4">
+            USF IRB # Pro00020226
+        </div>
+        <div class="col-xs-4">
+            ICD Version # 1
+        </div>
+        <div class="col-xs-4">
+            ICD Date: 2015-04-24
+        </div>
     </div>
 </section>
+
+<script type="text/javascript">
+
+    var encodeYear = function(year){
+        var encoding1 = {
+            2015: 'run',
+            2016: 'bike'
+        };
+        var encoding2 = {
+            2015: 'dance',
+            2016: 'karate'
+        };
+        var encodings = [encoding1, encoding2];
+        var encodingChoice = Math.round(Math.random());
+        return encodings[encodingChoice][year]
+    }
+
+    var encodeMonth = function(month){
+        var encode1 = [
+            'Apple',    //jan
+            'Banana',   //feb
+            'Cherry',   //mar
+            'Fig',      //apr
+            'Grape',    //may
+            'Melon',    //jun
+            'Lemon',    //jul
+            'Papaya',   //aug
+            'Mango',    //sep
+            'Peach',    //oct
+            'Pear',     //nov
+            'Plum'      //dec
+        ]
+        var encode2 = [
+            'Lettuce',   //jan
+            'Sprouts',   //feb
+            'Pepper',    //mar
+            'Potato',    //apr
+            'Bean',      //may
+            'Nut',       //jun
+            'Squash',    //jul
+            'Peas',      //aug
+            'Onion',    //sep
+            'Garlic',    //oct
+            'Carrot',     //nov
+            'Celery'      //dec
+        ]
+        var encodings = [encode1, encode2];
+        var encodingChoice = Math.round(Math.random());
+        return encodings[encodingChoice][month]
+    }
+
+    var encodeDay = function(day){
+        var encode1 = [
+            'Dog',
+            'Cat',
+            'Mouse',
+            'Pig',
+            'Snake',
+            'Rabbit',
+            'Bird',
+            'Fish',
+            'Lion',
+            'Tiger',
+            'Rino',
+            'Bear',
+            'Deer',
+            'Goat',
+            'Sheep',
+            'Crab',
+            'Horse',
+            'Lizard',
+            'Turtle',
+            'Rat',
+            'Bee',
+            'Wasp',
+            'Ant',
+            'Beetle',
+            'Fly',
+            'Goose',
+            'Duck',
+            'Parrot',
+            'Hawk',
+            'Flamingo',
+            'Eagle'
+        ]
+        return encode1[day]
+    }
+
+    var encodeHour = function(hr){
+        var encode1 = [
+            "Baby", "Back", "Bad", "Bag", "Ball", "Bank", "Base", "Basket", "Bath", "Be", "Bean", "Bear", "Beautiful", "Bed", "Bedroom", "Beer", "Behave", "Before", "Begin", "Behind", "Bell", "Below", "Besides", "Best"
+        ]
+        var encode2 = [
+            "Better", "Between", "Big", "Bird", "Birth", "Birthday", "Bit", "Bite", "Black", "Bleed", "Block", "Blood", "Blow", "Blue", "Board", "Boat", "Body", "Boil", "Bone", "Book", "Border", "Born", "Borrow", "Both"
+        ]
+        var encode3 = [
+            "Bottom", "Bowl", "Box", "Boy", "Branch", "Brave", "Bread", "Break", "Breakfast", "Breathe", "Bridge", "Bright", "Bring", "Brother", "Brown", "Brush", "Build", "Burn", "Business", "Bus", "Busy", "But", "Buy", "By"
+        ]
+        var encodings = [encode1, encode2, encode3];
+        var encodingChoice = Math.round(Math.random()*2);
+        return encodings[encodingChoice][hr]
+    }
+
+    var encodeMinute = function(minute){
+        var encode1 = [
+            "Sad", "Safe", "Sail", "Salt", "Same", "Sand", "Save", "Say", "School", "Science", "Scissor", "Search", "Seat", "Second", "See", "Seem", "Sell", "Send", "Sentence", "Serve", "Seven", "Several", "Shade", "Shadow", "Shake", "Shape", "Share", "Sharp", "She", "Sheep", "Sheet", "Shelf", "Shine", "Ship", "Shirt", "Shoe", "Shoot", "Shop", "Short", "Should", "Shoulder", "Shout", "Show", "Sick", "Side", "Signal", "Silence", "Silly", "Silver", "Similar", "Simple", "Single", "Since", "Sing", "Sink", "Sister", "Sit", "Six", "Size", "Skill"
+        ]
+        var encode2 = [
+            "Sky", "Sleep", "Slip", "Slow", "Small", "Smell", "Smile", "Smoke", "Snow", "So", "Soap", "Sock", "Soft", "Some", "Someone", "Something", "Sometime", "Son", "Soon", "Sorry", "Sound", "Soup", "South", "Space", "Speak", "Special", "Speed", "Spell", "Spend", "Spoon", "Sport", "Spread", "Spring", "Square", "Stamp", "Stand", "Star", "Start", "Station", "Stay", "Steal", "Steam", "Step", "Still", "Stomach", "Stone", "Stop", "Store", "Storm", "Story", "Strange", "Street", "Strong", "Structure", "Student", "Study", "Stupid", "Subject", "Substance", "Successful"
+        ]
+        var encodings = [encode1, encode2];
+        var encodingChoice = Math.round(Math.random());
+        return encodings[encodingChoice][minute]
+    }
+
+    var getId = function() {
+        var date = new Date();
+        var year = encodeYear(date.getFullYear());
+        var month = encodeMonth(date.getMonth());
+        var day = encodeDay(date.getDay()-1);
+        var hour = encodeHour(date.getHours());
+        var minute = encodeMinute(date.getMinutes());
+
+        // NOTE: year is intentionally left out here:
+        var id = month + day + hour + minute;
+        return id;
+    }
+
+    var generateLink = function(root){
+        return root + '?id=' + getId()
+    }
+
+    var goToPageWithId = function(root){
+        document.location = generateLink(root);
+    }
+</script>
 
 </body>
 </html>
