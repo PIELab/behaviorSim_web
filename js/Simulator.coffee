@@ -224,9 +224,11 @@ class Simulator
         ###
         return normal_random(@get_node_spec_parameter(node_id, 'mu'), @get_node_spec_parameter(node_id, 'sigma'))
 
-    get_node_spec_parameter: (node_id, parameter_name, use_default=false) ->
+    get_node_spec_parameter: (node_id, parameter_name, use_default=false, default_value) ->
         ###
         returns the value of the requested parameter for the given node
+        if use_default true then default is returned when existing value not found, else error is thrown.
+        if default_value not given, @_get_default_value() provides default fallback.
         ###
         try
             val =  @_model.get_node(node_id).formulation[parameter_name]
@@ -236,7 +238,10 @@ class Simulator
                 throw Error('bad val')
         catch err
             if use_default
-                return @_get_default_value()
+                if default_value?
+                    return default_value
+                else
+                    return @_get_default_value()
             else
                 throw err
 

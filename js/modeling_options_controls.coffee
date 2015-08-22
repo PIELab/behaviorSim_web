@@ -18,10 +18,10 @@ update_inflow_assertion_form = () ->
                     # update the html
                     form.html(out)
                     model_builder._init_slider_and_box("low",
-                        model_builder.get_node_assumption_argument(model_builder.selected_node, "low", true)
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "low", true, 0)
                     )
                     model_builder._init_slider_and_box("high",
-                        model_builder.get_node_assumption_argument(model_builder.selected_node, "high", true)
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "high", true, 1)
                     )
                     model_builder._init_slider_and_box("step_time",
                         model_builder.get_node_assumption_argument(model_builder.selected_node,"step_time", true)
@@ -35,7 +35,7 @@ update_inflow_assertion_form = () ->
                     # update the html
                     form.html(out)
                     model_builder._init_slider_and_box("scale",
-                        model_builder.get_node_assumption_argument(model_builder.selected_node, "scale", true)
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "scale", true, 1)
                     )
                     if err
                         console.log(err))
@@ -46,7 +46,7 @@ update_inflow_assertion_form = () ->
                     # update the html
                     form.html(out)
                     model_builder._init_slider_and_box("value",
-                        model_builder.get_node_assumption_argument(model_builder.selected_node, "value", true)
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "value", true, 1)
                     )
                     if err
                         console.log(err))
@@ -57,10 +57,10 @@ update_inflow_assertion_form = () ->
                     # update the html
                     form.html(out)
                     model_builder._init_slider_and_box("low",
-                        model_builder.get_node_assumption_argument(model_builder.selected_node, "low", true)
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "low", true, 0)
                     )
                     model_builder._init_slider_and_box("high",
-                        model_builder.get_node_assumption_argument(model_builder.selected_node, "high", true)
+                        model_builder.get_node_assumption_argument(model_builder.selected_node, "high", true, 1)
                     )
                     model_builder._init_slider_and_box("dt",
                         model_builder.get_node_assumption_argument(model_builder.selected_node, "dt", true)

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>BehaviorSim | Model Builder Usability Study</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Ionicons -->
+    <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="../../css/AdminLTE.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="container">
+
+<section class="content-header">
+    <h1>
+        BehaviorSim
+        <small>dynamical modeling toolkit for behavioral science</small>
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row box box-primary">
+        <p>
+            Thank you for you for your help!
+        </p>
+        <p>
+            Your personal ID phrase is:
+
+            <h3><span id="studyID">LOADING, PLEASE WAIT...</span></h3>
+
+            You will need to enter this exact id in each phase of the study, you may want to copy and paste it when requested.
+        </p>
+    </div>
+    <div class="row box box-primary">
+        When ready, <a href="https://docs.google.com/forms/d/1xMwwz1LhZOaZnYi-uQA1ztFIT0nveUKVRH0TJKWaGl4/viewform?usp=send_form" target="_blank">click here to open the demographic survey in a new tab.</a>
+    </div>
+    <div class="row box box-primary">
+        <div class="col-xs-4">
+            USF IRB # Pro00020226
+        </div>
+        <div class="col-xs-4">
+            ICD Version # 1
+        </div>
+        <div class="col-xs-4">
+            ICD Date: 2015-04-24
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="../../js/uri_search.js"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.getElementById('studyID').innerHTML = uri_search['id']
+    });
+</script>
+
+</body>
+</html>
