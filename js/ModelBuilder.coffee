@@ -242,9 +242,11 @@ class ModelBuilder
         else
             return false
 
-    get_node_assumption_argument: (node_id, parameter_name, use_default=false) ->
+    get_node_assumption_argument: (node_id, parameter_name, use_default=false, default_val) ->
         ###
-        returns the value of the requested parameter for the given node
+        returns the value of the requested parameter for the given node.
+        throws error if value doesn't exist && use_default is false,
+        if use_default true returns default_val if given, default value from simulator otherwise.
         ###
         try
             val = @_model.get_node(node_id).assumption.arguments[parameter_name]
@@ -254,7 +256,10 @@ class ModelBuilder
                 throw Error('bad val')
         catch err
             if use_default
-                return simulator._get_default_value()
+                if default_val?
+                    return default_val
+                else
+                    return simulator._get_default_value()
             else
                 throw err
 
@@ -270,21 +275,21 @@ class ModelBuilder
             when 'linear-combination'
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
-                    c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
+                    c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true, 1)
                     @_add_parameter_to_form(coeff, c_val, 'linear-combination')
 
             when 'differential-equation'
                 tao = 'tao'
-                tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true)
+                tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true, .5)
                 @_add_parameter_to_form(tao, tao_v, 'differential-equation')
 
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
-                    c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true)
+                    c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true, 1)
                     @_add_parameter_to_form(coeff, c_val, 'differential-equation')
                     
                     theta = 'theta_'+parent
-                    theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true)
+                    theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true, 0)
                     @_add_parameter_to_form(theta, theta_val, 'differential-equation', 1)
             when 'other'
                 _result = 'define your function in javascript<br>'
