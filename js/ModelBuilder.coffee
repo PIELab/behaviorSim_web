@@ -297,7 +297,9 @@ class ModelBuilder
                 _result += '_func" style="width:100%" rows="17" value="function () {\n\n}"></input>'
                 $('#modeling-options-form').html(_result)
             when 'context-var-options'
-                $('#modeling-options-form').html('Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">')
+                # TODO: re-enable this?
+                $('#modeling-options-form').html('')
+                #$('#modeling-options-form').html('Enter a comma-separated list of environmental influences. <input type="textarea" name="dep-list" class="model-option-context">')
             when 'personality-var-options'
                 $('#modeling-options-form').html('Assuming a normal distribution across the population,<br>')
                 @_add_parameter_to_form('mu', simulator.get_node_spec_parameter(@selected_node, 'mu', true), 'personality')
