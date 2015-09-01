@@ -8,11 +8,20 @@ draw_parent_graphs = () ->
     parents = model_builder._model.get_parents_of(model_builder.selected_node)
     if parents.length > 0
         # insert parent graphs
+        switch $('#timescale-selector input:radio:checked').val()
+            when "hour"
+                t_f=60
+            when "day"
+                t_f=24
+            when "week"
+                t_f=6
+            else
+                t_f=100
         for parent in parents
             try
                 $('#parent-graphs').append(get_node_graph_html(parent))
                 $('#'+node_sparkline_id(parent)).sparkline(
-                    simulator.get_node_values(parent),
+                    simulator.get_node_values(parent)[0..t_f],
                     {type: 'line', height: '2em', width: '100%'})
             catch error
                 console.log('parent graphs not drawn :', error)
