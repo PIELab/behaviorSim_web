@@ -1,6 +1,6 @@
 {
     "name": "behaviorSim",
-    "version": "0.2.13",
+    "version": "0.2.14",
     "description": "the behaviorSim frontend helps behavioral scientists build, simulate, and evaluate models.",
     "homepage": "https://pielab.github.io/behaviorSim_web",
     "bugs": {
