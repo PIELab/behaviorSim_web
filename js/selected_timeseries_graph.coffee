@@ -18,7 +18,7 @@ draw_selected_graph = () ->
                 $("#graph-label-min").html("00:00")
                 $("#graph-label-max").html("24:00")
             when "week"
-                ts = vals[0..7]
+                ts = vals[0..6]
                 $("#graph-label-min").html("Monday")
                 $("#graph-label-max").html("Sunday")
             else
