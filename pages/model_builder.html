@@ -813,7 +813,7 @@
             $(window).on("load", init_app);
 
             // initialize tooltip popovers
-            $(function () {
+            window.setupTooltipPopovers = function () {
                 $('.infoflow-tooltip').popover({
                     trigger: "hover focus",
                     placement:"top",
@@ -831,7 +831,82 @@
                     title:"Context Variables",
                     content:'Context Variables are variables with values that are dependent only on the environment. Thus, they represent the flow of information into the human system from the surrounding environment."'
                 }).click(function(){ window.open("https://github.com/PIELab/behaviorSim_web/wiki/Context-Variable"); } );
-            });
+
+                $('.low-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: "lower value",
+                    content:'The "low" value of a square-wave, step, impulse, or similar function represents the value of the function when it is in the lower state.'
+                }); // TODO: add click
+
+                $('.high-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: "higher value",
+                    content: 'the "high" value of a square-wave, step, impulse, or similar function represent the value of the function when it is in a the larger state.'
+                });  // TODO: add click
+
+                $('.dt-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: "delta-time",
+                    content: 'what we call "dt" in a square wave represents the amount of time between state-transistions. In other words, the amount of time from the start of a "low" area to the start of a "high" area'
+                });
+
+                $('.step-time-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: 'step-time',
+                    content: 'The "step-time" of a step function is the amount of time from t=0 that the step occurs.'
+                });
+
+                $('.random-walk-scale-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: 'randomness scale',
+                    content: 'the "scale" of a random walk refers to how much the value can jump up or down at any time-step. A higher scale leads to a more volatile result.'
+                });
+
+                $('.coeff-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: 'weighting coefficient',
+                    content: 'This weigting coefficient can be used to adjust the relative influence this inflow has on the selected variable.'
+                });
+
+                $('.tao-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: "time constant",
+                    content: 'The time-constant (tao) of a differential equation represents the quickness with which a variable can change value. In other words, a higher value of tao means that the variable is slow to change, even in the face of strongly forcing inputs.'
+                });
+
+                $('.theta-tooltip').popover({
+                    trigger: "hover focus",
+                    placement:"top",
+                    container:'body',
+                    html: true,
+                    title: "phase shift variable",
+                    content: "theta is used in our differential equation to represent the phase-shift of the input. In essence, a positive value of theta will cause the selected variable's input response to be delayed."
+                });
+
+            };
+            $(document).on("selectNodeChange", setupTooltipPopovers);
+            $(document).on('selectNode', setupTooltipPopovers());
 
             $(window).on("beforeunload", function() {
                 // TODO: show shutting down message

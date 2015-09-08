@@ -1,1 +1,1 @@
-{>parameter_tweak param_name="scale" option_type="inflow-assertion" valu=2/}
+{>parameter_tweak param_name="scale" option_type="inflow-assertion" valu=2 tootltip_class="random-walk-scale-tooltip"/}

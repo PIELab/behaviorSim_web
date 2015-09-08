@@ -276,21 +276,21 @@ class ModelBuilder
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true, 1)
-                    @_add_parameter_to_form(coeff, c_val, 'linear-combination')
+                    @_add_parameter_to_form(coeff, c_val, 'linear-combination', 0.1, 'coeff-tooltip')
 
             when 'differential-equation'
                 tao = 'tao'
                 tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true, .5)
-                @_add_parameter_to_form(tao, tao_v, 'differential-equation')
+                @_add_parameter_to_form(tao, tao_v, 'differential-equation', 1, "tao-tooltip")
 
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true, 1)
-                    @_add_parameter_to_form(coeff, c_val, 'differential-equation')
+                    @_add_parameter_to_form(coeff, c_val, 'differential-equation', 0.1, 'coeff-tooltip')
                     
                     theta = 'theta_'+parent
                     theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true, 0)
-                    @_add_parameter_to_form(theta, theta_val, 'differential-equation', 1)
+                    @_add_parameter_to_form(theta, theta_val, 'differential-equation', 1, 'theta-tooltip')
             when 'other'
                 _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node
@@ -308,7 +308,7 @@ class ModelBuilder
                 throw Error('unknown node form "'+@get_node_model(@selected_node)+'"')
         return _result
 
-    _add_parameter_to_form: (name, val, option_type, sliderStepSize=0.1) ->
+    _add_parameter_to_form: (name, val, option_type, sliderStepSize=0.1, tooltipClass="") ->
         dust.render("parameter_tweak",
             {param_name: name, valu: val, option_type: option_type},
             (err, out) =>
