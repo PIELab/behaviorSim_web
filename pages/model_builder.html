@@ -905,8 +905,7 @@
                 });
 
             };
-            $(document).on("selectNodeChange", setupTooltipPopovers);
-            $(document).on('selectNode', setupTooltipPopovers());
+            $(document).on("popoverRender", setupTooltipPopovers);
 
             $(window).on("beforeunload", function() {
                 // TODO: show shutting down message

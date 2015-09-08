@@ -309,6 +309,7 @@ class ModelBuilder
         return _result
 
     _add_parameter_to_form: (name, val, option_type, sliderStepSize=0.1, tooltipClass="") ->
+
         dust.render("parameter_tweak",
             {param_name: name, valu: val, option_type: option_type},
             (err, out) =>
@@ -317,6 +318,8 @@ class ModelBuilder
                 @_init_slider_and_box(name, val, sliderStepSize)
                 if err
                     console.log(err))
+
+        $(document).trigger('popoverRender');
 
     _init_slider_and_box: (coeff, c_val, sliderStepSize=0.1) ->  #TODO: this should be someplace that makes more sense
         ###
