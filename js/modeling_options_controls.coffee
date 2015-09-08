@@ -77,6 +77,18 @@ update_inflow_assertion_form = () ->
                         console.log(err)
             )
 
+        when 'manual'
+            timescale = $('#timescale-selector input:radio:checked').val()
+            series_len = 100
+            switch timescale
+                when 'day'
+                    series_len = 24
+                when 'week'
+                    series_len = 7
+            dust.render("manual",
+                        {length:series_len}
+            )
+
         else
             form.html('ERR')
             console.log('unknown preset: ', $('#calculator-preset').val())
