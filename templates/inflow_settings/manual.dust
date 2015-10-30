@@ -1,0 +1,3 @@
+<textarea id="manual-context-entry-box">{currentSeries}</textarea>
+<!--len: {length}-->
+<button type='button' onclick='model_builder.submit_node(); $(document).trigger("selectNodeChange")'> update series </button>

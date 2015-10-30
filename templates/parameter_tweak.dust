@@ -1,4 +1,4 @@
-{param_name} = <input type="text" id="{param_name}-box" name="{param_name}" class="model-option-{option_type}" placeholder="???" value="{valu}"/>
+{param_name} = <input type="text" id="{param_name}-box" name="{param_name}" class="model-option-{option_type} {tootltip_class}" placeholder="???" value="{valu}"/>
 
 <input id="{param_name}-slider" type="text" name="{param_name}-slider" value=""/>
 

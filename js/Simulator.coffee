@@ -65,13 +65,15 @@ class Simulator
         # * time is ordered sequentially (eg: [0,1,2], [1.5,2.5,3.5], or  [3,4,5,7,19])
         # * time values are positive
         # * time values are spaced by at least 1.0 units (NOT [0.1,0.2,0,3] or [1,2,2.5,3])
-        if t < args.times[0]
+        if t <= args.times[0]
             if chill
+                console.log('guessing for time before given samples');
                 return args.before
             else
                 throw Error('cannot get time before earliest sample')
         else if t > args.times[args.times.length-1]
             if chill
+                console.log('guessing for time after given samples');
                 return args.after
             else 
                 throw Error('cannot get time after latest sample')

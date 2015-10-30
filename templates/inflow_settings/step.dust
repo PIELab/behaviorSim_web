@@ -1,5 +1,5 @@
-{>parameter_tweak param_name="low" option_type="inflow-assertion" valu=1/}
+{>parameter_tweak param_name="low" option_type="inflow-assertion" valu=1 tootltip_class="low-tooltip"/}
 
-{>parameter_tweak param_name="high" option_type="inflow-assertion" valu=10/}
+{>parameter_tweak param_name="high" option_type="inflow-assertion" valu=10 tootltip_class="high-tooltip"/}
 
-{>parameter_tweak param_name="step_time" option_type="inflow-assertion" valu=20/}
+{>parameter_tweak param_name="step_time" option_type="inflow-assertion" valu=20 tootltip_class="step-time-tooltip"/}

@@ -77,55 +77,36 @@ update_inflow_assertion_form = () ->
                         console.log(err)
             )
 
+        when 'manual'
+            timescale = $('#timescale-selector input:radio:checked').val()
+            series_len = 100
+            switch timescale
+                when 'day'
+                    series_len = 24
+                when 'week'
+                    series_len = 7
+            try
+                lastSeries = "[" + model_builder.get_node_assumption_argument(model_builder.selected_node, "values", false).toString() + "]"
+            catch err
+                console.log('reverting to default manual entry')
+                lastSeries = "[1,1,1,2,3,2,2,5,0,1,2,4,8,16,5]"
+            dust.render("manual",
+                        {
+                            length:series_len,
+                            currentSeries: lastSeries
+                        },
+                        (err, out) =>
+                            # update the html
+                            form.html(out)
+                            if err
+                                console.log(err)
+            )
+
         else
             form.html('ERR')
             console.log('unknown preset: ', $('#calculator-preset').val())
             throw Error('unkown calculator preset')
 
-
-update_node_assumption = () -> # TODO: this is duplicate of ModelBulder.get_node_assumption_input ?
-    switch $('#calculator-preset').val()
-        when 'random_walk'
-            assumption = {
-                type:'random_walk',
-                calculator: simulator.calculator_random_walk,
-                arguments: {
-                    scale: $('#scale-box').val(),
-                    initial_value:5 # TODO: use $('initial-value-box').val()
-                }
-            }
-        when 'constant'
-            assumption = {
-                type:'constant',
-                calculator: simulator.calculator_constant,
-                arguments: {
-                    value: $('#value-box').val()
-                }
-            }
-        when 'step'
-            assumption = {
-                type:'step',
-                calculator: simulator.calculator_step,
-                arguments: {
-                    low: $('#low-box').val(),
-                    high: $('#high-box').val(),
-                    step_time: $('#step_time-box').val()
-                }
-            }
-        when 'square'
-            assumption = {
-                type:'square',
-                calculator: simulator.calculator_square,
-                arguments: {
-                    low: $('#low-box').val(),
-                    high: $('#high-box').val(),
-                    dt: $('#dt-box').val()
-                }
-            }
-        else
-            throw Error('unknown calculator-preset value')
-
-    model_builder.set_node_assumption(model_builder.selected_node, assumption)
 
 
 update_modeling_options_form = () ->
@@ -140,7 +121,6 @@ update_modeling_options_form = () ->
             $('#source-spec').show()
             $('#assumption-options').show()
             update_inflow_assertion_form()
-            update_node_assumption()
         when 'personality-var-options'
             $('#modeling-spec').hide()
             $('#source-spec').show()

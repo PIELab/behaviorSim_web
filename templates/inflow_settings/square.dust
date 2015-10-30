@@ -1,5 +1,5 @@
-{>parameter_tweak param_name="low" option_type="inflow-assertion" valu=1/}
+{>parameter_tweak param_name="low" option_type="inflow-assertion" valu=1 tootltip_class="low-tooltip"/}
 
-{>parameter_tweak param_name="high" option_type="inflow-assertion" valu=10/}
+{>parameter_tweak param_name="high" option_type="inflow-assertion" valu=10 tootltip_class="high-tooltip"/}
 
-{>parameter_tweak param_name="dt" option_type="inflow-assertion" valu=7/}
+{>parameter_tweak param_name="dt" option_type="inflow-assertion" valu=7 tootltip_class="dt-tooltip"/}

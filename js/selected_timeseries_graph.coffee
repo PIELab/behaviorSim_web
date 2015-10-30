@@ -42,9 +42,8 @@ draw_selected_graph = () ->
 $(document).on("selectNodeChange", (evt) -> draw_selected_graph())
 $(document).on('selectNode', (evt) -> draw_selected_graph())
 
-# TODO: on change timescale, redraw
+# on change timescale, redraw
 $("#timescale-selector label").on('click', (evt) ->
-    console.log('timescale selector clicked!')
     draw_selected_graph()
 )
 

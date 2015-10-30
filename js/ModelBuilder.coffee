@@ -276,21 +276,21 @@ class ModelBuilder
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true, 1)
-                    @_add_parameter_to_form(coeff, c_val, 'linear-combination')
+                    @_add_parameter_to_form(coeff, c_val, 'linear-combination', 0.1, 'coeff-tooltip')
 
             when 'differential-equation'
                 tao = 'tao'
                 tao_v = simulator.get_node_spec_parameter(@selected_node, tao, true, .5)
-                @_add_parameter_to_form(tao, tao_v, 'differential-equation')
+                @_add_parameter_to_form(tao, tao_v, 'differential-equation', 1, "tao-tooltip")
 
                 for parent in @get_node(@selected_node).parents
                     coeff = 'c_'+parent
                     c_val = simulator.get_node_spec_parameter(@selected_node, coeff, true, 1)
-                    @_add_parameter_to_form(coeff, c_val, 'differential-equation')
+                    @_add_parameter_to_form(coeff, c_val, 'differential-equation', 0.1, 'coeff-tooltip')
                     
                     theta = 'theta_'+parent
                     theta_val = simulator.get_node_spec_parameter(@selected_node, theta, true, 0)
-                    @_add_parameter_to_form(theta, theta_val, 'differential-equation', 1)
+                    @_add_parameter_to_form(theta, theta_val, 'differential-equation', 1, 'theta-tooltip')
             when 'other'
                 _result = 'define your function in javascript<br>'
                 _result += '<input type="textarea" name="'+@selected_node
@@ -308,7 +308,8 @@ class ModelBuilder
                 throw Error('unknown node form "'+@get_node_model(@selected_node)+'"')
         return _result
 
-    _add_parameter_to_form: (name, val, option_type, sliderStepSize=0.1) ->
+    _add_parameter_to_form: (name, val, option_type, sliderStepSize=0.1, tooltipClass="") ->
+
         dust.render("parameter_tweak",
             {param_name: name, valu: val, option_type: option_type},
             (err, out) =>
@@ -317,6 +318,8 @@ class ModelBuilder
                 @_init_slider_and_box(name, val, sliderStepSize)
                 if err
                     console.log(err))
+
+        $(document).trigger('popoverRender');
 
     _init_slider_and_box: (coeff, c_val, sliderStepSize=0.1) ->  #TODO: this should be someplace that makes more sense
         ###
@@ -405,7 +408,7 @@ class ModelBuilder
         node = @get_node(node_id)
         node.assumption = assumption
 
-    get_node_assumption_input: (node_id, assumption) ->  # TODO: this is duplicate of modeling_options_controls.update_node_assumption ?
+    get_node_assumption_input: (node_id) ->
         ###
         gets the node assumption input from the UI
         ###
@@ -454,6 +457,21 @@ class ModelBuilder
                                 values: [1,1,2,3,5,8,13,21,34,55,89,144],
                                 before: 0,  # TODO: set these values more intelligently
                                 after: 0
+                            }
+                        }
+                    when 'manual'
+                        inputArray = JSON.parse($('#manual-context-entry-box').val())
+                        times = (num for num in [0..inputArray.length-1])
+                        console.log("manual-input:", inputArray);
+                        console.log("times:", times);
+                        assumption = {
+                            type:'manual',
+                            calculator: simulator.calculator_linear_interpolate,
+                            arguments: {
+                                times:  times,
+                                values: inputArray,
+                                before: inputArray[0],
+                                after: inputArray[inputArray.length-1]
                             }
                         }
                     else
