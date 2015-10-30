@@ -408,7 +408,7 @@ class ModelBuilder
         node = @get_node(node_id)
         node.assumption = assumption
 
-    get_node_assumption_input: (node_id, assumption) ->  # TODO: this is duplicate of modeling_options_controls.update_node_assumption ?
+    get_node_assumption_input: (node_id) ->
         ###
         gets the node assumption input from the UI
         ###

@@ -86,10 +86,10 @@ update_inflow_assertion_form = () ->
                 when 'week'
                     series_len = 7
             try
-                lastSeries = "[" + model_builder.get_node_assumption_argument(model_builder.selected_node, "values", false).toString() + "]" #"[1,2,3]"
+                lastSeries = "[" + model_builder.get_node_assumption_argument(model_builder.selected_node, "values", false).toString() + "]"
             catch err
                 console.log('reverting to default manual entry')
-                lastSeries = "[1,2,3]"
+                lastSeries = "[1,1,1,2,3,2,2,5,0,1,2,4,8,16,5]"
             dust.render("manual",
                         {
                             length:series_len,
