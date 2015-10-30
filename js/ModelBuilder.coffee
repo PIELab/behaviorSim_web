@@ -459,6 +459,21 @@ class ModelBuilder
                                 after: 0
                             }
                         }
+                    when 'manual'
+                        inputArray = JSON.parse($('#manual-context-entry-box').val())
+                        times = (num for num in [0..inputArray.length-1])
+                        console.log("manual-input:", inputArray);
+                        console.log("times:", times);
+                        assumption = {
+                            type:'manual',
+                            calculator: simulator.calculator_linear_interpolate,
+                            arguments: {
+                                times:  times,
+                                values: inputArray,
+                                before: inputArray[0],
+                                after: inputArray[inputArray.length-1]
+                            }
+                        }
                     else
                         assumption = undefined
                         console.log("WARN: node type not recognized, '"+node.type+"' assumption undefined.")

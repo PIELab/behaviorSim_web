@@ -1,1 +1,3 @@
-TODO: render a slider or all of them... or something here...
+<textarea id="manual-context-entry-box">{currentSeries}</textarea>
+<!--len: {length}-->
+<button onclick='$(document).trigger("selectNodeChange")'> update series </button>
